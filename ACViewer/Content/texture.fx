@@ -371,6 +371,8 @@ VertexShaderOutput TexturedInstanceEnvVS(VertexPositionNormalTextures model, Ver
     float3 normal = normalize(mul(model.Normal, xWorld));
     output.LightingFactor = dot(normal, -xLightDirection);
 
+    output.Color = float4(1, 1, 1, 1);
+
     return output;
 }
 
@@ -393,6 +395,17 @@ technique TexturedInstanceEnv
 
         VertexShader = compile vs_4_0 TexturedInstanceEnvVS();
         PixelShader = compile ps_4_0 TexturedInstanceTransPS();
+    }
+}
+
+//------- Technique: ColoredInstanceEnv --------
+
+technique ColoredInstanceEnv
+{
+    pass Pass0
+    {
+        VertexShader = compile vs_4_0 TexturedInstanceEnvVS();
+        PixelShader = compile ps_4_0 ColoredNoShadingPS();
     }
 }
 

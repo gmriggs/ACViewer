@@ -619,9 +619,16 @@ namespace ACViewer.Render
         {
             var cullMode = WorldViewer.Instance.DungeonMode || culling ? CullMode.CullClockwiseFace : CullMode.None;
 
-            SetRasterizerState(cullMode);  // todo: neg uv indices
+            //SetRasterizerState(cullMode);  // todo: neg uv indices
+
+            var rs = new RasterizerState();
+            rs.CullMode = CullMode.None;
+            rs.FillMode = FillMode.WireFrame;
+            GraphicsDevice.RasterizerState = rs;
+
             //Effect.CurrentTechnique = Effect.Techniques["TexturedInstanceNoShading"];
-            Effect.CurrentTechnique = Effect.Techniques["TexturedInstanceEnv"];
+            //Effect.CurrentTechnique = Effect.Techniques["TexturedInstanceEnv"];
+            Effect.CurrentTechnique = Effect.Techniques["ColoredInstanceEnv"];
 
             foreach (var batch in batches.Values)
                 batch.Draw();
