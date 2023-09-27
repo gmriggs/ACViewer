@@ -332,6 +332,8 @@ namespace ACViewer.View
                     {
                         var spellTable = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.SpellTable>(fileID);
                         FileInfo.SetInfo(new FileTypes.SpellTable(spellTable).BuildTree());
+
+                        FileInfo.PropertyGrid.SelectedObject = spellTable;
                     }
                     else if (fileID == 0x0E00000F)
                     {

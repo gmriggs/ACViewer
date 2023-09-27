@@ -7,18 +7,18 @@
              xmlns:entity="clr-namespace:ACViewer.Entity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Name="FileInfo_Container">
         <!-- <VirtualizingStackPanel.VirtualizationMode="Recycling" -->
-        <TreeView Name="FileInfo_TreeView" ItemsSource="{Binding Path=Info}" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingStackPanel.IsVirtualizing="True">
+        <!--<TreeView Name="FileInfo_TreeView" ItemsSource="{Binding Path=Info}" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingStackPanel.IsVirtualizing="True">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type entity:TreeNode}" ItemsSource="{Binding Path=Items}">
                     <TreeViewItem Header="{Binding Path=Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
+                <Style TargetType="{x:Type TreeViewItem}">-->
                     <!--<Setter Property="IsExpanded" Value="True" />-->
-                    <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_Selected"/>
+                    <!--<EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_Selected"/>
                     <EventSetter Event="MouseEnter" Handler="TreeViewItem_MouseEnter"/>
                     <EventSetter Event="MouseLeave" Handler="TreeViewItem_MouseLeave"/>
                 </Style>
@@ -31,6 +31,6 @@
                     <MenuItem Header="Copy All" Click="TreeView_Copy"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
-        </TreeView>
+        </TreeView>-->
     </Grid>
 </UserControl>

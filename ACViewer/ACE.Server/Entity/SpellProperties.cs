@@ -190,7 +190,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// uint values correspond to the SpellComponentsTable
         /// </summary>
-        private List<uint> _formula { get => _spellBase.Formula; }
+        private List<uint> _formula { get => _spellBase.Formula._list; }
 
         /// <summary>
         /// Effect that plays on the caster for this spell (ie. for buffs, protects, etc.)

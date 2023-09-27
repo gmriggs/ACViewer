@@ -68,7 +68,7 @@ namespace ACE.Server.Entity
         /// </summary>
         public void Init(uint spellID, bool loadDB = true)
         {
-            DatManager.PortalDat.SpellTable.Spells.TryGetValue(spellID, out _spellBase);
+            DatManager.PortalDat.SpellTable.Spells._dict.TryGetValue((SpellId)spellID, out _spellBase);
 
             if (loadDB)
                 _spell = DatabaseManager.World.GetCachedSpell(spellID);

@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>
@@ -53,7 +54,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ACE\Source\ACE.Common\ACE.Common.csproj" />
     <ProjectReference Include="..\ACE\Source\ACE.Database\ACE.Database.csproj" />
-    <ProjectReference Include="..\ACE\Source\ACE.DatLoader\ACE.DatLoader.csproj" />
     <ProjectReference Include="..\ACE\Source\ACE.Entity\ACE.Entity.csproj" />
   </ItemGroup>
 

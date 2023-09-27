@@ -17,7 +17,7 @@ namespace ACViewer.Entity
 
             var spellSetTiers = new TreeNode($"SpellSetTiers");
 
-            foreach (var kvp in _spellSet.SpellSetTiers)
+            foreach (var kvp in _spellSet.SpellSetTiers._dict)
             {
                 var spellSetTier = new TreeNode(kvp.Key.ToString());
                 spellSetTier.Items = new SpellSetTier(kvp.Value).BuildTree();

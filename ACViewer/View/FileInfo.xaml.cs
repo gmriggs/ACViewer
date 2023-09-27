@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Forms.Integration;
 
 using ACViewer.Entity;
 
@@ -34,6 +35,11 @@ namespace ACViewer.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // dummy - remove this if adding XAML treeview back in
+        public TreeView FileInfo_TreeView { get; set; } = new TreeView();
+
+        public System.Windows.Forms.PropertyGrid PropertyGrid { get; set; }
+
         public FileInfo()
         {
             InitializeComponent();
@@ -42,6 +48,11 @@ namespace ACViewer.View
             DataContext = this;
 
             FileInfo_TreeView.ItemContainerGenerator.StatusChanged += new EventHandler(ItemContainerGenerator_StatusChanged);
+
+            PropertyGrid = new System.Windows.Forms.PropertyGrid();
+            var host = new WindowsFormsHost();
+            host.Child = PropertyGrid;
+            FileInfo_Container.Children.Add(host);
         }
 
         private bool pendingLoad;

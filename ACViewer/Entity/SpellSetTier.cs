@@ -19,7 +19,7 @@ namespace ACViewer.Entity
 
             var spellTable = DatManager.PortalDat.SpellTable;
 
-            foreach (var spellId in _spellSetTier.Spells)
+            foreach (var spellId in _spellSetTier.Spells._list)
             {
                 var spell = spellTable.Spells[spellId];
                 treeNode.Add(new TreeNode($"{spellId} - {spell.Name}"));

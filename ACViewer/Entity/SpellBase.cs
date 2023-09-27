@@ -38,7 +38,7 @@ namespace ACViewer.Entity
             treeNode.Add(new TreeNode($"DegradeLimit: {_spellBase.DegradeLimit}"));
 
             var formula = new TreeNode("Formula");
-            foreach (var componentId in _spellBase.Formula)
+            foreach (var componentId in _spellBase.Formula._list)
             {
                 var component = DatManager.PortalDat.SpellComponentsTable.SpellComponents[componentId];
                 formula.Items.Add(new TreeNode($"{componentId}: {component.Name}"));
