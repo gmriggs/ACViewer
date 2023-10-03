@@ -3,12 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
              xmlns:local="clr-namespace:ACViewer.View"
              xmlns:entity="clr-namespace:ACViewer.Entity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Name="FileInfo_Container">
-        <!-- <VirtualizingStackPanel.VirtualizationMode="Recycling" -->
+		<Border BorderThickness="1" BorderBrush="#abadb3" Background="#ffffff">
+		    <blazor:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
+		    </blazor:BlazorWebView>
+		</Border>
+		<!-- <VirtualizingStackPanel.VirtualizationMode="Recycling" -->
         <!--<TreeView Name="FileInfo_TreeView" ItemsSource="{Binding Path=Info}" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingStackPanel.IsVirtualizing="True">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type entity:TreeNode}" ItemsSource="{Binding Path=Items}">

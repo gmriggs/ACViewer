@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using ACViewer.Config;
 
 namespace ACViewer.View
@@ -24,6 +26,10 @@ namespace ACViewer.View
             //WpfGame.UseASingleSharedGraphicsDevice = true;
 
             LoadConfig();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddWpfBlazorWebView();
+            Resources.Add("services", serviceCollection.BuildServiceProvider());
         }
 
         private static Config.Config Config => ConfigManager.Config;

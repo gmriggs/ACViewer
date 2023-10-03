@@ -49,10 +49,10 @@ namespace ACViewer.View
 
             FileInfo_TreeView.ItemContainerGenerator.StatusChanged += new EventHandler(ItemContainerGenerator_StatusChanged);
 
-            PropertyGrid = new System.Windows.Forms.PropertyGrid();
+            /*PropertyGrid = new System.Windows.Forms.PropertyGrid();
             var host = new WindowsFormsHost();
             host.Child = PropertyGrid;
-            FileInfo_Container.Children.Add(host);
+            FileInfo_Container.Children.Add(host);*/
         }
 
         private bool pendingLoad;

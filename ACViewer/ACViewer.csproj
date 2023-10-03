@@ -1,12 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon />
     <StartupObject />
+    <RootNamespace>ACViewer.View</RootNamespace>
+    <GenerateMvcApplicationPartsAssemblyAttributes>false</GenerateMvcApplicationPartsAssemblyAttributes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -41,6 +43,7 @@
 
   <ItemGroup>
 	  <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.92" />
 	  <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
 	  <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
 	  <PackageReference Include="MonoGame.Framework.WpfInterop" Version="1.9.2" />

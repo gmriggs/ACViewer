@@ -153,7 +153,7 @@ namespace ACViewer
                         var options = new Options_MapViewer();
                         options.WindowStartupLocation = WindowStartupLocation.Manual;
 
-                        // get absolute screen coordnate of upper left pixel of control
+                        // get absolute screen coordinate of upper left pixel of control
                         var startPos = MainWindow.Instance.Scene.PointToScreen(new System.Windows.Point(0, 0));
 
                         options.Top = startPos.Y + MainWindow.Instance.Scene.ActualHeight / 2 - options.Height / 2;
