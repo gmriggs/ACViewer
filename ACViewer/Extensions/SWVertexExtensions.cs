@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using ACE.DatLoader.Entity;
+using DatReaderWriter.Types;
 
 namespace ACViewer
 {

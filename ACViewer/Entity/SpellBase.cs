@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 
 namespace ACViewer.Entity
 {
     public class SpellBase
     {
-        public ACE.DatLoader.Entity.SpellBase _spellBase;
+        public DatReaderWriter.Types.SpellBase _spellBase;
 
-        public SpellBase(ACE.DatLoader.Entity.SpellBase spellBase)
+        public SpellBase(DatReaderWriter.Types.SpellBase spellBase)
         {
             _spellBase = spellBase;
         }
@@ -19,7 +20,7 @@ namespace ACViewer.Entity
             var treeNode = new List<TreeNode>();
 
             treeNode.Add(new TreeNode($"Name: {_spellBase.Name}"));
-            treeNode.Add(new TreeNode($"Description: {_spellBase.Desc}"));
+            treeNode.Add(new TreeNode($"Description: {_spellBase.Description}"));
             treeNode.Add(new TreeNode($"School: {_spellBase.School}"));
             treeNode.Add(new TreeNode($"Icon: {_spellBase.Icon:X8}", clickable: true));
             treeNode.Add(new TreeNode($"Category: {_spellBase.Category}"));
@@ -38,9 +39,9 @@ namespace ACViewer.Entity
             treeNode.Add(new TreeNode($"DegradeLimit: {_spellBase.DegradeLimit}"));
 
             var formula = new TreeNode("Formula");
-            foreach (var componentId in _spellBase.Formula)
+            foreach (var componentId in _spellBase.Components)
             {
-                var component = DatManager.PortalDat.SpellComponentsTable.SpellComponents[componentId];
+                var component = DatManager.PortalDat.SpellComponentTable().Components[componentId];
                 formula.Items.Add(new TreeNode($"{componentId}: {component.Name}"));
             }
 

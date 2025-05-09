@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class CellPortal
     {
-        public ACE.DatLoader.Entity.CellPortal _portal;
+        public DatReaderWriter.Types.CellPortal _portal;
 
-        public CellPortal(ACE.DatLoader.Entity.CellPortal portal)
+        public CellPortal(DatReaderWriter.Types.CellPortal portal)
         {
             _portal = portal;
         }

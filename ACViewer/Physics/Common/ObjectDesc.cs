@@ -15,7 +15,7 @@ namespace ACE.Server.Physics.Common
         /// <param name="iy">The global cell Y-offset</param>
         /// <param name="iq">The scene index of the object</param>
         /// <returns>The new location of the object</returns>
-        public static Vector3 Displace(DatLoader.Entity.ObjectDesc obj, uint ix, uint iy, uint iq)
+        public static Vector3 Displace(DatReaderWriter.Types.ObjectDesc obj, uint ix, uint iy, uint iq)
         {
             float x;
             float y;
@@ -53,7 +53,7 @@ namespace ACE.Server.Physics.Common
         /// <param name="x">The global cell X-offset</param>
         /// <param name="y">The global cell Y-offset</param>
         /// <param name="k">The scene index of the object</param>
-        public static float ScaleObj(DatLoader.Entity.ObjectDesc obj, uint x, uint y, uint k)
+        public static float ScaleObj(DatReaderWriter.Types.ObjectDesc obj, uint x, uint y, uint k)
         {
             var scale = 1.0f;
 
@@ -72,7 +72,7 @@ namespace ACE.Server.Physics.Common
         /// <summary>
         /// Returns the rotation for a scenery object
         /// </summary>
-        public static AFrame RotateObj(DatLoader.Entity.ObjectDesc obj, uint x, uint y, uint k, Vector3 loc)
+        public static AFrame RotateObj(DatReaderWriter.Types.ObjectDesc obj, uint x, uint y, uint k, Vector3 loc)
         {
             var frame = new AFrame(obj.BaseLoc);
             frame.Origin = loc;
@@ -87,7 +87,7 @@ namespace ACE.Server.Physics.Common
         /// <summary>
         /// Aligns an object to a plane
         /// </summary>
-        public static AFrame ObjAlign(DatLoader.Entity.ObjectDesc obj, Plane plane, Vector3 loc)
+        public static AFrame ObjAlign(DatReaderWriter.Types.ObjectDesc obj, Plane plane, Vector3 loc)
         {
             var frame = new AFrame(obj.BaseLoc);
             frame.Origin = loc;
@@ -100,7 +100,7 @@ namespace ACE.Server.Physics.Common
         /// <summary>
         /// Returns TRUE if floor slope is within bounds for this object
         /// </summary>
-        public static bool CheckSlope(DatLoader.Entity.ObjectDesc obj, float z)
+        public static bool CheckSlope(DatReaderWriter.Types.ObjectDesc obj, float z)
         {
             return z >= obj.MinSlope && z <= obj.MaxSlope;
         }

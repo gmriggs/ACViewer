@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SceneDesc
     {
-        public ACE.DatLoader.Entity.SceneDesc _sceneDesc;
+        public DatReaderWriter.Types.SceneDesc _sceneDesc;
 
-        public SceneDesc(ACE.DatLoader.Entity.SceneDesc sceneDesc)
+        public SceneDesc(DatReaderWriter.Types.SceneDesc sceneDesc)
         {
             _sceneDesc = sceneDesc;
         }

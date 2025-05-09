@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ChatEmoteData
     {
-        public ACE.DatLoader.Entity.ChatEmoteData _chatEmoteData;
+        public DatReaderWriter.Types.ChatEmoteData _chatEmoteData;
 
-        public ChatEmoteData(ACE.DatLoader.Entity.ChatEmoteData chatEmoteData)
+        public ChatEmoteData(DatReaderWriter.Types.ChatEmoteData chatEmoteData)
         {
             _chatEmoteData = chatEmoteData;
         }

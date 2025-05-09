@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class TabooTable
     {
-        public ACE.DatLoader.FileTypes.TabooTable _tabooTable;
+        public DatReaderWriter.DBObjs.TabooTable _tabooTable;
 
-        public TabooTable(ACE.DatLoader.FileTypes.TabooTable tabooTable)
+        public TabooTable(DatReaderWriter.DBObjs.TabooTable tabooTable)
         {
             _tabooTable = tabooTable;
         }
@@ -17,7 +17,7 @@ namespace ACViewer.FileTypes
         {
             var treeView = new TreeNode($"{_tabooTable.Id:X8}");
 
-            foreach (var kvp in _tabooTable.TabooTableEntries.OrderBy(i => i.Key))
+            foreach (var kvp in _tabooTable.Entries.OrderBy(i => i.Key))
             {
                 var keyNode = new TreeNode(kvp.Key.ToString("X8"));
 

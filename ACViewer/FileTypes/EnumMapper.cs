@@ -8,9 +8,9 @@ namespace ACViewer.FileTypes
 {
     public class EnumMapper
     {
-        public ACE.DatLoader.FileTypes.EnumMapper _enumMapper;
+        public DatReaderWriter.DBObjs.EnumMapper _enumMapper;
 
-        public EnumMapper(ACE.DatLoader.FileTypes.EnumMapper enumMapper)
+        public EnumMapper(DatReaderWriter.DBObjs.EnumMapper enumMapper)
         {
             _enumMapper = enumMapper;
         }
@@ -25,7 +25,7 @@ namespace ACViewer.FileTypes
                 treeView.Items.Add(baseEnumMap);
             }
 
-            if (_enumMapper.NumberingType != NumberingType.Undefined)
+            if (_enumMapper.NumberingType != DatReaderWriter.Enums.NumberingType.Undefined)
             {
                 var numberingType = new TreeNode($"NumberingType: {_enumMapper.NumberingType}");
                 treeView.Items.Add(numberingType);

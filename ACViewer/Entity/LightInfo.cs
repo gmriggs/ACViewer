@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 
+using ACE.DatLoader.Extensions;
+
 namespace ACViewer.Entity
 {
     public class LightInfo
     {
-        public ACE.DatLoader.Entity.LightInfo _lightInfo;
+        public DatReaderWriter.Types.LightInfo _lightInfo;
 
-        public LightInfo(ACE.DatLoader.Entity.LightInfo lightInfo)
+        public LightInfo(DatReaderWriter.Types.LightInfo lightInfo)
         {
             _lightInfo = lightInfo;
         }
 
         public List<TreeNode> BuildTree()
         {
-            var viewerSpaceLocation = new TreeNode($"Viewer space location: {_lightInfo.ViewerSpaceLocation}");
+            var viewerSpaceLocation = new TreeNode($"Viewer space location: {_lightInfo.ViewSpaceLocation}");
 
-            var color = new TreeNode($"Color: {Color.ToRGBA(_lightInfo.Color)}");
+            var color = new TreeNode($"Color: {Color.ToRGBA(_lightInfo.Color.ToUint32())}");
             
             var intensity = new TreeNode($"Intensity: {_lightInfo.Intensity}");
 
@@ -28,7 +30,7 @@ namespace ACViewer.Entity
 
         public override string ToString()
         {
-            return $"Viewer space location: {_lightInfo.ViewerSpaceLocation}, Color: {Color.ToRGBA(_lightInfo.Color)}, Intensity: {_lightInfo.Intensity}, Falloff: {_lightInfo.Falloff}, ConeAngle: {_lightInfo.ConeAngle}";
+            return $"Viewer space location: {_lightInfo.ViewSpaceLocation}, Color: {Color.ToRGBA(_lightInfo.Color.ToUint32())}, Intensity: {_lightInfo.Intensity}, Falloff: {_lightInfo.Falloff}, ConeAngle: {_lightInfo.ConeAngle}";
         }
     }
 }

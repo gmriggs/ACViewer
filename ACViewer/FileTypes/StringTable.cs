@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class StringTable
     {
-        public ACE.DatLoader.FileTypes.StringTable _stringTable;
+        public DatReaderWriter.DBObjs.StringTable _stringTable;
 
-        public StringTable(ACE.DatLoader.FileTypes.StringTable stringTable)
+        public StringTable(DatReaderWriter.DBObjs.StringTable stringTable)
         {
             _stringTable = stringTable;
         }
@@ -23,7 +23,7 @@ namespace ACViewer.FileTypes
 
             var stringTableData = new TreeNode($"String Tables:");
 
-            for (var i = 0; i < _stringTable.StringTableData.Count; i++)
+            for (uint i = 0; i < _stringTable.StringTableData.Count; i++)
             {
                 var tree = new StringTableData(_stringTable.StringTableData[i]).BuildTree();
                 var node = new TreeNode($"{tree[0].Name}");

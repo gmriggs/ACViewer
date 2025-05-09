@@ -2,9 +2,9 @@
 {
     public class Sphere
     {
-        public ACE.DatLoader.Entity.Sphere _sphere;
+        public DatReaderWriter.Types.Sphere _sphere;
 
-        public Sphere(ACE.DatLoader.Entity.Sphere sphere)
+        public Sphere(DatReaderWriter.Types.Sphere sphere)
         {
             _sphere = sphere;
         }

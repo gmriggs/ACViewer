@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class StarterArea
     {
-        public ACE.DatLoader.Entity.StarterArea _starterArea;
+        public DatReaderWriter.Types.StartingArea _starterArea;
 
-        public StarterArea(ACE.DatLoader.Entity.StarterArea starterArea)
+        public StarterArea(DatReaderWriter.Types.StartingArea starterArea)
         {
             _starterArea = starterArea;
         }

@@ -6,11 +6,11 @@ namespace ACViewer.Entity
 {
     public class BSPNode
     {
-        public ACE.DatLoader.Entity.BSPNode _bspNode;
+        public DatReaderWriter.Types.BSPNode _bspNode;
 
         public BSPNode() { }
 
-        public BSPNode(ACE.DatLoader.Entity.BSPNode bspNode)
+        public BSPNode(DatReaderWriter.Types.BSPNode bspNode)
         {
             _bspNode = bspNode;
         }
@@ -28,9 +28,9 @@ namespace ACViewer.Entity
             var posNode = new TreeNode("PosNode:");
             if (_bspNode.PosNode != null)
             {
-                if (_bspNode.PosNode is ACE.DatLoader.Entity.BSPLeaf leaf)
+                if (_bspNode.PosNode is DatReaderWriter.Types.BSPLeaf leaf)
                     posNode.Items.AddRange(new BSPLeaf(leaf).BuildTree(bspType));
-                else if (_bspNode.PosNode is ACE.DatLoader.Entity.BSPPortal portal)
+                else if (_bspNode.PosNode is DatReaderWriter.Types.BSPPortal portal)
                     posNode.Items.AddRange(new BSPPortal(portal).BuildTree(bspType));
                 else
                     posNode.Items.AddRange(new BSPNode(_bspNode.PosNode).BuildTree(bspType));
@@ -41,9 +41,9 @@ namespace ACViewer.Entity
             var negNode = new TreeNode("NegNode:");
             if (_bspNode.NegNode != null)
             {
-                if (_bspNode.NegNode is ACE.DatLoader.Entity.BSPLeaf leaf)
+                if (_bspNode.NegNode is DatReaderWriter.Types.BSPLeaf leaf)
                     negNode.Items.AddRange(new BSPLeaf(leaf).BuildTree(bspType));
-                else if (_bspNode.NegNode is ACE.DatLoader.Entity.BSPPortal portal)
+                else if (_bspNode.NegNode is DatReaderWriter.Types.BSPPortal portal)
                     negNode.Items.AddRange(new BSPPortal(portal).BuildTree(bspType));
                 else
                     negNode.Items.AddRange(new BSPNode(_bspNode.NegNode).BuildTree(bspType));

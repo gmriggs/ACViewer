@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Numerics;
 using ACE.DatLoader;
 using ACE.DatLoader.FileTypes;
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Physics.Util
 {
@@ -14,7 +15,7 @@ namespace ACE.Server.Physics.Util
         public AdjustCell(uint dungeonID)
         {
             uint blockInfoID = dungeonID << 16 | 0xFFFE;
-            var blockinfo = DatManager.CellDat.ReadFromDat<LandblockInfo>(blockInfoID);
+            DatManager.CellDat.TryReadFileCache(blockInfoID, out LandBlockInfo blockinfo);
             var numCells = blockinfo.NumCells;
 
             BuildEnv(dungeonID, numCells);

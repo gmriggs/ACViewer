@@ -43,7 +43,7 @@ namespace ACViewer.Render
             Instances = new List<VertexInstance>();
         }
 
-        public static readonly SurfaceType AlphaSurfaceTypes = SurfaceType.Base1ClipMap | SurfaceType.Translucent | SurfaceType.Alpha | SurfaceType.Additive;
+        public static readonly DatReaderWriter.Enums.SurfaceType AlphaSurfaceTypes = DatReaderWriter.Enums.SurfaceType.Base1ClipMap | DatReaderWriter.Enums.SurfaceType.Translucent | DatReaderWriter.Enums.SurfaceType.Alpha | DatReaderWriter.Enums.SurfaceType.Additive;
 
         public void BuildStatic(GfxObj gfxObj, Dictionary<TextureFormat, TextureAtlasChain> textureAtlasChains, Dictionary<uint, uint> textureChanges = null, PaletteChanges paletteChanges = null)
         {
@@ -75,7 +75,7 @@ namespace ACViewer.Render
                     textureAtlasChains.Add(textureFormat, textureAtlasChain);
                 }
 
-                var surface = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.Surface>(surfaceID);
+                DatManager.PortalDat.TryReadFileCache(surfaceID, out DatReaderWriter.DBObjs.Surface surface);
 
                 var surfaceTextureId = TextureCache.GetSurfaceTextureID(surfaceID, textureChanges);
 

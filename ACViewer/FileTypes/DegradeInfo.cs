@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class DegradeInfo
     {
-        public ACE.DatLoader.FileTypes.GfxObjDegradeInfo _degrade;
+        public DatReaderWriter.DBObjs.GfxObjDegradeInfo _degrade;
 
-        public DegradeInfo(ACE.DatLoader.FileTypes.GfxObjDegradeInfo degrade)
+        public DegradeInfo(DatReaderWriter.DBObjs.GfxObjDegradeInfo degrade)
         {
             _degrade = degrade;
         }

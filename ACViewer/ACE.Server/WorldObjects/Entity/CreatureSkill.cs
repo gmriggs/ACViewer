@@ -2,6 +2,7 @@ using System;
 
 using ACE.Common.Extensions;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 using ACE.Entity.Models;
 using ACE.Server.Entity;
@@ -54,7 +55,7 @@ namespace ACE.Server.WorldObjects.Entity
 
                 if (AdvancementClass == SkillAdvancementClass.Untrained)
                 {
-                    DatManager.PortalDat.SkillTable.SkillBaseHash.TryGetValue((uint)Skill, out var skillTableRecord);
+                    DatManager.PortalDat.SkillTable().Skills.TryGetValue((DatReaderWriter.Enums.SkillId)Skill, out var skillTableRecord);
 
                     if (skillTableRecord?.MinLevel == 1)
                         return true;
@@ -96,7 +97,7 @@ namespace ACE.Server.WorldObjects.Entity
 
                 // (confirmed this is how it was in retail)
 
-                var remainingXP = (long)skillXPTable[skillXPTable.Count - 1] - ExperienceSpent;
+                var remainingXP = (long)skillXPTable[skillXPTable.Length - 1] - ExperienceSpent;
 
                 return (uint)Math.Max(0, remainingXP);
             }
@@ -129,7 +130,7 @@ namespace ACE.Server.WorldObjects.Entity
                 if (skillXPTable == null)
                     return false;
 
-                return Ranks >= (skillXPTable.Count - 1);
+                return Ranks >= (skillXPTable.Length - 1);
             }
         }
 

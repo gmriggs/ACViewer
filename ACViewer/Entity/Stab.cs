@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Stab
     {
-        public ACE.DatLoader.Entity.Stab _stab;
+        public DatReaderWriter.Types.Stab _stab;
 
-        public Stab(ACE.DatLoader.Entity.Stab stab)
+        public Stab(DatReaderWriter.Types.Stab stab)
         {
             _stab = stab;
         }

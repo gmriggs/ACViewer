@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class EnvCell
     {
-        public ACE.DatLoader.FileTypes.EnvCell _envCell;
+        public DatReaderWriter.DBObjs.EnvCell _envCell;
 
-        public EnvCell(ACE.DatLoader.FileTypes.EnvCell envCell)
+        public EnvCell(DatReaderWriter.DBObjs.EnvCell envCell)
         {
             _envCell = envCell;
         }

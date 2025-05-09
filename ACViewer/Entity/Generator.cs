@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Generator
     {
-        public ACE.DatLoader.Entity.Generator _generator;
+        public DatReaderWriter.DBObjs.ObjectHierarchy _generator;
 
-        public Generator(ACE.DatLoader.Entity.Generator generator)
+        public Generator(DatReaderWriter.DBObjs.ObjectHierarchy generator)
         {
             _generator = generator;
         }
@@ -21,7 +21,7 @@ namespace ACViewer.Entity
             if (!string.IsNullOrEmpty(_generator.Name))
                 treeNode.Add(new TreeNode($"Name: {_generator.Name}"));*/
             
-            if (_generator.Items.Count > 0)
+            /*if (_generator.Items.Count > 0)
             {
                 //var items = new TreeNode($"Items");
 
@@ -36,7 +36,7 @@ namespace ACViewer.Entity
                     treeNode.Add(subGenerator);
                 }
                 //treeNode.Add(items);
-            }
+            }*/
             return treeNode;
         }
     }

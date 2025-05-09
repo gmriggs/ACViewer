@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Server.Physics.Common;
 using ACE.Server.Physics.Entity;
@@ -11,7 +12,7 @@ namespace ACE.Server.Physics
     public class Setup
     {
         // static
-        public SetupModel _dat;
+        public DatReaderWriter.DBObjs.Setup _dat;
         //public uint ID { get => _dat.Id; }
         //public uint Bitfield { get => _setup.Bitfield; }
         //public List<uint> ParentIndex { get => _setup.ParentIndex; }
@@ -41,15 +42,16 @@ namespace ACE.Server.Physics
         // dynamic
         public PhysicsObj Owner;
         public int NumParts;
-        public List<uint> PartIDs { get => _dat.Parts; }
+        public List<uint> PartIDs { get => _dat?.Parts; }
         public List<PhysicsPart> Parts;
 
         public Setup()
         {
-            _dat = SetupModel.CreateSimpleSetup();
+            _dat = new DatReaderWriter.DBObjs.Setup();
+            _dat.CreateSimpleSetup();
         }
 
-        public Setup(SetupModel setupModel)
+        public Setup(DatReaderWriter.DBObjs.Setup setupModel)
         {
             _dat = setupModel;
             //ID = setupModel.Id;
@@ -93,10 +95,10 @@ namespace ACE.Server.Physics
             return new Setup(DBObj.GetSetup(setupID));
         }
 
-        public LocationType GetHoldingLocation(int location_idx)
+        public DatReaderWriter.Types.LocationType GetHoldingLocation(int location_idx)
         {
-            LocationType locationType = null;
-            _dat.HoldingLocations.TryGetValue(location_idx, out locationType);
+            DatReaderWriter.Types.LocationType locationType = null;
+            _dat.HoldingLocations.TryGetValue((DatReaderWriter.Enums.ParentLocation)location_idx, out locationType);
             return locationType;
         }
 
@@ -126,9 +128,9 @@ namespace ACE.Server.Physics
             part.GfxObj = gfxObj;
             setup.Parts.Add(part);
 
-            var placementType = new PlacementType();
+            var placementType = new DatReaderWriter.Types.AnimationFrame(0);
             //placementType.AnimFrame.NumParts = 1;
-            setup._dat.PlacementFrames.Add((int)gfxObjID, placementType);
+            setup._dat.PlacementFrames.Add((DatReaderWriter.Enums.Placement)gfxObjID, placementType);
             return setup;
         }
 

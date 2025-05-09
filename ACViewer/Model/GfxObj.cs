@@ -6,10 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
 
 using ACViewer.Render;
 using ACViewer.View;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACViewer.Model
 {
@@ -17,7 +18,7 @@ namespace ACViewer.Model
     {
         public static GraphicsDevice GraphicsDevice => GameView.Instance.GraphicsDevice;
 
-        public ACE.DatLoader.FileTypes.GfxObj _gfxObj { get; set; }
+        public DatReaderWriter.DBObjs.GfxObj _gfxObj { get; set; }
 
         public List<VertexPositionNormalTexture> VertexArray { get; set; }
         public Dictionary<Tuple<ushort, ushort>, ushort> UVLookup { get; set; }
@@ -49,7 +50,8 @@ namespace ACViewer.Model
         {
             MainWindow.Instance.Status.WriteLine($"Loading GfxObj {gfxObjID:X8}");
 
-            _gfxObj = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.GfxObj>(gfxObjID);
+            DatManager.PortalDat.TryReadFileCache(gfxObjID, out DatReaderWriter.DBObjs.GfxObj g);
+            _gfxObj = g;
 
             VertexArray = _gfxObj.VertexArray.ToXna();
             UVLookup = _gfxObj.VertexArray.BuildUVLookup();
@@ -92,7 +94,7 @@ namespace ACViewer.Model
 
             foreach (var surfaceID in _gfxObj.Surfaces)
             {
-                var surface = DatManager.PortalDat.ReadFromDat<Surface>(surfaceID);
+                DatManager.PortalDat.TryReadFileCache(surfaceID, out Surface surface);
                 Surfaces.Add(surface);
 
                 Textures.Add(TextureCache.Get(surfaceID, textureChanges, paletteChanges, useCache));

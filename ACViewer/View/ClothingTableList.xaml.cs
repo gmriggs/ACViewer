@@ -6,8 +6,12 @@ using System.Windows.Controls;
 
 using ACE.DatLoader;
 using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity.Enum;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Types;
 
 namespace ACViewer.View
 {
@@ -21,7 +25,7 @@ namespace ACViewer.View
         public static MainWindow MainWindow => MainWindow.Instance;
         public static ModelViewer ModelViewer => ModelViewer.Instance;
 
-        public static ClothingTable CurrentClothingItem { get; private set; }
+        public static Clothing CurrentClothingItem { get; private set; }
         public static uint PaletteTemplate { get; private set; }
         public static float Shade { get; private set; }
         public static uint Icon { get; private set; }
@@ -34,7 +38,7 @@ namespace ACViewer.View
             DataContext = this;
         }
 
-        public void OnClickClothingBase(ClothingTable clothing, uint fileID, uint? paletteTemplate = null, float? shade = null)
+        public void OnClickClothingBase(Clothing clothing, uint fileID, uint? paletteTemplate = null, float? shade = null)
         {
             CurrentClothingItem = clothing;
             SetupIds.Items.Clear();
@@ -130,9 +134,9 @@ namespace ACViewer.View
                 for (var i = 0; i < CurrentClothingItem.ClothingSubPalEffects[palTemp].CloSubPalettes.Count; i++)
                 {
                     var palSetID = CurrentClothingItem.ClothingSubPalEffects[palTemp].CloSubPalettes[i].PaletteSet;
-                    var clothing = DatManager.PortalDat.ReadFromDat<PaletteSet>(palSetID);
-                    if (clothing.PaletteList.Count > maxPals)
-                        maxPals = clothing.PaletteList.Count;
+                    DatManager.PortalDat.TryReadFileCache(palSetID, out PaletteSet clothing);
+                    if (clothing.Palettes.Count > maxPals)
+                        maxPals = clothing.Palettes.Count;
                 }
 
                 if (maxPals > 1)
@@ -228,16 +232,16 @@ namespace ACViewer.View
             {
                 CloSubPalette subPal = palEffects.CloSubPalettes[i];
 
-                var palSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(subPal.PaletteSet);
+                DatManager.PortalDat.TryReadFileCache(subPal.PaletteSet, out PaletteSet palSet);
                 var paletteID = palSet.GetPaletteID(Shade);
-                var palette = DatManager.PortalDat.ReadFromDat<Palette>(paletteID);
+                DatManager.PortalDat.TryReadFileCache(paletteID, out Palette palette);
                 foreach (var r in subPal.Ranges)
                 {
 
                     uint mid = Convert.ToUInt32(r.NumColors / 2);
                     uint colorIdx = r.Offset + mid;
 
-                    uint color = 0;
+                    ColorARGB color = default;
                     if (palette.Colors.Count >= colorIdx)
                     {
                         color = palette.Colors[(int)colorIdx];
@@ -245,7 +249,8 @@ namespace ACViewer.View
 
                     VctInfo vctInfo = new VctInfo();
                     vctInfo.PalId = paletteID & 0xFFFF;
-                    vctInfo.Color = color & 0xFFFFFF;
+                    //vctInfo.Color = color & 0xFFFFFF;   // clear alpha?
+                    vctInfo.Color = (uint)(color.Red << 16 | color.Green << 8 | color.Blue);    // TODO: verify
                     result.Add(vctInfo);
                 }
             }

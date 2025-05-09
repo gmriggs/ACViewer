@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using ACE.Server.Physics.Extensions;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 
 namespace ACE.Server.Physics.Common
 {
@@ -109,12 +110,14 @@ namespace ACE.Server.Physics.Common
         public static readonly int HalfSquareLength = 12;
         public static readonly int SquareLength = 24;
 
-        public static List<float> LandHeightTable;
+        public static float[] LandHeightTable;
 
         static LandDefs()
         {
             if (DatManager.PortalDat != null)
-                LandHeightTable = DatManager.PortalDat.RegionDesc.LandDefs.LandHeightTable;
+            {
+                LandHeightTable = DatManager.PortalDat.RegionDesc().LandDefs.LandHeightTable;
+            }
         }
 
         public static bool AdjustToOutside(Position pos)

@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 using ACE.DatLoader;
 using ACE.DatLoader.Entity;
-using ACE.DatLoader.Entity.AnimationHooks;
+using ACE.DatLoader.Extensions;
+//using ACE.DatReaderWriter.Types.AnimationHooks;
 using ACE.Entity.Enum;
 using ACE.Server.Physics.Animation.Internal;
+
+using DatReaderWriter.Types;
 
 namespace ACE.Server.Physics.Animation
 {
@@ -37,14 +41,14 @@ namespace ACE.Server.Physics.Animation
             Modifiers = new Dictionary<uint, MotionData>();
         }
 
-        public MotionTable(DatLoader.FileTypes.MotionTable mtable)
+        public MotionTable(DatReaderWriter.DBObjs.MotionTable mtable)
         {
             ID = mtable.Id;
-            StyleDefaults = mtable.StyleDefaults;
-            Cycles = mtable.Cycles;
-            Modifiers = mtable.Modifiers;
-            Links = mtable.Links;
-            DefaultStyle = mtable.DefaultStyle;
+            StyleDefaults = mtable.StyleDefaults.ToDictionary(i => (uint)i.Key, i => (uint)i.Value);
+            Cycles = mtable.Cycles.ToDictionary(i => (uint)i.Key, i => i.Value);
+            Modifiers = mtable.Modifiers.ToDictionary(i => (uint)i.Key, i => i.Value);
+            Links = mtable.Links.ToDictionary(i => (uint)i.Key, i => i.Value.MotionData.ToDictionary(j => (uint)j.Key, j => j.Value));
+            DefaultStyle = (uint)mtable.DefaultStyle;
         }
 
         public MotionTable Allocator()
@@ -259,7 +263,8 @@ namespace ACE.Server.Physics.Animation
         public static MotionTable Get(uint motionTableID)
         {
             //return ObjCache.GetMotionTable(mtableID);
-            var motionTable = new MotionTable(DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableID));
+            DatManager.PortalDat.TryReadFileCache(motionTableID, out DatReaderWriter.DBObjs.MotionTable _motionTable);
+            var motionTable = new MotionTable(_motionTable);
             return motionTable;
         }
 
@@ -459,44 +464,44 @@ namespace ACE.Server.Physics.Animation
 
         private static readonly List<(float, AttackHook)> emptyList = new List<(float, AttackHook)>();
 
-        public static List<(float time, AttackHook attackHook)> GetAttackFrames(uint motionTableId, MotionStance stance, MotionCommand motion)
+        public static List<(float time, AttackHook attackHook)> GetAttackFrames(uint motionTableId, DatReaderWriter.Enums.MotionCommand stance, DatReaderWriter.Enums.MotionCommand motion)
         {
             if (motionTableId == 0) return emptyList;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableId);
+            DatManager.PortalDat.TryReadFileCache(motionTableId, out DatReaderWriter.DBObjs.MotionTable motionTable);
             return motionTable.GetAttackFrames(motionTableId, stance, motion);
         }
 
-        public static float GetAnimationLength(uint motionTableId, MotionStance stance, MotionCommand motion, float speed = 1.0f)
+        public static float GetAnimationLength(uint motionTableId, DatReaderWriter.Enums.MotionCommand stance, DatReaderWriter.Enums.MotionCommand motion, float speed = 1.0f)
         {
             if (motionTableId == 0) return 0;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableId);
+            DatManager.PortalDat.TryReadFileCache(motionTableId, out DatReaderWriter.DBObjs.MotionTable motionTable);
             return motionTable.GetAnimationLength(stance, motion, null) / speed;
         }
 
-        public static float GetAnimationLength(uint motionTableId, MotionStance stance, MotionCommand currentMotion, MotionCommand motion, float speed = 1.0f)
+        public static float GetAnimationLength(uint motionTableId, DatReaderWriter.Enums.MotionCommand stance, DatReaderWriter.Enums.MotionCommand currentMotion, DatReaderWriter.Enums.MotionCommand motion, float speed = 1.0f)
         {
             if (motionTableId == 0) return 0;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableId);
+            DatManager.PortalDat.TryReadFileCache(motionTableId, out DatReaderWriter.DBObjs.MotionTable motionTable);
 
             var animLength = 0.0f;
-            if (((uint)motion & (uint)CommandMask.Style) != 0 && currentMotion != MotionCommand.Ready)
+            if (((uint)motion & (uint)CommandMask.Style) != 0 && currentMotion != DatReaderWriter.Enums.MotionCommand.Ready)
             {
-                animLength += motionTable.GetAnimationLength(stance, MotionCommand.Ready, currentMotion) / speed;
-                currentMotion = MotionCommand.Ready;
+                animLength += motionTable.GetAnimationLength(stance, DatReaderWriter.Enums.MotionCommand.Ready, currentMotion) / speed;
+                currentMotion = DatReaderWriter.Enums.MotionCommand.Ready;
             }
 
             animLength += motionTable.GetAnimationLength(stance, motion, currentMotion) / speed;
             return animLength;
         }
 
-        public static float GetCycleLength(uint motionTableId, MotionStance stance, MotionCommand motion, float speed = 1.0f)
+        public static float GetCycleLength(uint motionTableId, DatReaderWriter.Enums.MotionCommand stance, DatReaderWriter.Enums.MotionCommand motion, float speed = 1.0f)
         {
             if (motionTableId == 0) return 0;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableId);
+            DatManager.PortalDat.TryReadFileCache(motionTableId, out DatReaderWriter.DBObjs.MotionTable motionTable);
             return motionTable.GetCycleLength(stance, motion) / speed;
         }
 
@@ -543,12 +548,12 @@ namespace ACE.Server.Physics.Animation
         {
             if (motionTableID == 0) return null;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableID);
+            DatManager.PortalDat.TryReadFileCache(motionTableID, out DatReaderWriter.DBObjs.MotionTable motionTable);
             if (currentStyle == null)
-                currentStyle = motionTable.DefaultStyle;
+                currentStyle = (uint)motionTable.DefaultStyle;
             var motionID = motion & 0xFFFFFF;
             var key = currentStyle.Value << 16 | motionID;
-            motionTable.Cycles.TryGetValue(key, out var motionData);
+            motionTable.Cycles.TryGetValue((int)key, out var motionData);
             return motionData;
         }
 
@@ -556,13 +561,13 @@ namespace ACE.Server.Physics.Animation
         {
             if (motionTableID == 0) return null;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.MotionTable>(motionTableID);
+            DatManager.PortalDat.TryReadFileCache(motionTableID, out DatReaderWriter.DBObjs.MotionTable motionTable);
             if (currentStyle == null)
-                currentStyle = motionTable.DefaultStyle;
+                currentStyle = (uint)motionTable.DefaultStyle;
             var key = (currentStyle.Value << 16) | (int)MotionCommand.Ready & 0xFFFF;
-            motionTable.Links.TryGetValue(key, out var links);
+            motionTable.Links.TryGetValue((int)key, out var links);
             if (links == null) return null;
-            links.TryGetValue(motion, out var motionData);
+            links.MotionData.TryGetValue((int)motion, out var motionData);
             return motionData;
         }
 
@@ -575,7 +580,7 @@ namespace ACE.Server.Physics.Animation
             var totalFrames = 0;
             foreach (var anim in motionData.Anims)
             {
-                var animation = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.Animation>(anim.AnimId);
+                DatManager.PortalDat.TryReadFileCache(anim.AnimId, out DatReaderWriter.DBObjs.Animation animation);
                 foreach (var frame in animation.PosFrames)
                 {
                     // orientation?
@@ -599,13 +604,13 @@ namespace ACE.Server.Physics.Animation
 
             foreach (var anim in motionData.Anims)
             {
-                var animation = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.Animation>(anim.AnimId);
+                DatManager.PortalDat.TryReadFileCache(anim.AnimId, out DatReaderWriter.DBObjs.Animation animation);
                 if (animation == null) continue;
 
                 foreach (var frame in animation.PartFrames)
                 {
                     foreach (var hook in frame.Hooks)
-                        if (hook.HookType == AnimationHookType.DefaultScript)
+                        if (hook.HookType == DatReaderWriter.Enums.AnimationHookType.DefaultScript)
                             return true;
                 }
             }

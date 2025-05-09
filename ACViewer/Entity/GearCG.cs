@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class GearCG
     {
-        public ACE.DatLoader.Entity.GearCG _gear;
+        public DatReaderWriter.Types.GearCG _gear;
 
-        public GearCG(ACE.DatLoader.Entity.GearCG gear)
+        public GearCG(DatReaderWriter.Types.GearCG gear)
         {
             _gear = gear;
         }

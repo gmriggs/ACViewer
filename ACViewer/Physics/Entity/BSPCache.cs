@@ -42,7 +42,7 @@ namespace ACE.Server.Physics.Entity
             return bspTree;
         }
 
-        public static BSPTree Get(DatLoader.Entity.BSPTree _bspTree, Dictionary<ushort, DatLoader.Entity.Polygon> polys, DatLoader.Entity.CVertexArray vertexArray)
+        public static BSPTree Get(DatReaderWriter.Types.BSPTree _bspTree, Dictionary<ushort, DatReaderWriter.Types.Polygon> polys, DatReaderWriter.Types.VertexArray vertexArray)
         {
             var bspTree = new BSPTree(_bspTree, polys, vertexArray);
 

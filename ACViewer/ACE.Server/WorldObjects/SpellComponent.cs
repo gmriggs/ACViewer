@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
+using ACE.DatLoader.Extensions;
 using ACE.Entity;
 using ACE.Entity.Models;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.WorldObjects
 {
@@ -18,7 +20,7 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// The spell components table from the portal.dat
         /// </summary>
-        public static SpellComponentsTable SpellComponentsTable { get => DatManager.PortalDat.SpellComponentsTable; }
+        public static SpellComponentTable SpellComponentsTable { get => DatManager.PortalDat.SpellComponentTable(); }
 
         /// <summary>
         /// A lookup table of spell component wcids => component ids
@@ -34,9 +36,9 @@ namespace ACE.Server.WorldObjects
         {
             SpellComponentWCIDs = new Dictionary<uint, uint>();
 
-            var dualDIDs = DatManager.PortalDat.ReadFromDat<DualDidMapper>(SpellComponentDIDs);
+            DatManager.PortalDat.TryReadFileCache(SpellComponentDIDs, out DualDataIdMapper dualDIDs);
 
-            foreach (var component_id in SpellComponentsTable.SpellComponents.Keys)
+            foreach (var component_id in SpellComponentsTable.Components.Keys)
             {
                 if (!dualDIDs.ClientEnumToID.TryGetValue(component_id, out var wcid))
                 {

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class NameFilterLanguageData
     {
-        public ACE.DatLoader.Entity.NameFilterLanguageData _nameFilterLanguageData;
+        public DatReaderWriter.Types.NameFilterLanguageData _nameFilterLanguageData;
 
-        public NameFilterLanguageData(ACE.DatLoader.Entity.NameFilterLanguageData nameFilterLanguageData)
+        public NameFilterLanguageData(DatReaderWriter.Types.NameFilterLanguageData nameFilterLanguageData)
         {
             _nameFilterLanguageData = nameFilterLanguageData;
         }
@@ -19,7 +19,6 @@ namespace ACViewer.Entity
             treeNode.Add(new TreeNode($"FirstNCharactersMustHaveAVowel: {_nameFilterLanguageData.FirstNCharactersMustHaveAVowel}"));
             treeNode.Add(new TreeNode($"VowelContainingSubstringLength: {_nameFilterLanguageData.VowelContainingSubstringLength}"));
             treeNode.Add(new TreeNode($"ExtraAllowedCharacters: {_nameFilterLanguageData.ExtraAllowedCharacters}"));
-            treeNode.Add(new TreeNode($"Unknown: {_nameFilterLanguageData.Unknown}"));
 
             var compoundLetterGroups = new TreeNode($"CompoundLetterGrounds");
 

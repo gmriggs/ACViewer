@@ -3,6 +3,8 @@ using System.Numerics;
 using ACE.DatLoader.Entity;
 using ACE.Server.Physics;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Entity
 {
     public enum ModelMeshType
@@ -113,7 +115,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// Constructs a new model mesh for a building
         /// </summary>
-        public ModelMesh(BuildInfo buildInfo)
+        public ModelMesh(BuildingInfo buildInfo)
         {
             Init(buildInfo.ModelId, buildInfo.Frame);
         }

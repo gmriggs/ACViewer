@@ -6,9 +6,9 @@ namespace ACViewer.Entity
 {
     public class SkillFormula
     {
-        public ACE.DatLoader.Entity.SkillFormula _skillFormula;
+        public DatReaderWriter.Types.SkillFormula _skillFormula;
 
-        public SkillFormula(ACE.DatLoader.Entity.SkillFormula skillFormula)
+        public SkillFormula(DatReaderWriter.Types.SkillFormula skillFormula)
         {
             _skillFormula = skillFormula;
         }
@@ -17,12 +17,12 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            treeNode.Add(new TreeNode($"Attr1: {(PropertyAttribute)_skillFormula.Attr1}"));
-            treeNode.Add(new TreeNode($"Attr2: {(PropertyAttribute)_skillFormula.Attr2}"));
-            treeNode.Add(new TreeNode($"W: {_skillFormula.W}"));
-            treeNode.Add(new TreeNode($"X: {_skillFormula.X}"));
-            treeNode.Add(new TreeNode($"Y: {_skillFormula.Y}"));
-            treeNode.Add(new TreeNode($"Z (divisor): {_skillFormula.Z}"));
+            treeNode.Add(new TreeNode($"Attr1: {(PropertyAttribute)_skillFormula.Attribute1}"));
+            treeNode.Add(new TreeNode($"Attr2: {(PropertyAttribute)_skillFormula.Attribute2}"));
+            treeNode.Add(new TreeNode($"W: {_skillFormula.Unknown}"));
+            treeNode.Add(new TreeNode($"X: {_skillFormula.HasSecondAttribute}"));
+            treeNode.Add(new TreeNode($"Y: {_skillFormula.UseFormula}"));
+            treeNode.Add(new TreeNode($"Z (divisor): {_skillFormula.Divisor}"));
 
             return treeNode;
         }

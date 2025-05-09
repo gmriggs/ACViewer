@@ -6,9 +6,9 @@ namespace ACViewer.Entity
 {
     public class BSPLeaf: BSPNode
     {
-        public ACE.DatLoader.Entity.BSPLeaf _bspLeaf;
+        public DatReaderWriter.Types.BSPLeaf _bspLeaf;
 
-        public BSPLeaf(ACE.DatLoader.Entity.BSPLeaf bspLeaf)
+        public BSPLeaf(DatReaderWriter.Types.BSPLeaf bspLeaf)
         {
             _bspLeaf = bspLeaf;
         }

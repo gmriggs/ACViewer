@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
 using ACE.Entity;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Entity
 {
@@ -42,7 +43,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// LandHeightTable mapping non-linear heights
         /// </summary>
-        public static RegionDesc RegionDesc;
+        public static Region RegionDesc;
 
         /// <summary>
         /// Static constructor
@@ -50,7 +51,7 @@ namespace ACE.Server.Entity
         static LandblockMesh()
         {
             // load the region file from portal.dat
-            RegionDesc = DatManager.PortalDat.ReadFromDat<RegionDesc>(0x13000000);
+            DatManager.PortalDat.TryReadFileCache(0x13000000, out RegionDesc);
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace ACE.Server.Entity
             // The vertex heights in the cell database are stored in bytes,
             // which map to offsets in the land height table from the region file in the portal database.
 
-            var cellLandblock = DatManager.CellDat.ReadFromDat<CellLandblock>(LandblockId.Raw | 0xFFFF);
+            DatManager.CellDat.TryReadFileCache(LandblockId.Raw | 0xFFFF, out LandBlock cellLandblock);
 
             var heights = new float[VertexDim, VertexDim];
 

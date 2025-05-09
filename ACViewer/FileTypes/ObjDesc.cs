@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using ACE.DatLoader.Entity;
+using DatReaderWriter.Types;
 
 namespace ACViewer.FileTypes
 {

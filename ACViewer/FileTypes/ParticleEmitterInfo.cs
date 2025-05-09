@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class ParticleEmitterInfo
     {
-        public ACE.DatLoader.FileTypes.ParticleEmitterInfo _info;
+        public DatReaderWriter.DBObjs.ParticleEmitter _info;
 
-        public ParticleEmitterInfo(ACE.DatLoader.FileTypes.ParticleEmitterInfo info)
+        public ParticleEmitterInfo(DatReaderWriter.DBObjs.ParticleEmitter info)
         {
             _info = info;
         }

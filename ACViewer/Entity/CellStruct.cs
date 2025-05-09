@@ -6,9 +6,9 @@ namespace ACViewer.Entity
 {
     public class CellStruct
     {
-        public ACE.DatLoader.Entity.CellStruct _cellStruct;
+        public DatReaderWriter.Types.CellStruct _cellStruct;
 
-        public CellStruct(ACE.DatLoader.Entity.CellStruct cellStruct)
+        public CellStruct(DatReaderWriter.Types.CellStruct cellStruct)
         {
             _cellStruct = cellStruct;
         }

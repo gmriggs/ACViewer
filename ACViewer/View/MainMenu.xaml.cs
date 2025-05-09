@@ -16,6 +16,9 @@ using ACViewer.Data;
 using ACViewer.Enum;
 using ACViewer.Render;
 
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Types;
+
 namespace ACViewer.View
 {
     /// <summary>
@@ -129,7 +132,7 @@ namespace ACViewer.View
             }
             else if (isSound)
             {
-                var sound = DatManager.PortalDat.ReadFromDat<Wave>(selectedFileID);
+                DatManager.PortalDat.TryReadFileCache(selectedFileID, out Wave sound);
 
                 if (sound.Header[0] == 0x55)
                 {

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class AttackCone
     {
-        public ACE.DatLoader.Entity.AttackCone _attackCone;
+        public DatReaderWriter.Types.AttackCone _attackCone;
 
-        public AttackCone(ACE.DatLoader.Entity.AttackCone attackCone)
+        public AttackCone(DatReaderWriter.Types.AttackCone attackCone)
         {
             _attackCone = attackCone;
         }

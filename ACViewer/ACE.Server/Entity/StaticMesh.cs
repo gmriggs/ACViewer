@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+
 using ACE.DatLoader;
 using ACE.DatLoader.FileTypes;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Entity
 {
@@ -18,7 +21,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// A multi-part model
         /// </summary>
-        public SetupModel SetupModel;
+        public Setup SetupModel;
 
         /// <summary>
         /// The individual model parts
@@ -45,7 +48,7 @@ namespace ACE.Server.Entity
             }
             else if (modelType == 0x02)
             {
-                SetupModel = DatManager.PortalDat.ReadFromDat<SetupModel>(modelId);
+                DatManager.PortalDat.TryReadFileCache(modelId, out SetupModel);
                 foreach (var part in SetupModel.Parts)
                     LoadModelPart(part);
             }
@@ -59,7 +62,7 @@ namespace ACE.Server.Entity
             if (GfxObjs == null) GfxObjs = new List<GfxObj>();
             if (Polygons == null) Polygons = new List<ModelPolygon>();
 
-            var gfxObj = DatManager.PortalDat.ReadFromDat<GfxObj>(modelId);
+            DatManager.PortalDat.TryReadFileCache(modelId, out GfxObj gfxObj);
             GfxObjs.Add(gfxObj);
 
             foreach (var poly in gfxObj.Polygons.Values)

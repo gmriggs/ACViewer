@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class SoundTweakedHook : AnimationHook
     {
-        public SoundTweakedHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public SoundTweakedHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.SoundTweakedHook _soundTweakedHook)
+            if (_hook is DatReaderWriter.Types.SoundTweakedHook _soundTweakedHook)
             {
                 treeNode.Add(new TreeNode($"SoundID: {_soundTweakedHook.SoundID:X8}", clickable: true));
                 treeNode.Add(new TreeNode($"Priority: {_soundTweakedHook.Priority}"));

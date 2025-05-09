@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class PhysicsScriptTable
     {
-        public ACE.DatLoader.FileTypes.PhysicsScriptTable _scriptTable;
+        public DatReaderWriter.DBObjs.PhysicsScriptTable _scriptTable;
 
-        public PhysicsScriptTable(ACE.DatLoader.FileTypes.PhysicsScriptTable scriptTable)
+        public PhysicsScriptTable(DatReaderWriter.DBObjs.PhysicsScriptTable scriptTable)
         {
             _scriptTable = scriptTable;
         }

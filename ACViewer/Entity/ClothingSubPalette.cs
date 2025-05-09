@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ClothingSubPalette
     {
-        public ACE.DatLoader.Entity.CloSubPalette _subPalette;
+        public DatReaderWriter.Types.CloSubPalette _subPalette;
 
-        public ClothingSubPalette(ACE.DatLoader.Entity.CloSubPalette subPalette)
+        public ClothingSubPalette(DatReaderWriter.Types.CloSubPalette subPalette)
         {
             _subPalette = subPalette;
         }

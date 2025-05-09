@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class PhysicsScriptTableData
     {
-        public ACE.DatLoader.Entity.PhysicsScriptTableData _data;
+        public DatReaderWriter.Types.PhysicsScriptTableData _data;
 
-        public PhysicsScriptTableData(ACE.DatLoader.Entity.PhysicsScriptTableData data)
+        public PhysicsScriptTableData(DatReaderWriter.Types.PhysicsScriptTableData data)
         {
             _data = data;
         }

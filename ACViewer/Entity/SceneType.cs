@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SceneType
     {
-        public ACE.DatLoader.Entity.SceneType _sceneType;
+        public DatReaderWriter.Types.SceneType _sceneType;
 
-        public SceneType(ACE.DatLoader.Entity.SceneType sceneType)
+        public SceneType(DatReaderWriter.Types.SceneType sceneType)
         {
             _sceneType = sceneType;
         }

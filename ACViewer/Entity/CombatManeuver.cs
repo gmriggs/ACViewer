@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class CombatManeuver
     {
-        public ACE.DatLoader.Entity.CombatManeuver _combatManeuver;
+        public DatReaderWriter.Types.CombatManeuver _combatManeuver;
 
-        public CombatManeuver(ACE.DatLoader.Entity.CombatManeuver combatManeuver)
+        public CombatManeuver(DatReaderWriter.Types.CombatManeuver combatManeuver)
         {
             _combatManeuver = combatManeuver;
         }

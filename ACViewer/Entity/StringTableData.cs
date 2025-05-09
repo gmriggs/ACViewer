@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class StringTableData
     {
-        public ACE.DatLoader.Entity.StringTableData _stringTableData;
+        public DatReaderWriter.Types.StringTableData _stringTableData;
 
-        public StringTableData(ACE.DatLoader.Entity.StringTableData stringTableData)
+        public StringTableData(DatReaderWriter.Types.StringTableData stringTableData)
         {
             _stringTableData = stringTableData;
         }
@@ -15,8 +15,8 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            var id = new TreeNode($"{_stringTableData.Id:X8}");
-            treeNode.Add(id);
+            //var id = new TreeNode($"{_stringTableData.Id:X8}");
+            //treeNode.Add(id);
 
             if (_stringTableData.VarNames.Count > 0)
             {

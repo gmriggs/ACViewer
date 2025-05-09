@@ -16,7 +16,7 @@ namespace ACE.Server.Physics.Entity
             Index = index;
         }
 
-        public Vertex(DatLoader.Entity.SWVertex v)
+        public Vertex(DatReaderWriter.Types.SWVertex v)
         {
             Origin = v.Origin;
             Normal = v.Normal;

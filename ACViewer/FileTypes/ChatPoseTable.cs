@@ -7,9 +7,9 @@ namespace ACViewer.FileTypes
 {
     public class ChatPoseTable
     {
-        public ACE.DatLoader.FileTypes.ChatPoseTable _chatPoseTable;
+        public DatReaderWriter.DBObjs.ChatPoseTable _chatPoseTable;
 
-        public ChatPoseTable(ACE.DatLoader.FileTypes.ChatPoseTable chatPoseTable)
+        public ChatPoseTable(DatReaderWriter.DBObjs.ChatPoseTable chatPoseTable)
         {
             _chatPoseTable = chatPoseTable;
         }

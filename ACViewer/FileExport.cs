@@ -16,6 +16,7 @@ using UkooLabs.FbxSharpie;
 
 using ACE.DatLoader;
 using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 
 using ACE.Entity.Enum;
@@ -24,6 +25,10 @@ using ACViewer.Enum;
 using ACViewer.Extensions;
 using ACViewer.Model;
 using ACViewer.View;
+
+using DatReaderWriter;
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Types;
 
 using Matrix4x4 = System.Numerics.Matrix4x4;
 using UkooLabs.FbxSharpie.Tokens.Value;
@@ -55,22 +60,12 @@ namespace ACViewer
 
             if (datDatabase == null) return false;
 
-            var datReader = datDatabase.GetReaderForFile(fileID);
+            datDatabase.TryGetFileBytes(fileID, out var bytes);
+            
+            Console.WriteLine($"Read {bytes.Length} bytes");
 
-            if (datReader == null) return false;
+            File.WriteAllBytes(outFilename, bytes);
 
-            var maxFileSize = 10000000;
-
-            using (var memoryStream = new MemoryStream(datReader.Buffer))
-            {
-                using (var reader = new BinaryReader(memoryStream))
-                {
-                    var bytes = reader.ReadBytes(maxFileSize);
-                    Console.WriteLine($"Read {bytes.Length} bytes");
-
-                    File.WriteAllBytes(outFilename, bytes);
-                }
-            }
             MainWindow.Instance.AddStatusText($"Wrote {outFilename}");
             return true;
         }
@@ -98,12 +93,12 @@ namespace ACViewer
 
             if (isSetup)
             {
-                var setup = DatManager.PortalDat.ReadFromDat<SetupModel>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.Setup setup);
 
                 List<Frame> placementFrames = null;
 
-                if (setup.PlacementFrames.TryGetValue((int)Placement.Resting, out var placement) || setup.PlacementFrames.TryGetValue((int)Placement.Default, out placement))
-                    placementFrames = placement.AnimFrame.Frames;
+                if (setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Resting, out var placement) || setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Default, out placement))
+                    placementFrames = placement.Frames;
 
                 for (var i = 0; i < setup.Parts.Count; i++)
                 {
@@ -154,7 +149,7 @@ namespace ACViewer
 
         private static void ExportGfxObj(uint gfxObjID, StringBuilder sb, ref int startIdx, ref int startUVIdx, Matrix4x4 transform, Dictionary<uint, bool> surfaceIDs)
         {
-            var gfxObj = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.GfxObj>(gfxObjID);
+            DatManager.PortalDat.TryReadFileCache(gfxObjID, out DatReaderWriter.DBObjs.GfxObj gfxObj);
 
             // vertices
             var vertices = gfxObj.VertexArray.Vertices.OrderBy(i => i.Key).Select(i => i.Value).ToList();
@@ -296,7 +291,7 @@ namespace ACViewer
 
             if (fileType == 0x8)
             {
-                var surface = DatManager.PortalDat.ReadFromDat<Surface>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out Surface surface);
                 fileID = surface.OrigTextureId;
                 fileType = 0x05;
             }
@@ -305,7 +300,7 @@ namespace ACViewer
 
             if (fileType == 0x5)
             {
-                var surfaceTexture = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out SurfaceTexture surfaceTexture);
 
                 // since previous file dialog had user enter a filename, 
                 // only export highest resolution texture as that filename
@@ -331,10 +326,10 @@ namespace ACViewer
 
         private static Bitmap GetBitmap(uint textureID)
         {
-            var texture = DatManager.PortalDat.ReadFromDat<Texture>(textureID);
+            DatManager.PortalDat.TryReadFileCache(textureID, out RenderSurface texture);
 
             if (texture.Id == 0 && DatManager.HighResDat != null)
-                texture = DatManager.HighResDat.ReadFromDat<Texture>(textureID);
+                DatManager.PortalDat.TryReadFileCache(textureID, out texture);
 
             if (texture.Id == 0) return null;
 
@@ -350,7 +345,7 @@ namespace ACViewer
                 Console.WriteLine($"Unknown audio file: {fileID:X8}");
                 return false;
             }
-            var sound = DatManager.PortalDat.ReadFromDat<Wave>(fileID);
+            DatManager.PortalDat.TryReadFileCache(fileID, out Wave sound);
 
             using (var f = new FileStream(outFilename, FileMode.Create))
             {
@@ -676,12 +671,12 @@ namespace ACViewer
 
             if (isSetup)
             {
-                var setup = DatManager.PortalDat.ReadFromDat<SetupModel>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.Setup setup);
 
                 List<Frame> placementFrames = null;
 
-                if (setup.PlacementFrames.TryGetValue((int)Placement.Resting, out var placement) || setup.PlacementFrames.TryGetValue((int)Placement.Default, out placement))
-                    placementFrames = placement.AnimFrame.Frames;
+                if (setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Resting, out var placement) || setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Default, out placement))
+                    placementFrames = placement.Frames;
 
                 for (var i = 0; i < setup.Parts.Count; i++)
                 {
@@ -799,7 +794,7 @@ namespace ACViewer
             // possibly look into adding multiple textures to 1 material?
             var meshes = new Dictionary<uint, Assimp.Mesh>();
 
-            var gfxObj = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.GfxObj>(gfxObjID);
+            DatManager.PortalDat.TryReadFileCache(gfxObjID, out DatReaderWriter.DBObjs.GfxObj gfxObj);
 
             // vertices
             var vertices = gfxObj.VertexArray.Vertices.OrderBy(i => i.Key).Select(i => i.Value).ToList();
@@ -907,7 +902,7 @@ namespace ACViewer
             {
                 var perFrame = 1.0f / animData.Framerate;
 
-                var anim = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.Animation>(animData.AnimId);
+                DatManager.PortalDat.TryReadFileCache(animData.AnimId, out DatReaderWriter.DBObjs.Animation anim);
 
                 animation.DurationInTicks = perFrame * anim.PartFrames.Count;
                 animation.TicksPerSecond = 1.0;

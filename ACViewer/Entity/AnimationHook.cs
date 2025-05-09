@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 
-using ACE.Entity.Enum;
-
 using ACViewer.Entity.AnimationHooks;
+
+using DatReaderWriter.Enums;
 
 namespace ACViewer.Entity
 {
     public class AnimationHook
     {
-        public ACE.DatLoader.Entity.AnimationHook _hook;
+        public DatReaderWriter.Types.AnimationHook _hook;
 
-        public AnimationHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public AnimationHook(DatReaderWriter.Types.AnimationHook hook)
         {
             _hook = hook;
         }
 
-        public static AnimationHook Create(ACE.DatLoader.Entity.AnimationHook _animationHook)
+        public static AnimationHook Create(DatReaderWriter.Types.AnimationHook _animationHook)
         {
             switch (_animationHook.HookType)
             {
@@ -52,8 +52,8 @@ namespace ACViewer.Entity
                 case AnimationHookType.Ethereal:
                     return new EtherealHook(_animationHook);
 
-                case AnimationHookType.ForceAnimationHook32Bit:
-                    break;
+                //case AnimationHookType.ForceAnimationHook32Bit:
+                    //break;
 
                 case AnimationHookType.Luminous:
                     return new LuminousHook(_animationHook);

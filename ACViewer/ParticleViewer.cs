@@ -8,8 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop.Input;
 
 using ACE.DatLoader;
-using ACE.DatLoader.Entity.AnimationHooks;
-using ACE.Entity.Enum;
+//using ACE.DatLoader.Entity.AnimationHooks;
 using ACE.Server.Physics;
 using ACE.Server.Physics.Animation;
 
@@ -18,6 +17,9 @@ using ACViewer.Enum;
 using ACViewer.Model;
 using ACViewer.Render;
 using ACViewer.View;
+
+using DatReaderWriter.Enums;
+using DatReaderWriter.Types;
 
 namespace ACViewer
 {
@@ -52,10 +54,10 @@ namespace ACViewer
             return mods[0];
         }
 
-        public List<CreateParticleHook> GetCreateParticleHooks(uint pEffectTableID, PlayScript playScript, float mod = 0.0f)
+        public List<CreateParticleHook> GetCreateParticleHooks(uint pEffectTableID, DatReaderWriter.Enums.PlayScript playScript, float mod = 0.0f)
         {
-            var pEffectTable = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.PhysicsScriptTable>(pEffectTableID);
-            var scripts = pEffectTable.ScriptTable[(uint)playScript].Scripts;
+            DatManager.PortalDat.TryReadFileCache(pEffectTableID, out DatReaderWriter.DBObjs.PhysicsScriptTable pEffectTable);
+            var scripts = pEffectTable.ScriptTable[playScript].Scripts;
 
             var modIdx = GetModIdx(scripts.Select(s => s.Mod).OrderByDescending(m => m).ToList(), mod);
 
@@ -68,12 +70,12 @@ namespace ACViewer
         {
             var createParticleHooks = new List<CreateParticleHook>();
 
-            var script = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.PhysicsScript>(scriptID);
+            DatManager.PortalDat.TryReadFileCache(scriptID, out DatReaderWriter.DBObjs.PhysicsScript script);
 
             foreach (var scriptDataEntry in script.ScriptData)
             {
                 // AnimationHook
-                if (scriptDataEntry.Hook.HookType == AnimationHookType.CreateParticle)
+                if (scriptDataEntry.Hook.HookType == DatReaderWriter.Enums.AnimationHookType.CreateParticle)
                     createParticleHooks.Add(scriptDataEntry.Hook as CreateParticleHook);
             }
             return createParticleHooks;
@@ -111,14 +113,14 @@ namespace ACViewer
             InitEmitter(createParticleHooks, mod);
         }
 
-        public void InitEmitter(uint pEffectTableID, PlayScript playScript, float mod = 0.0f)
+        public void InitEmitter(uint pEffectTableID, DatReaderWriter.Enums.PlayScript playScript, float mod = 0.0f)
         {
             var createParticleHooks = GetCreateParticleHooks(pEffectTableID, playScript, mod);
 
             InitEmitter(createParticleHooks, mod);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
 
@@ -132,7 +134,7 @@ namespace ACViewer
             Camera.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GraphicsDevice.Clear(ConfigManager.Config.BackgroundColors.ParticleViewer);
 

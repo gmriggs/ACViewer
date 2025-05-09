@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class EtherealHook : AnimationHook
     {
-        public EtherealHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public EtherealHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.EtherealHook _etherealHook)
+            if (_hook is DatReaderWriter.Types.EtherealHook _etherealHook)
             {
                 treeNode.Add(new TreeNode($"Ethereal: {_etherealHook.Ethereal}"));
             }

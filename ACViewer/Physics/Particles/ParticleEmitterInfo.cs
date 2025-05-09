@@ -10,10 +10,10 @@ namespace ACE.Server.Physics
 {
     public class ParticleEmitterInfo
     {
-        public DatLoader.FileTypes.ParticleEmitterInfo _info;
+        public DatReaderWriter.DBObjs.ParticleEmitter _info;
 
-        public EmitterType EmitterType;
-        public ParticleType ParticleType;
+        public DatReaderWriter.Enums.EmitterType EmitterType;
+        public DatReaderWriter.Enums.ParticleType ParticleType;
         public bool IsParentLocal;
         public uint GfxObjID;
         public uint HWGfxObjID;
@@ -58,7 +58,7 @@ namespace ACE.Server.Physics
             FinalScale = 1.0f;
         }
 
-        public ParticleEmitterInfo(DatLoader.FileTypes.ParticleEmitterInfo info)
+        public ParticleEmitterInfo(DatReaderWriter.DBObjs.ParticleEmitter info)
         {
             _info = info;
             EmitterType = info.EmitterType;
@@ -91,7 +91,7 @@ namespace ACE.Server.Physics
             TransRand = info.TransRand;
             StartTrans = info.StartTrans;
             FinalTrans = info.FinalTrans;
-            IsParentLocal = info.IsParentLocal != 0;
+            IsParentLocal = info.IsParentLocal;
 
             InitEnd();
         }
@@ -156,12 +156,12 @@ namespace ACE.Server.Physics
         {
             if ((TotalParticles <= 0 || totalEmitted < TotalParticles) && numParticles < MaxParticles)
             {
-                if (EmitterType == EmitterType.BirthratePerSec)
+                if (EmitterType == DatReaderWriter.Enums.EmitterType.BirthratePerSec)
                 {
                     if (PhysicsTimer.CurrentTime - lastEmitTime > Birthrate)
                         return true;
                 }
-                else if (EmitterType == EmitterType.BirthratePerMeter)
+                else if (EmitterType == DatReaderWriter.Enums.EmitterType.BirthratePerMeter)
                 {
                     if (lastEmitTime < emitterOffset.LengthSquared())   // verify
                         return true;

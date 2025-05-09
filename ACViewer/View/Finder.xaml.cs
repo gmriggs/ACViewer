@@ -50,7 +50,7 @@ namespace ACViewer.View
             }
 
             // try lookup in portal.dat
-            if (DatManager.PortalDat.AllFiles.TryGetValue(did, out var portalFile))
+            if (DatManager.PortalDat.Tree.HasFile(did))
             {
                 datType = DatType.Portal;
                 //Console.WriteLine($"Found {did:X8} in portal");
@@ -59,7 +59,7 @@ namespace ACViewer.View
                     filetype = did;
             }
             // try lookup in cell.dat
-            else if (DatManager.CellDat.AllFiles.TryGetValue(did, out var cellFile))
+            else if (DatManager.CellDat.Tree.HasFile(did))
             {
                 datType = DatType.Cell;
                 //Console.WriteLine($"Found {did:X8} in cell");
@@ -71,13 +71,13 @@ namespace ACViewer.View
                     filetype = 0x100;   // there is a slight overlap of ~600 EnvCell IDs that are also in portal
             }
             // try lookup in language.dat
-            else if (DatManager.LanguageDat.AllFiles.TryGetValue(did, out var languageFile))
+            else if (DatManager.LanguageDat.Tree.HasFile(did))
             {
                 datType = DatType.Language;
                 //Console.WriteLine($"Found {did:X8} in language");
                 filetype = did >> 24;
             }
-            else if (DatManager.HighResDat.AllFiles.TryGetValue(did, out var highResFile))
+            else if (DatManager.HighResDat.Tree.HasFile(did))
             {
                 datType = DatType.HighRes;
                 //Console.WriteLine($"Found {did:X8} in highres");

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 using ACE.DatLoader;
 using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Types;
 
 namespace ACViewer.Model
 {
@@ -40,7 +44,7 @@ namespace ACViewer.Model
             {
                 if (subpalette.PaletteSet >> 24 == 0xF)
                 {
-                    var paletteSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(subpalette.PaletteSet);
+                    DatManager.PortalDat.TryReadFileCache(subpalette.PaletteSet, out PaletteSet paletteSet);
                     var paletteId = paletteSet.GetPaletteID(shade);
 
                     paletteIDs.Add(paletteId);

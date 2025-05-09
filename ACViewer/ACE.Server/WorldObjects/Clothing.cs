@@ -1,4 +1,5 @@
 ﻿using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity;
 using ACE.Entity.Enum.Properties;
@@ -33,7 +34,8 @@ namespace ACE.Server.WorldObjects
         /// </summary>
         public void SetProperties(int palette, double shade)
         {
-            var icon = DatManager.PortalDat.ReadFromDat<ClothingTable>(GetProperty(PropertyDataId.ClothingBase) ?? 0).GetIcon((uint)palette);
+            DatManager.PortalDat.TryReadFileCache(GetProperty(PropertyDataId.ClothingBase) ?? 0, out DatReaderWriter.DBObjs.Clothing clothing);
+            var icon = clothing.GetIcon((uint)palette);
 
             SetProperty(PropertyDataId.Icon, icon);
             SetProperty(PropertyInt.PaletteTemplate, palette);

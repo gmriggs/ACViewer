@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class ScaleHook : AnimationHook
     {
-        public ScaleHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public ScaleHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.ScaleHook _scaleHook)
+            if (_hook is DatReaderWriter.Types.ScaleHook _scaleHook)
             {
                 treeNode.Add(new TreeNode($"End: {_scaleHook.End}"));
                 treeNode.Add(new TreeNode($"Time: {_scaleHook.Time}"));

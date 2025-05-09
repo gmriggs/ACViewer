@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using ACE.Entity.Enum;
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
+using ACE.DatLoader.Extensions;
 using ACE.Server.WorldObjects;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Entity
 {
@@ -210,12 +212,12 @@ namespace ACE.Server.Entity
         /// <summary>
         /// The spell table from the portal.dat
         /// </summary>
-        public static SpellTable SpellTable { get => DatManager.PortalDat.SpellTable; }
+        public static SpellTable SpellTable { get => DatManager.PortalDat.SpellTable(); }
 
         /// <summary>
         /// The spell components table from the portal.dat
         /// </summary>
-        public static SpellComponentsTable SpellComponentsTable { get => DatManager.PortalDat.SpellComponentsTable; }
+        public static SpellComponentTable SpellComponentsTable { get => DatManager.PortalDat.SpellComponentTable(); }
 
         /// <summary>
         /// Builds the pseudo-randomized spell formula
@@ -234,10 +236,10 @@ namespace ACE.Server.Entity
         /// <summary>
         /// For monsters with PropertyBool.AiUseHumanMagicAnimations
         /// </summary>
-        public List<uint> GetMonsterFormula()
+        /*public List<uint> GetMonsterFormula()
         {
             return PlayerFormula = SpellTable.GetSpellFormula(SpellTable, Spell.Id, "");
-        }
+        }*/
 
         /// <summary>
         /// Returns the windup gesture from all the scarabs
@@ -250,7 +252,7 @@ namespace ACE.Server.Entity
 
                 foreach (var scarab in Scarabs)
                 {
-                    SpellComponentsTable.SpellComponents.TryGetValue((uint)scarab, out var component);
+                    SpellComponentsTable.Components.TryGetValue((uint)scarab, out var component);
                     if (component == null)
                     {
                         Console.WriteLine($"SpellFormula.WindupGestures error: spell ID {Spell.Id} contains scarab {scarab} not found in components table, skipping");
@@ -276,8 +278,8 @@ namespace ACE.Server.Entity
                     return MotionCommand.Invalid;
 
                 // ensure talisman
-                SpellComponentsTable.SpellComponents.TryGetValue(PlayerFormula.Last(), out var talisman);
-                if (talisman == null || talisman.Type != (uint)SpellComponentsTable.Type.Talisman)
+                SpellComponentsTable.Components.TryGetValue(PlayerFormula.Last(), out var talisman);
+                if (talisman == null || talisman.Type != DatReaderWriter.Enums.ComponentType.Talisman)
                 {
                     Console.WriteLine($"SpellFormula.CastGesture error: spell ID {Spell.Id} last component not talisman!");
                     return MotionCommand.Invalid;
@@ -316,12 +318,12 @@ namespace ACE.Server.Entity
         /// Returns the total casting time,
         /// based on windup + cast gestures
         /// </summary>
-        public float GetCastTime(uint motionTableID, float speed, MotionCommand? weaponCastGesture = null)
+        /*public float GetCastTime(uint motionTableID, float speed, MotionCommand? weaponCastGesture = null)
         {
             var windupMotion = WindupGestures.First();
             var castMotion = weaponCastGesture ?? CastGesture;
 
-            var motionTable = DatManager.PortalDat.ReadFromDat<MotionTable>(motionTableID);
+            DatManager.PortalDat.TryReadFileCache(motionTableID, out MotionTable motionTable);
 
             var windupTime = 0.0f;
             //var windupTime = motionTable.GetAnimationLength(MotionStance.Magic, windupMotion) / speed;
@@ -335,7 +337,7 @@ namespace ACE.Server.Entity
                 return castTime;
 
             return windupTime + castTime;
-        }
+        }*/
 
         public List<uint> GetFociFormula()
         {

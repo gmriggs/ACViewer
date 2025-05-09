@@ -10,9 +10,9 @@ namespace ACViewer.FileTypes
 {
     public class Texture
     {
-        public ACE.DatLoader.FileTypes.Texture _texture;
+        public DatReaderWriter.DBObjs.RenderSurface _texture;
 
-        public Texture(ACE.DatLoader.FileTypes.Texture texture)
+        public Texture(DatReaderWriter.DBObjs.RenderSurface texture)
         {
             _texture = texture;
         }
@@ -21,18 +21,18 @@ namespace ACViewer.FileTypes
         {
             var treeView = new TreeNode($"{_texture.Id:X8}");
 
-            var unknown = new TreeNode($"Unknown: {_texture.Unknown}");
+            //var unknown = new TreeNode($"Unknown: {_texture.Unknown}");
             var width = new TreeNode($"Width: {_texture.Width}");
             var height = new TreeNode($"Height: {_texture.Height}");
             var format = new TreeNode($"Type: {_texture.Format}");
-            var size = new TreeNode($"Size: {_texture.Length} bytes");
+            var size = new TreeNode($"Size: {_texture.SourceData.Length} bytes");
 
-            treeView.Items.AddRange(new List<TreeNode>() { unknown, width, height, format, size });
+            treeView.Items.AddRange(new List<TreeNode>() { /*unknown,*/ width, height, format, size });
 
-            if (_texture.DefaultPaletteId != null)
+            if (_texture.DefaultPaletteId != 0)
                 treeView.Items.Add(new TreeNode($"DefaultPalette: {_texture.DefaultPaletteId:X8}", clickable: true));
 
-            if (_texture.Format == SurfacePixelFormat.PFID_INDEX16)
+            if (_texture.Format == DatReaderWriter.Enums.PixelFormat.PFID_INDEX16)
             {
                 var sb = new StringBuilder();
 

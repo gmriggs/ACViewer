@@ -1,12 +1,13 @@
-﻿using ACViewer.Entity;
+﻿using ACE.DatLoader.Extensions;
+using ACViewer.Entity;
 
 namespace ACViewer.FileTypes
 {
     public class Palette
     {
-        public ACE.DatLoader.FileTypes.Palette _palette;
+        public DatReaderWriter.DBObjs.Palette _palette;
 
-        public Palette(ACE.DatLoader.FileTypes.Palette palette)
+        public Palette(DatReaderWriter.DBObjs.Palette palette)
         {
             _palette = palette;
         }
@@ -16,7 +17,7 @@ namespace ACViewer.FileTypes
             var treeView = new TreeNode($"{_palette.Id:X8}");
 
             foreach (var color in _palette.Colors)
-                treeView.Items.Add(new TreeNode(Color.ToRGBA(color)));
+                treeView.Items.Add(new TreeNode(Color.ToRGBA(color.ToUint32())));
 
             return treeView;
         }

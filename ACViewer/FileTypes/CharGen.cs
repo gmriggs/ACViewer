@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class CharGen
     {
-        public ACE.DatLoader.FileTypes.CharGen _charGen;
+        public DatReaderWriter.DBObjs.CharGen _charGen;
 
-        public CharGen(ACE.DatLoader.FileTypes.CharGen charGen)
+        public CharGen(DatReaderWriter.DBObjs.CharGen charGen)
         {
             _charGen = charGen;
         }
@@ -18,7 +18,7 @@ namespace ACViewer.FileTypes
             var treeView = new TreeNode($"{_charGen.Id:X8}");
 
             var starterAreas = new TreeNode("Starter Areas");
-            foreach (var starterArea in _charGen.StarterAreas)
+            foreach (var starterArea in _charGen.StartingAreas)
             {
                 var starterAreaTree = new StarterArea(starterArea).BuildTree();
                 var starterAreaNode = new TreeNode(starterAreaTree[0].Name.Replace("Name: ", ""));

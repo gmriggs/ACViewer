@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
-using ACE.Common;
 using ACE.Database;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity;
 using ACE.Entity.Enum;
@@ -14,6 +15,8 @@ using ACE.Server.Entity;
 using ACE.Server.Managers;
 //using ACE.Server.Network.Structure;
 using ACE.Server.Physics.Extensions;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.WorldObjects
 {
@@ -717,7 +720,18 @@ namespace ACE.Server.WorldObjects
 
         public Vector3 Omega => PhysicsObj?.Omega ?? Vector3.Zero;
 
-        public SetupModel CSetup => DatManager.PortalDat.ReadFromDat<SetupModel>(SetupTableId);
+        private Setup _cSetup;
+        
+        public Setup CSetup
+        {
+            get
+            {
+                if (_cSetup == null)
+                    DatManager.PortalDat.TryReadFileCache(SetupTableId, out _cSetup);
+                
+                return _cSetup;
+            }
+        }
 
         public uint? DefaultScriptId
         {
@@ -1263,7 +1277,7 @@ namespace ACE.Server.WorldObjects
         {
             if (ClothingBase.HasValue && (CurrentWieldedLocation & (EquipMask.Armor | EquipMask.Extremity)) != 0)
             {
-                ClothingTable item = DatManager.PortalDat.ReadFromDat<ClothingTable>((uint)ClothingBase);
+                DatManager.PortalDat.TryReadFileCache((uint)ClothingBase, out DatReaderWriter.DBObjs.Clothing item);
                 VisualClothingPriority = item.GetVisualPriority();
             }
         }
@@ -3068,7 +3082,7 @@ namespace ACE.Server.WorldObjects
             set { if (!value.HasValue) RemoveProperty(PropertyFloat.RotationSpeed); else SetProperty(PropertyFloat.RotationSpeed, value.Value); }
         }
 
-        public bool HasMissileFlightPlacement => CSetup.HasMissileFlightPlacement;
+        public bool HasMissileFlightPlacement => CSetup.PlacementFrames.ContainsKey(DatReaderWriter.Enums.Placement.MissileFlight);
 
         /// <summary>
         /// For items sold by vendors, StackSize of shop item profile from Vendor's CreateList.

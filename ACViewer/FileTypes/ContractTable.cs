@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class ContractTable
     {
-        public ACE.DatLoader.FileTypes.ContractTable _contractTable;
+        public DatReaderWriter.DBObjs.ContractTable _contractTable;
 
-        public ContractTable(ACE.DatLoader.FileTypes.ContractTable contractTable)
+        public ContractTable(DatReaderWriter.DBObjs.ContractTable contractTable)
         {
             _contractTable = contractTable;
         }

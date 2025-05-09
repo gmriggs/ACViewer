@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class AttackHook : AnimationHook
     {
-        public AttackHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public AttackHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.AttackHook _attackHook)
+            if (_hook is DatReaderWriter.Types.AttackHook _attackHook)
             {
                 var attackCone = new AttackCone(_attackHook.AttackCone);
                 treeNode.AddRange(attackCone.BuildTree());

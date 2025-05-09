@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ClothingSubPaletteEffect
     {
-        public ACE.DatLoader.Entity.CloSubPalEffect _effect;
+        public DatReaderWriter.Types.CloSubPalEffect _effect;
 
-        public ClothingSubPaletteEffect(ACE.DatLoader.Entity.CloSubPalEffect effect)
+        public ClothingSubPaletteEffect(DatReaderWriter.Types.CloSubPalEffect effect)
         {
             _effect = effect;
         }

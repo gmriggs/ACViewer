@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 
 namespace ACViewer.Entity
 {
     public class SpellSetTier
     {
-        public ACE.DatLoader.FileTypes.SpellSetTiers _spellSetTier;
+        public DatReaderWriter.Types.SpellSetTiers _spellSetTier;
 
-        public SpellSetTier(ACE.DatLoader.FileTypes.SpellSetTiers spellSetTier)
+        public SpellSetTier(DatReaderWriter.Types.SpellSetTiers spellSetTier)
         {
             _spellSetTier = spellSetTier;
         }
@@ -17,7 +18,7 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            var spellTable = DatManager.PortalDat.SpellTable;
+            var spellTable = DatManager.PortalDat.SpellTable();
 
             foreach (var spellId in _spellSetTier.Spells)
             {

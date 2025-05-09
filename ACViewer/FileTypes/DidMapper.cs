@@ -7,9 +7,9 @@ namespace ACViewer.FileTypes
 {
     public class DidMapper
     {
-        public ACE.DatLoader.FileTypes.DidMapper _didMapper;
+        public DatReaderWriter.DBObjs.DataIdMapper _didMapper;
 
-        public DidMapper(ACE.DatLoader.FileTypes.DidMapper didMapper)
+        public DidMapper(DatReaderWriter.DBObjs.DataIdMapper didMapper)
         {
             _didMapper = didMapper;
         }

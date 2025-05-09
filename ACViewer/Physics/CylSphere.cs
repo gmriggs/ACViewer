@@ -51,7 +51,7 @@ namespace ACE.Server.Physics
         /// <summary>
         /// Constructs a cylsphere loaded from portal.dat
         /// </summary>
-        public CylSphere(DatLoader.Entity.CylSphere cylSphere)
+        public CylSphere(DatReaderWriter.Types.CylSphere cylSphere)
         {
             LowPoint = cylSphere.Origin;
             Height = cylSphere.Height;

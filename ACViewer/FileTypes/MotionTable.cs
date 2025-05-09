@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using ACE.Entity.Enum;
+using DatReaderWriter.Enums;
 
 using ACViewer.Entity;
 
@@ -11,7 +11,7 @@ namespace ACViewer.FileTypes
     {
         public static Dictionary<ushort, MotionCommand> RawToInterpreted;
 
-        public ACE.DatLoader.FileTypes.MotionTable _motionTable;
+        public DatReaderWriter.DBObjs.MotionTable _motionTable;
 
         static MotionTable()
         {
@@ -22,7 +22,7 @@ namespace ACViewer.FileTypes
                 RawToInterpreted.Add((ushort)(uint)interpretedCommand, (MotionCommand)interpretedCommand);
         }
 
-        public MotionTable(ACE.DatLoader.FileTypes.MotionTable motionTable)
+        public MotionTable(DatReaderWriter.DBObjs.MotionTable motionTable)
         {
             _motionTable = motionTable;
         }
@@ -45,7 +45,7 @@ namespace ACViewer.FileTypes
             return stances.ToList();
         }
 
-        public List<MotionCommand> GetMotionCommands(MotionStance stance = MotionStance.Invalid)
+        public List<MotionCommand> GetMotionCommands(MotionCommand stance = MotionCommand.Invalid)
         {
             var commands = new HashSet<MotionCommand>();
 
@@ -69,7 +69,7 @@ namespace ACViewer.FileTypes
                 if ( (stanceMotion >> 16) != ((uint)stance & 0xFFFF))
                     continue;
 
-                foreach (var link in links.Keys)
+                foreach (var link in links.MotionData.Keys)
                 {
                     var rawCommand = (ushort)(link & 0xFFFF);
                     var motionCommand = RawToInterpreted[rawCommand];
@@ -116,7 +116,7 @@ namespace ACViewer.FileTypes
             foreach (var kvp in _motionTable.Links.OrderBy(i => i.Key))
             {
                 var link = new TreeNode(GetLabel(kvp.Key));
-                foreach (var kvpLink in kvp.Value.OrderBy(i => i.Key))
+                foreach (var kvpLink in kvp.Value.MotionData.OrderBy(i => i.Key))
                 {
                     var motion = new TreeNode(GetLabel(kvpLink.Key));
                     motion.Items.AddRange(new MotionData(kvpLink.Value).BuildTree());
@@ -130,14 +130,14 @@ namespace ACViewer.FileTypes
             return treeView;
         }
 
-        private static string GetLabel(uint combined)
+        private static string GetLabel(int combined)
         {
             var stanceKey = (ushort)(combined >> 16);
             var motionKey = (ushort)combined;
 
             if (RawToInterpreted.TryGetValue(stanceKey, out var stance) && RawToInterpreted.TryGetValue(motionKey, out var motion))
                 return $"{stance} - {motion}";
-            else if (System.Enum.IsDefined(typeof(MotionCommand), combined))
+            else if (System.Enum.IsDefined(typeof(MotionCommand), (uint)combined))
                 return $"{(MotionCommand)combined}";
             else
                 return $"{combined:X8}";

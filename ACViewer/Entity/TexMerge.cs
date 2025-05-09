@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TexMerge
     {
-        public ACE.DatLoader.Entity.TexMerge _texMerge;
+        public DatReaderWriter.Types.TexMerge _texMerge;
 
-        public TexMerge(ACE.DatLoader.Entity.TexMerge texMerge)
+        public TexMerge(DatReaderWriter.Types.TexMerge texMerge)
         {
             _texMerge = texMerge;
         }

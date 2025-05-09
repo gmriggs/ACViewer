@@ -2,9 +2,9 @@
 {
     public class LocationType
     {
-        public ACE.DatLoader.Entity.LocationType _locationType;
+        public DatReaderWriter.Types.LocationType _locationType;
 
-        public LocationType(ACE.DatLoader.Entity.LocationType locationType)
+        public LocationType(DatReaderWriter.Types.LocationType locationType)
         {
             _locationType = locationType;
         }

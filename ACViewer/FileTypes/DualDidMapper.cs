@@ -7,9 +7,9 @@ namespace ACViewer.FileTypes
 {
     public class DualDidMapper
     {
-        public ACE.DatLoader.FileTypes.DualDidMapper _dualDidMapper;
+        public DatReaderWriter.DBObjs.DualDataIdMapper _dualDidMapper;
 
-        public DualDidMapper(ACE.DatLoader.FileTypes.DualDidMapper dualDidMapper)
+        public DualDidMapper(DatReaderWriter.DBObjs.DualDataIdMapper dualDidMapper)
         {
             _dualDidMapper = dualDidMapper;
         }

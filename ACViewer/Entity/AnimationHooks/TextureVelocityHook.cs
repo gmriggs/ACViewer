@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class TextureVelocityHook : AnimationHook
     {
-        public TextureVelocityHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public TextureVelocityHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.TextureVelocityHook _textureVelocityHook)
+            if (_hook is DatReaderWriter.Types.TextureVelocityHook _textureVelocityHook)
             {
                 treeNode.Add(new TreeNode($"USpeed: {_textureVelocityHook.USpeed}"));
                 treeNode.Add(new TreeNode($"VSpeed: {_textureVelocityHook.VSpeed}"));

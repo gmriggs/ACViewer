@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 using ACE.DatLoader.Entity;
+using DatReaderWriter.Types;
 
 namespace ACViewer.Render
 {
@@ -121,7 +122,7 @@ namespace ACViewer.Render
             {
                 // only use this hack for envcells / possibly buildings?
                 // bugged path: 000102BF-> 0D000425-> 080000DF
-                if (polygon._polygon.Stippling == ACE.Entity.Enum.StipplingType.NoPos) continue;
+                if (polygon._polygon.Stippling == DatReaderWriter.Enums.StipplingType.NoPos) continue;
 
                 if (polygon.IndexBuffer == null)
                     polygon.BuildIndexBuffer();

@@ -6,6 +6,8 @@ using ACE.Entity.Enum;
 using ACE.DatLoader.Entity;
 using ACE.Server.Physics.Hooks;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Physics.Animation
 {
     public class Sequence
@@ -24,6 +26,8 @@ namespace ACE.Server.Physics.Animation
 
         public static HashSet<uint> PlayerIdleAnims;
 
+        public static AnimationHook AnimDoneHook;
+
         static Sequence()
         {
             PlayerIdleAnims = new HashSet<uint>();
@@ -39,6 +43,8 @@ namespace ACE.Server.Physics.Animation
             PlayerIdleAnims.Add(0x030008DF);    // ThrownShieldCombat
             PlayerIdleAnims.Add(0x0300049E);    // ThrownWeaponCombat
             PlayerIdleAnims.Add(0x03000B05);    // TwoHandedSwordCombat
+
+            AnimDoneHook = new AnimationDoneHook();
         }
 
         public bool is_idle_anim()
@@ -259,12 +265,12 @@ namespace ACE.Server.Physics.Animation
             Omega = Vector3.Zero;
         }
 
-        public void execute_hooks(AnimationFrame animFrame, AnimationHookDir dir)
+        public void execute_hooks(AnimationFrame animFrame, DatReaderWriter.Enums.AnimationHookDir dir)
         {
             if (animFrame == null || HookObj == null) return;
             foreach (var hook in animFrame.Hooks)
             {
-                if (hook.Direction == AnimationHookDir.Both || hook.Direction == dir)
+                if (hook.Direction == DatReaderWriter.Enums.AnimationHookDir.Both || hook.Direction == dir)
                     HookObj.add_anim_hook(hook);
             }
         }
@@ -386,7 +392,7 @@ namespace ACE.Server.Physics.Animation
                             apply_physics(frame, 1.0f / framerate, timeElapsed);
                     }
 
-                    execute_hooks(currAnim.get_part_frame(lastFrame), AnimationHookDir.Forward);
+                    execute_hooks(currAnim.get_part_frame(lastFrame), DatReaderWriter.Enums.AnimationHookDir.Forward);
                     lastFrame++;
                 }
             }
@@ -415,7 +421,7 @@ namespace ACE.Server.Physics.Animation
                             apply_physics(frame, 1.0f / framerate, timeElapsed);
                     }
 
-                    execute_hooks(currAnim.get_part_frame(lastFrame), AnimationHookDir.Backward);
+                    execute_hooks(currAnim.get_part_frame(lastFrame), DatReaderWriter.Enums.AnimationHookDir.Backward);
                     lastFrame--;
                 }
             }
@@ -432,7 +438,7 @@ namespace ACE.Server.Physics.Animation
             {
                 var node = AnimList.First;
                 if (!node.Equals(FirstCyclic))
-                    HookObj.add_anim_hook(AnimationHook.AnimDoneHook);
+                    HookObj.add_anim_hook(AnimDoneHook);
             }
 
             advance_to_next_animation(timeElapsed, ref animNode, ref frameNum, ref frame);

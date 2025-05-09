@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-using ACE.Entity.Enum;
+using DatReaderWriter.Enums;
 
 namespace ACViewer.Entity
 {
     public class MotionData
     {
-        public ACE.DatLoader.Entity.MotionData _motionData;
+        public DatReaderWriter.Types.MotionData _motionData;
 
-        public MotionData(ACE.DatLoader.Entity.MotionData motionData)
+        public MotionData(DatReaderWriter.Types.MotionData motionData)
         {
             _motionData = motionData;
         }

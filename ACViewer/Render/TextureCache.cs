@@ -10,11 +10,13 @@ using System.Windows;
 using Microsoft.Xna.Framework.Graphics;
 
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
-using ACE.Entity.Enum;
+using ACE.DatLoader.Extensions;
 
 using ACViewer.Model;
 using ACViewer.View;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Enums;
 
 namespace ACViewer.Render
 {
@@ -58,7 +60,7 @@ namespace ACViewer.Render
             Uncached = new List<Texture2D>();
         }
 
-        private static Texture2D LoadTexture(uint textureID, bool useDummy = false, Surface surface = null, PaletteChanges paletteChanges = null)
+        private static Texture2D LoadTexture(uint textureID, bool useDummy = false, DatReaderWriter.DBObjs.Surface surface = null, PaletteChanges paletteChanges = null)
         {
             //Console.WriteLine($"--> TextureCache.LoadTexture({textureID:X8})");
 
@@ -71,9 +73,8 @@ namespace ACViewer.Render
 
             MainWindow.Instance.Status.WriteLine($"Loading texture {textureID:X8}");
 
-            var texture = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.Texture>(textureID);
-            if (texture.SourceData == null && DatManager.HighResDat != null)
-                texture = DatManager.HighResDat.ReadFromDat<ACE.DatLoader.FileTypes.Texture>(textureID);
+            if (!DatManager.PortalDat.TryReadFileCache(textureID, out RenderSurface texture) && DatManager.HighResDat != null)
+                DatManager.HighResDat.TryReadFileCache(textureID, out texture);
 
             if (texture.SourceData == null)
             {
@@ -91,19 +92,19 @@ namespace ACViewer.Render
             var surfaceFormat = SurfaceFormat.Color;
             switch (texture.Format)
             {
-                case SurfacePixelFormat.PFID_DXT1:
+                case DatReaderWriter.Enums.PixelFormat.PFID_DXT1:
                     surfaceFormat = SurfaceFormat.Dxt1;
                     break;
-                case SurfacePixelFormat.PFID_DXT3:
+                case DatReaderWriter.Enums.PixelFormat.PFID_DXT3:
                     surfaceFormat = SurfaceFormat.Dxt3;
                     break;
-                case SurfacePixelFormat.PFID_DXT5:
+                case DatReaderWriter.Enums.PixelFormat.PFID_DXT5:
                     //if (!isClipMap)
                     surfaceFormat = SurfaceFormat.Dxt5;
                     break;
-                case SurfacePixelFormat.PFID_CUSTOM_LSCAPE_ALPHA:
-                case SurfacePixelFormat.PFID_A8:
-                case SurfacePixelFormat.PFID_P8:    // indexed color
+                case DatReaderWriter.Enums.PixelFormat.PFID_CUSTOM_LSCAPE_ALPHA:
+                case DatReaderWriter.Enums.PixelFormat.PFID_A8:
+                case DatReaderWriter.Enums.PixelFormat.PFID_P8:    // indexed color
                     surfaceFormat = SurfaceFormat.Alpha8;
                     break;
             }
@@ -118,26 +119,26 @@ namespace ACViewer.Render
             {
                 switch (texture.Format)
                 {
-                    case SurfacePixelFormat.PFID_R8G8B8:
-                    case SurfacePixelFormat.PFID_CUSTOM_LSCAPE_R8G8B8:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_R8G8B8:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_CUSTOM_LSCAPE_R8G8B8:
                         data = AddAlpha(data);
                         break;
-                    case SurfacePixelFormat.PFID_INDEX16:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_INDEX16:
                         data = IndexToColor(texture, isClipMap, paletteChanges);
                         break;
-                    case SurfacePixelFormat.PFID_CUSTOM_RAW_JPEG:
-                    case SurfacePixelFormat.PFID_R5G6B5:
-                    case SurfacePixelFormat.PFID_A4R4G4B4:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_CUSTOM_RAW_JPEG:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_R5G6B5:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_A4R4G4B4:
                     //case SurfacePixelFormat.PFID_DXT5:
                         var bitmap = texture.GetBitmap();
-                        if (texture.Format == SurfacePixelFormat.PFID_CUSTOM_RAW_JPEG)
+                        if (texture.Format == DatReaderWriter.Enums.PixelFormat.PFID_CUSTOM_RAW_JPEG)
                             SwapRedAndBlueChannels(bitmap);
                         var _tex = GetTexture2DFromBitmap(GameView.Instance.GraphicsDevice, bitmap);
                         //if (isClipMap)
                             //AdjustClip(_tex);
                         return _tex;
 
-                    case SurfacePixelFormat.PFID_A8R8G8B8:
+                    case DatReaderWriter.Enums.PixelFormat.PFID_A8R8G8B8:
                         ConvertToBGRA(data);
                         if (surface != null && surface.Translucency > 0)
                             PremultiplyAlpha(data, 1.0f - surface.Translucency);
@@ -193,18 +194,18 @@ namespace ACViewer.Render
 
         private static Texture2D LoadPaletteSet(uint paletteSetID)
         {
-            var paletteSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(paletteSetID);
+            DatManager.PortalDat.TryReadFileCache(paletteSetID, out DatReaderWriter.DBObjs.PaletteSet paletteSet);
 
-            var numPalettes = paletteSet.PaletteList.Count;
+            var numPalettes = paletteSet.Palettes.Count;
 
             var colors = new List<Microsoft.Xna.Framework.Color>();
 
-            for (var i = 0; i < paletteSet.PaletteList.Count; i++)
+            for (var i = 0; i < paletteSet.Palettes.Count; i++)
             {
-                var paletteID = paletteSet.PaletteList[i];
+                var paletteID = paletteSet.Palettes[i];
 
                 colors.AddRange(LoadPaletteColors(paletteID, out var width, out var height).ToList());
-                if (i < paletteSet.PaletteList.Count - 1)
+                if (i < paletteSet.Palettes.Count - 1)
                     colors.AddRange(Padding);
             }
             var setWidth = 64;
@@ -220,7 +221,7 @@ namespace ACViewer.Render
 
         private static Microsoft.Xna.Framework.Color[] LoadPaletteColors(uint paletteID, out int width, out int height)
         {
-            var palette = DatManager.PortalDat.ReadFromDat<Palette>(paletteID);
+            DatManager.PortalDat.TryReadFileCache(paletteID, out DatReaderWriter.DBObjs.Palette palette);
 
             var numColors = palette.Colors.Count;
 
@@ -244,10 +245,10 @@ namespace ACViewer.Render
                     var c = palette.Colors[colorNum];
 
                     var color = new Microsoft.Xna.Framework.Color();
-                    color.A = (byte)(c >> 24);
-                    color.R = (byte)(c >> 16 & 0xFF);
-                    color.G = (byte)(c >> 8 & 0xFF);
-                    color.B = (byte)(c & 0xFF);
+                    color.A = c.Alpha;
+                    color.R = c.Red;
+                    color.G = c.Green;
+                    color.B = c.Blue;
 
                     colors[colorNum] = color;
                 }
@@ -309,11 +310,11 @@ namespace ACViewer.Render
                 bgra[i] = (byte)(bgra[i] * alpha);
         }
 
-        private static byte[] IndexToColor(ACE.DatLoader.FileTypes.Texture texture, bool isClipMap = false, PaletteChanges paletteChanges = null)
+        private static byte[] IndexToColor(RenderSurface texture, bool isClipMap = false, PaletteChanges paletteChanges = null)
         {
             var colors = GetColors(texture);
             
-            var palette = DatManager.PortalDat.ReadFromDat<Palette>((uint)texture.DefaultPaletteId);
+            DatManager.PortalDat.TryReadFileCache(texture.DefaultPaletteId, out DatReaderWriter.DBObjs.Palette palette);
 
             // Make a copy of the Palette Colors, so we don't inadvertently save them back to the dat File Cache
             var paletteColors = palette.Colors.ToList();
@@ -325,7 +326,7 @@ namespace ACViewer.Render
                 {
                     var subpalette = paletteChanges.CloSubPalettes[i];
 
-                    var newPalette = DatManager.PortalDat.ReadFromDat<Palette>(paletteChanges.PaletteIds[i]);
+                    DatManager.PortalDat.TryReadFileCache(paletteChanges.PaletteIds[i], out DatReaderWriter.DBObjs.Palette newPalette);
 
                     foreach (var range in subpalette.Ranges)
                     {
@@ -348,10 +349,10 @@ namespace ACViewer.Render
                     var color = colors[idx];
                     var paletteColor = paletteColors[color];
 
-                    byte a = Convert.ToByte((paletteColor & 0xFF000000) >> 24);
-                    byte r = Convert.ToByte((paletteColor & 0xFF0000) >> 16);
-                    byte g = Convert.ToByte((paletteColor & 0xFF00) >> 8);
-                    byte b = Convert.ToByte(paletteColor & 0xFF);
+                    byte a = paletteColor.Alpha;
+                    byte r = paletteColor.Red;
+                    byte g = paletteColor.Green;
+                    byte b = paletteColor.Blue;
 
                     if (isClipMap && color < 8)
                         r = g = b = a = 0;
@@ -365,7 +366,7 @@ namespace ACViewer.Render
             return output;
         }
 
-        private static List<int> GetColors(ACE.DatLoader.FileTypes.Texture texture)
+        private static List<int> GetColors(RenderSurface texture)
         {
             var colors = new List<int>();
             using (BinaryReader reader = new BinaryReader(new MemoryStream(texture.SourceData)))
@@ -382,22 +383,22 @@ namespace ACViewer.Render
             if (surfaceID >> 24 != 0x8)
                 return Get(surfaceID);
             
-            var surface = DatManager.PortalDat.ReadFromDat<Surface>(surfaceID);
+            DatManager.PortalDat.TryReadFileCache(surfaceID, out DatReaderWriter.DBObjs.Surface surface);
 
-            if (surface.ColorValue != 0)
+            if (surface.ColorValue != null)
             {
                 // swatch
                 var swatch = new Texture2D(GameView.Instance.GraphicsDevice, 1, 1);
-                var a = surface.ColorValue >> 24;
-                var r = (surface.ColorValue >> 16) & 0xFF;
-                var g = (surface.ColorValue >> 8) & 0xFF;
-                var b = surface.ColorValue & 0xFF;
+                var a = surface.ColorValue.Alpha;
+                var r = surface.ColorValue.Red;
+                var g = surface.ColorValue.Green;
+                var b = surface.ColorValue.Blue;
                 a = 0;
                 swatch.SetDataAsync(new Microsoft.Xna.Framework.Color[] { new Microsoft.Xna.Framework.Color(r, g, b, a) });
                 return swatch;
             }
 
-            var surfaceTexture = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(surfaceTextureID);
+            DatManager.PortalDat.TryReadFileCache(surfaceTextureID, out DatReaderWriter.DBObjs.SurfaceTexture surfaceTexture);
 
             return GetTexture(surfaceTexture.Textures[0], surface, paletteChanges);
         }
@@ -413,19 +414,19 @@ namespace ACViewer.Render
             if (fileID >> 24 == 0x01)
             {
                 // gfxobj
-                var gfxObj = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.GfxObj>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.GfxObj gfxObj);
 
                 var surfaceID = gfxObj.Surfaces[0];
-                Surface surface = DatManager.PortalDat.ReadFromDat<Surface>(surfaceID);
+                DatManager.PortalDat.TryReadFileCache(surfaceID, out DatReaderWriter.DBObjs.Surface surface);
 
-                if (surface.ColorValue != 0)
+                if (surface.ColorValue != null)
                 {
                     // swatch
                     var swatch = new Texture2D(GameView.Instance.GraphicsDevice, 1, 1);
-                    var a = surface.ColorValue >> 24;
-                    var r = (surface.ColorValue >> 16) & 0xFF;
-                    var g = (surface.ColorValue >> 8) & 0xFF;
-                    var b = surface.ColorValue & 0xFF;
+                    var a = surface.ColorValue.Alpha;
+                    var r = surface.ColorValue.Red;
+                    var g = surface.ColorValue.Green;
+                    var b = surface.ColorValue.Blue;
                     swatch.SetDataAsync(new Microsoft.Xna.Framework.Color[] { new Microsoft.Xna.Framework.Color(r, g, b, a) });
                     return swatch;
                 }
@@ -435,7 +436,7 @@ namespace ACViewer.Render
                 if (textureChanges != null && textureChanges.TryGetValue(textureId, out var newTextureId))
                     textureId = newTextureId;
 
-                var surfaceTexture = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(textureId);
+                DatManager.PortalDat.TryReadFileCache(textureId, out DatReaderWriter.DBObjs.SurfaceTexture surfaceTexture);
 
                 return GetTexture(surfaceTexture.Textures[0], surface);
             }
@@ -453,7 +454,7 @@ namespace ACViewer.Render
             else if (fileID >> 24 == 0x05)
             {
                 // surface texture
-                var surfaceTexture = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.SurfaceTexture surfaceTexture);
 
                 return GetTexture(surfaceTexture.Textures[0], null, paletteChanges, useCache);
             }
@@ -466,17 +467,17 @@ namespace ACViewer.Render
             else if (fileID >> 24 == 0x08)
             {
                 // surface
-                var surface = DatManager.PortalDat.ReadFromDat<Surface>(fileID);
+                DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.Surface surface);
                 //Console.WriteLine($"Loading swatch {fileID:X8}");
 
-                if (surface.ColorValue != 0)
+                if (surface.ColorValue != null)
                 {
                     // swatch
                     var swatch = new Texture2D(GameView.Instance.GraphicsDevice, 1, 1);
-                    var a = (byte)(surface.ColorValue >> 24);
-                    var r = (byte)(surface.ColorValue >> 16);
-                    var g = (byte)(surface.ColorValue >> 8);
-                    var b = (byte)surface.ColorValue;
+                    var a = surface.ColorValue.Alpha;
+                    var r = surface.ColorValue.Red;
+                    var g = surface.ColorValue.Green;
+                    var b = surface.ColorValue.Blue;
 
                     if (surface.Translucency > 0)
                         a = (byte)(a * (1.0f - surface.Translucency));
@@ -490,14 +491,14 @@ namespace ACViewer.Render
                 if (textureChanges != null && textureChanges.TryGetValue(textureId, out var newTextureId))
                     textureId = newTextureId;
 
-                var surfaceTexture = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(textureId);
+                DatManager.PortalDat.TryReadFileCache(textureId, out DatReaderWriter.DBObjs.SurfaceTexture surfaceTexture);
 
                 return GetTexture(surfaceTexture.Textures[0], surface, paletteChanges, useCache);
             }
             return null;
         }
 
-        private static Texture2D GetTexture(uint textureID, Surface surface = null, PaletteChanges paletteChanges = null, bool useCache = true)
+        private static Texture2D GetTexture(uint textureID, DatReaderWriter.DBObjs.Surface surface = null, PaletteChanges paletteChanges = null, bool useCache = true)
         {
             //Console.WriteLine($"-> GetTexture({textureID:X8})");
 
@@ -573,7 +574,7 @@ namespace ACViewer.Render
             if (surfaceID >> 24 != 0x8)
                 return surfaceID;
             
-            var surface = DatManager.PortalDat.ReadFromDat<Surface>(surfaceID);
+            DatManager.PortalDat.TryReadFileCache(surfaceID, out DatReaderWriter.DBObjs.Surface surface);
 
             if (surface.OrigTextureId == 0)
                 return surfaceID;

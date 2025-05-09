@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Polygon
     {
-        public ACE.DatLoader.Entity.Polygon _polygon;
+        public DatReaderWriter.Types.Polygon _polygon;
 
-        public Polygon(ACE.DatLoader.Entity.Polygon polygon)
+        public Polygon(DatReaderWriter.Types.Polygon polygon)
         {
             _polygon = polygon;
         }

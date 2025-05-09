@@ -9,7 +9,7 @@ namespace ACE.Server.Physics.Animation
 
         public AnimData() { }
 
-        public AnimData(DatLoader.Entity.AnimData animData, float speed = 1.0f)
+        public AnimData(DatReaderWriter.Types.AnimData animData, float speed = 1.0f)
         {
             AnimID = animData.AnimId;
             LowFrame = animData.LowFrame;

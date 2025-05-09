@@ -3,10 +3,11 @@ using System.Linq;
 using System.Text;
 
 using ACE.DatLoader;
-using ACE.DatLoader.Entity;
-using ACE.DatLoader.FileTypes;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 using ACE.Server.WorldObjects;
+
+using DatReaderWriter.Types;
 
 namespace ACViewer.Model
 {
@@ -29,7 +30,7 @@ namespace ACViewer.Model
 
         public void Add(uint clothingTableID, PaletteTemplate paletteTemplate = PaletteTemplate.Undef, float shade = 0.0f)
         {
-            var clothingTable = DatManager.PortalDat.ReadFromDat<ClothingTable>(clothingTableID);
+            DatManager.PortalDat.TryReadFileCache(clothingTableID, out DatReaderWriter.DBObjs.Clothing clothingTable);
 
             if (!clothingTable.ClothingBaseEffects.TryGetValue(SetupId, out var baseEffect)) return;
 
@@ -82,17 +83,17 @@ namespace ACViewer.Model
                 // This indicates we have a Gear Knight or Olthoi (that is, player types treat "hairstyle" as "body style")
 
                 // Load the CharGen data. It has all the gfxobj & texture changes for the body style defined within it
-                var cg = DatManager.PortalDat.CharGen;
+                var cg = DatManager.PortalDat.CharGen();
 
                 var sex = cg.HeritageGroups[(uint)wo.Heritage].Genders[(int)wo.Gender];
 
-                if ((int)wo.HairStyle < sex.HairStyleList.Count)
+                if ((int)wo.HairStyle < sex.HairStyles.Count)
                 {
-                    var hairstyle = sex.HairStyleList[(int)wo.HairStyle];
+                    var hairstyle = sex.HairStyles[(int)wo.HairStyle];
 
                     // add gfxobj changes
                     foreach (var part in hairstyle.ObjDesc.AnimPartChanges)
-                        GetPartChange(part.PartIndex, part.PartID);
+                        GetPartChange(part.PartIndex, part.PartId);
 
                     // add texture changes
                     foreach (var textureChange in hairstyle.ObjDesc.TextureChanges)
@@ -166,7 +167,7 @@ namespace ACViewer.Model
             {
                 if (newGfxObjId == null)
                 {
-                    var setup = DatManager.PortalDat.ReadFromDat<SetupModel>(SetupId);
+                    DatManager.PortalDat.TryReadFileCache(SetupId, out DatReaderWriter.DBObjs.Setup setup);
 
                     if (partIdx >= setup.Parts.Count)
                         return null;

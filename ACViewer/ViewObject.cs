@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 
-using ACE.Entity.Enum;
 using ACE.Server.Physics;
 using ACE.Server.Physics.Animation;
 using ACE.Server.Physics.Common;
 using ACE.Server.WorldObjects;
 
 using ACViewer.Data;
+
+using DatReaderWriter.Enums;
 
 namespace ACViewer
 {
@@ -60,12 +61,12 @@ namespace ACViewer
             PhysicsObj.set_initial_frame(new AFrame());
         }
 
-        public void DoStance(MotionStance stance)
+        public void DoStance(MotionCommand stance)
         {
             var rawState = new RawMotionState();
             rawState.CurrentStyle = (uint)stance;
             rawState.ForwardCommand = (uint)MotionCommand.Ready;
-            rawState.CurrentHoldKey = HoldKey.Run;
+            rawState.CurrentHoldKey = ACE.Entity.Enum.HoldKey.Run;
 
             var motionInterp = PhysicsObj.get_minterp();
             motionInterp.RawState = rawState;
@@ -81,7 +82,7 @@ namespace ACViewer
 
             var rawState = new RawMotionState();
             rawState.CurrentStyle = motionInterp.InterpretedState.CurrentStyle;
-            rawState.CurrentHoldKey = HoldKey.Run;
+            rawState.CurrentHoldKey = ACE.Entity.Enum.HoldKey.Run;
 
             rawState.ForwardCommand = (uint)motionCommand;
 

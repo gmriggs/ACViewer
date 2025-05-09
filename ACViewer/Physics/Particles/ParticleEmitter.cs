@@ -102,7 +102,7 @@ namespace ACE.Server.Physics
         {
             var offset = Vector3.Zero;
 
-            if (Info.EmitterType == EmitterType.BirthratePerMeter)
+            if (Info.EmitterType == DatReaderWriter.Enums.EmitterType.BirthratePerMeter)
                 offset = PhysicsObj.Position.Frame.Origin - LastEmitOffset;
 
             return Info.ShouldEmitParticle(NumParticles, TotalEmitted, offset, LastEmitTime);

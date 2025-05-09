@@ -1,6 +1,6 @@
 ﻿using ACE.Common.Extensions;
 using ACE.DatLoader;
-using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Server.WorldObjects;
@@ -19,9 +19,9 @@ namespace ACE.Server.Entity
         /// </summary>
         public static uint GetFormula(Creature creature, Skill skill, bool current = true)
         {
-            var skillTable = DatManager.PortalDat.SkillTable;
+            var skillTable = DatManager.PortalDat.SkillTable();
 
-            if (!skillTable.SkillBaseHash.TryGetValue((uint)skill, out SkillBase skillBase))
+            if (!skillTable.Skills.TryGetValue((DatReaderWriter.Enums.SkillId)skill, out var skillBase))
                 return 0;
 
             return GetFormula(creature, skillBase.Formula, current);
@@ -33,16 +33,16 @@ namespace ACE.Server.Entity
         /// </summary>
         public static uint GetFormula(Creature creature, PropertyAttribute2nd vital, bool current = true)
         {
-            var vitalTable = DatManager.PortalDat.SecondaryAttributeTable;
+            var vitalTable = DatManager.PortalDat.VitalTable();
 
             switch (vital)
             {
                 case PropertyAttribute2nd.MaxHealth:
-                    return GetFormula(creature, vitalTable.MaxHealth.Formula, current);
+                    return GetFormula(creature, vitalTable.Health, current);
                 case PropertyAttribute2nd.MaxStamina:
-                    return GetFormula(creature, vitalTable.MaxStamina.Formula, current);
+                    return GetFormula(creature, vitalTable.Stamina, current);
                 case PropertyAttribute2nd.MaxMana:
-                    return GetFormula(creature, vitalTable.MaxMana.Formula, current);
+                    return GetFormula(creature, vitalTable.Mana, current);
                 default:
                     return 0;
             }
@@ -52,13 +52,13 @@ namespace ACE.Server.Entity
         /// Applies a SkillFormula from the portal.dat,
         /// using the primary attributes for a creature
         /// </summary>
-        public static uint GetFormula(Creature creature, DatLoader.Entity.SkillFormula formula, bool current = true)
+        public static uint GetFormula(Creature creature, DatReaderWriter.Types.SkillFormula formula, bool current = true)
         {
-            if (formula.X == 0) return 0;
+            if (!formula.HasSecondAttribute) return 0;
 
-            var attr1 = (PropertyAttribute)formula.Attr1;
-            var attr2 = (PropertyAttribute)formula.Attr2;
-            var divisor = formula.Z;
+            var attr1 = (PropertyAttribute)formula.Attribute1;
+            var attr2 = (PropertyAttribute)formula.Attribute2;
+            var divisor = formula.Divisor;
 
             var total = current ? creature.Attributes[attr1].Current : creature.Attributes[attr1].Base;
             if (attr2 != PropertyAttribute.Undef)

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class BldPortal
     {
-        public ACE.DatLoader.Entity.CBldPortal _portal;
+        public DatReaderWriter.Types.BuildingPortal _portal;
 
-        public BldPortal(ACE.DatLoader.Entity.CBldPortal portal)
+        public BldPortal(DatReaderWriter.Types.BuildingPortal portal)
         {
             _portal = portal;
         }

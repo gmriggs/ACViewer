@@ -2,7 +2,7 @@ namespace ACE.Server.Physics.Common
 {
     public class TerrainTex
     {
-        public DatLoader.Entity.TerrainTex _terrainTex;
+        public DatReaderWriter.Types.TerrainTex _terrainTex;
 
         public uint TexGID;
         public ImgTex BaseTexture;
@@ -21,7 +21,7 @@ namespace ACE.Server.Physics.Common
 
         public TerrainTex() { }
 
-        public TerrainTex(DatLoader.Entity.TerrainTex terrainTex)
+        public TerrainTex(DatReaderWriter.Types.TerrainTex terrainTex)
         {
             _terrainTex = terrainTex;
 

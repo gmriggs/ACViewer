@@ -1,24 +1,27 @@
 using System.Collections.Generic;
-using ACE.Entity.Enum;
+
+using ACE.DatLoader.Extensions;
+
+using DatReaderWriter.Enums;
 
 namespace ACE.Server.Physics.Common
 {
     public class BldPortal
     {
-        public PortalFlags Flags;
-        public bool ExactMatch;
-        public bool PortalSide;
-        public ushort OtherCellId;
-        public ushort OtherPortalId;
-        public List<ushort> StabList;
+        public PortalFlags Flags { get; set; }
+        public bool ExactMatch { get; set; }
+        public bool PortalSide { get; set; }
+        public ushort OtherCellId { get; set; }
+        public ushort OtherPortalId { get; set; }
+        public List<ushort> StabList { get; set; }
 
         public BldPortal() { }
 
-        public BldPortal(DatLoader.Entity.CBldPortal bldPortal)
+        public BldPortal(DatReaderWriter.Types.BuildingPortal bldPortal)
         {
             Flags = bldPortal.Flags;
-            ExactMatch = bldPortal.ExactMatch;
-            PortalSide = bldPortal.PortalSide;
+            ExactMatch = bldPortal.Flags.HasFlag(PortalFlags.ExactMatch);
+            PortalSide = bldPortal.PortalSide();
             OtherCellId = bldPortal.OtherCellId;
             OtherPortalId = bldPortal.OtherPortalId;
             StabList = bldPortal.StabList;

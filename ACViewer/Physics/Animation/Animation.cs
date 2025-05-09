@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using ACE.DatLoader.Entity;
+
+using DatReaderWriter.Types;
 
 namespace ACE.Server.Physics.Animation
 {
@@ -14,12 +15,12 @@ namespace ACE.Server.Physics.Animation
 
         public Animation() { }
 
-        public Animation(DatLoader.FileTypes.Animation anim)
+        public Animation(DatReaderWriter.DBObjs.Animation anim)
         {
             ID = anim.Id;
             HasHooks = false;   // comes from bitfield?
             NumParts = anim.NumParts;
-            NumFrames = anim.NumFrames;
+            NumFrames = (uint)anim.PosFrames.Count;
             PartFrames = anim.PartFrames;
             PosFrames = new List<AFrame>();
             foreach (var posFrame in anim.PosFrames)

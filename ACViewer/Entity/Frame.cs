@@ -2,9 +2,9 @@
 {
     public class Frame
     {
-        public ACE.DatLoader.Entity.Frame _frame;
+        public DatReaderWriter.Types.Frame _frame;
 
-        public Frame(ACE.DatLoader.Entity.Frame frame)
+        public Frame(DatReaderWriter.Types.Frame frame)
         {
             _frame = frame;
         }

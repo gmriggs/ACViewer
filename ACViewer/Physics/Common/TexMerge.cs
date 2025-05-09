@@ -9,7 +9,7 @@ namespace ACE.Server.Physics.Common
     {
         // mega thanks to parad0x for tremendous help with this class!
 
-        public DatLoader.Entity.TexMerge _texMerge;
+        public DatReaderWriter.Types.TexMerge _texMerge;
 
         public uint BaseTexSize;
         public List<TerrainAlphaMap> CornerTerrainMaps;
@@ -30,7 +30,7 @@ namespace ACE.Server.Physics.Common
             ImageShift.Add(ImageScaleType.Eighth, 3);
         }
 
-        public TexMerge(DatLoader.Entity.TexMerge texMerge)
+        public TexMerge(DatReaderWriter.Types.TexMerge texMerge)
         {
             _texMerge = texMerge;
 

@@ -22,7 +22,7 @@ namespace ACE.Server.Physics.Common
 
         public CellStruct() { }
 
-        public CellStruct(DatLoader.Entity.CellStruct cellStruct)
+        public CellStruct(DatReaderWriter.Types.CellStruct cellStruct)
         {
             Polygons = new Dictionary<ushort, Polygon>();
             foreach (var poly in cellStruct.Polygons)

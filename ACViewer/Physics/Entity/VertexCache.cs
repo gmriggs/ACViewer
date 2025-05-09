@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using ACE.DatLoader.Entity;
+using DatReaderWriter.Types;
 
 namespace ACE.Server.Physics.Entity
 {

@@ -45,12 +45,12 @@ namespace ACE.Server.Physics.BSP
             Type = type;
         }
 
-        public BSPNode(DatLoader.Entity.BSPNode node, Dictionary<ushort, DatLoader.Entity.Polygon> polys, DatLoader.Entity.CVertexArray vertexArray)
+        public BSPNode(DatReaderWriter.Types.BSPNode node, Dictionary<ushort, DatReaderWriter.Types.Polygon> polys, DatReaderWriter.Types.VertexArray vertexArray)
         {
             if (node.Sphere != null)
                 Sphere = new Sphere(node.Sphere);
-            if (node.SplittingPlane != null)
-                SplittingPlane = node.SplittingPlane.ToNumerics();
+            //if (node.SplittingPlane != null)
+            SplittingPlane = node.SplittingPlane;
             Typename = node.Type;
             //Typename
             if (node.InPolys != null)
@@ -63,17 +63,17 @@ namespace ACE.Server.Physics.BSP
             }
             if (node.PosNode != null)
             {
-                if (!(node.PosNode is DatLoader.Entity.BSPLeaf))
+                if (!(node.PosNode is DatReaderWriter.Types.BSPLeaf))
                     PosNode = new BSPNode(node.PosNode, polys, vertexArray);
                 else // portal?
-                    PosNode = new BSPLeaf((DatLoader.Entity.BSPLeaf)node.PosNode, polys, vertexArray);
+                    PosNode = new BSPLeaf((DatReaderWriter.Types.BSPLeaf)node.PosNode, polys, vertexArray);
             }
             if (node.NegNode != null)
             {
-                if (!(node.NegNode is DatLoader.Entity.BSPLeaf))
+                if (!(node.NegNode is DatReaderWriter.Types.BSPLeaf))
                     NegNode = new BSPNode(node.NegNode, polys, vertexArray);
                 else // portal?
-                    NegNode = new BSPLeaf((DatLoader.Entity.BSPLeaf)node.NegNode, polys, vertexArray);
+                    NegNode = new BSPLeaf((DatReaderWriter.Types.BSPLeaf)node.NegNode, polys, vertexArray);
             }
         }
 

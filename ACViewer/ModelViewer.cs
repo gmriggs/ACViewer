@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Framework.WpfInterop.Input;
 
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
-using ACE.Entity.Enum;
 
 using ACE.Server.Physics.Animation;
 
@@ -17,6 +15,9 @@ using ACViewer.Enum;
 using ACViewer.Model;
 using ACViewer.Render;
 using ACViewer.View;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Enums;
 
 namespace ACViewer
 {
@@ -73,7 +74,7 @@ namespace ACViewer
         /// <summary>
         /// Load a model with a ClothingTable
         /// </summary>
-        public void LoadModel(uint setupID, ClothingTable clothingBase, PaletteTemplate paletteTemplate, float shade)
+        public void LoadModel(uint setupID, Clothing clothingBase, ACE.Entity.Enum.PaletteTemplate paletteTemplate, float shade)
         {
             TextureCache.Init();
 
@@ -109,7 +110,8 @@ namespace ACViewer
         {
             // TODO: this should be more like WorldViewer, with support for various StaticObjects and their PhysicsEffects in the EnvCell
 
-            var envCell = new ACE.Server.Physics.Common.EnvCell(DatManager.CellDat.ReadFromDat<EnvCell>(envCellID));
+            DatManager.CellDat.TryReadFileCache(envCellID, out EnvCell _envCell);
+            var envCell = new ACE.Server.Physics.Common.EnvCell(_envCell);
             envCell.Pos = new ACE.Server.Physics.Common.Position();
             EnvCell = new R_EnvCell(envCell);
 
@@ -136,7 +138,7 @@ namespace ACViewer
                 LoadScript(Setup.Setup._setup.DefaultScript);
         }
 
-        public void DoStance(MotionStance stance)
+        public void DoStance(MotionCommand stance)
         {
             if (ViewObject != null)
                 ViewObject.DoStance(stance);

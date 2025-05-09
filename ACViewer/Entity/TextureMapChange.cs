@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TextureMapChange
     {
-        public ACE.DatLoader.Entity.TextureMapChange _textureChange;
+        public DatReaderWriter.Types.TextureMapChange _textureChange;
 
-        public TextureMapChange(ACE.DatLoader.Entity.TextureMapChange textureChange)
+        public TextureMapChange(DatReaderWriter.Types.TextureMapChange textureChange)
         {
             _textureChange = textureChange;
         }

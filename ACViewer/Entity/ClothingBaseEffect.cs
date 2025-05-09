@@ -5,9 +5,9 @@ namespace ACViewer.Entity
 {
     public class ClothingBaseEffect
     {
-        public ACE.DatLoader.Entity.ClothingBaseEffect _baseEffect;
+        public DatReaderWriter.Types.ClothingBaseEffect _baseEffect;
 
-        public ClothingBaseEffect(ACE.DatLoader.Entity.ClothingBaseEffect baseEffect)
+        public ClothingBaseEffect(DatReaderWriter.Types.ClothingBaseEffect baseEffect)
         {
             _baseEffect = baseEffect;
         }

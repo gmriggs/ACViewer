@@ -23,8 +23,8 @@ namespace ACE.Server.Physics.Common
         public LandDefs.Direction Dir;
         public Vector2 Closest;
         public BoundingType InView;
-        public CellLandblock _landblock;
-        public LandblockInfo Info;
+        public DatReaderWriter.DBObjs.LandBlock _landblock;
+        public DatReaderWriter.DBObjs.LandBlockInfo Info;
         public List<PhysicsObj> StaticObjects;
         public List<BuildingObj> Buildings;
         public List<ushort> StabList;
@@ -39,7 +39,7 @@ namespace ACE.Server.Physics.Common
             Init();
         }
 
-        public Landblock(CellLandblock landblock)
+        public Landblock(DatReaderWriter.DBObjs.LandBlock landblock)
             : base(landblock)
         {
             Init();
@@ -189,15 +189,16 @@ namespace ACE.Server.Physics.Common
             var blockX = (ID >> 24) * 8;
             var blockY = (ID >> 16 & 0xFF) * 8;
 
-            for (uint i = 0; i < Terrain.Count; i++)
+            for (uint i = 0; i < Terrain.Length; i++)
             {
                 var terrain = Terrain[(int)i];
 
-                var terrainType = terrain >> 2 & 0x1F;      // TerrainTypes table size = 32 (grass, desert, volcano, etc.)
-                var sceneType = terrain >> 11;              // SceneTypes table size = 89 total, 32 which can be indexed for each terrain type
+                var terrainType = (ushort)terrain.Type;      // TerrainTypes table size = 32 (grass, desert, volcano, etc.)
+                var sceneType = terrain.Scenery;              // SceneTypes table size = 89 total, 32 which can be indexed for each terrain type
 
-                var sceneInfo = (int)DatManager.PortalDat.RegionDesc.TerrainInfo.TerrainTypes[terrainType].SceneTypes[sceneType];
-                var scenes = DatManager.PortalDat.RegionDesc.SceneInfo.SceneTypes[sceneInfo].Scenes;
+                DatManager.PortalDat.TryReadFileCache(0x13000000, out DatReaderWriter.DBObjs.Region regionDesc);
+                var sceneInfo = (int)regionDesc.TerrainInfo.TerrainTypes[terrainType].SceneTypes[sceneType];
+                var scenes = regionDesc.SceneInfo.SceneTypes[sceneInfo].Scenes;
                 if (scenes.Count == 0) continue;
 
                 var cellX = i / LandDefs.VertexDim;
@@ -213,7 +214,7 @@ namespace ACE.Server.Physics.Common
 
                 var sceneId = scenes[scene_idx];
 
-                var scene = DatManager.PortalDat.ReadFromDat<Scene>(sceneId);
+                DatManager.PortalDat.TryReadFileCache(sceneId, out DatReaderWriter.DBObjs.Scene scene);
 
                 var cellXMat = -1109124029 * globalCellX;
                 var cellYMat = 1813693831 * globalCellY;
@@ -224,7 +225,7 @@ namespace ACE.Server.Physics.Common
                     var obj = scene.Objects[(int)j];
                     var noise = (uint)(cellXMat + cellYMat - cellMat * (23399 + j)) * 2.3283064e-10;
 
-                    if (noise < obj.Freq && obj.WeenieObj == 0)
+                    if (noise < obj.Frequency && obj.WeenieObj == 0)
                     {
                         // pseudo-randomized placement
                         var position = ObjectDesc.Displace(obj, globalCellX, globalCellY, j);
@@ -263,7 +264,7 @@ namespace ACE.Server.Physics.Common
                             pos.Frame = ObjectDesc.RotateObj(obj, globalCellX, globalCellY, j, pos.Frame.Origin);
 
                         // build object
-                        var physicsObj = PhysicsObj.makeObject(obj.ObjId, 0, false);
+                        var physicsObj = PhysicsObj.makeObject(obj.ObjectId, 0, false);
                         physicsObj.DatObject = true;
                         physicsObj.set_initial_frame(pos.Frame);
                         if (!physicsObj.obj_within_block())
@@ -289,12 +290,12 @@ namespace ACE.Server.Physics.Common
         /// <summary>
         /// Returns TRUE if x,y is located on a road cell
         /// </summary>
-        public bool IsRoad(DatLoader.Entity.ObjectDesc obj, float x, float y)
+        public bool IsRoad(DatReaderWriter.Types.ObjectDesc obj, float x, float y)
         {
             var cellX = (int)Math.Floor(x / LandDefs.CellLength);
             var cellY = (int)Math.Floor(y / LandDefs.CellLength);
             var terrain = Terrain[cellX * LandDefs.BlockSide + cellY];     // ensure within bounds?
-            return (terrain & 0x3) != 0;    // TODO: more complicated check for within road range
+            return terrain.Road != 0;    // TODO: more complicated check for within road range
         }
 
         public bool OnRoad(Vector3 obj)
@@ -399,9 +400,7 @@ namespace ACE.Server.Physics.Common
 
         public uint GetRoad(int x, int y)
         {
-            ushort t0 = Terrain[x * 9 + y];
-            t0 = (ushort)(t0 & ((1 << 2) - 1));
-            return t0;
+            return (uint)Terrain[x * 9 + y].Road & 3;
         }
 
         public LandCell get_landcell(uint cellID)
@@ -416,12 +415,12 @@ namespace ACE.Server.Physics.Common
                 return null;
         }
 
-        public uint get_terrain(uint cellID, Vector3 point)
+        /*public uint get_terrain(uint cellID, Vector3 point)
         {
             var lcoord = LandDefs.gid_to_lcoord(cellID).Value;
 
-            return Terrain[(int)lcoord.X * 255 * 9 + (int)lcoord.Y];
-        }
+            return (uint)Terrain[(int)lcoord.X * 255 * 9 + (int)lcoord.Y];
+        }*/
 
         public void grab_visible_cells()
         {
@@ -504,9 +503,9 @@ namespace ACE.Server.Physics.Common
                     add_static_object(obj);
                 }
 
-                if (Info.RestrictionTables != null)
+                if (Info.RestrictionTable != null)
                 {
-                    foreach (var kvp in Info.RestrictionTables)
+                    foreach (var kvp in Info.RestrictionTable)
                     {
                         var lcoord = LandDefs.gid_to_lcoord(kvp.Key);
 

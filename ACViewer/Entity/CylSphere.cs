@@ -2,9 +2,9 @@
 {
     public class CylSphere
     {
-        public ACE.DatLoader.Entity.CylSphere _cylSphere;
+        public DatReaderWriter.Types.CylSphere _cylSphere;
 
-        public CylSphere(ACE.DatLoader.Entity.CylSphere cylSphere)
+        public CylSphere(DatReaderWriter.Types.CylSphere cylSphere)
         {
             _cylSphere = cylSphere;
         }

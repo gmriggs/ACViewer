@@ -25,7 +25,7 @@ namespace ACE.Server.Physics.BSP
             RootNode = rootNode;
         }
 
-        public BSPTree(DatLoader.Entity.BSPTree bsp, Dictionary<ushort, DatLoader.Entity.Polygon> polys, DatLoader.Entity.CVertexArray vertexArray)
+        public BSPTree(DatReaderWriter.Types.BSPTree bsp, Dictionary<ushort, DatReaderWriter.Types.Polygon> polys, DatReaderWriter.Types.VertexArray vertexArray)
         {
             RootNode = new BSPNode(bsp.RootNode, polys, vertexArray);
         }

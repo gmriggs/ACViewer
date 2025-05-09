@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class SpellComponentsTable
     {
-        public ACE.DatLoader.FileTypes.SpellComponentsTable _spellComponentsTable;
+        public DatReaderWriter.DBObjs.SpellComponentTable _spellComponentsTable;
 
-        public SpellComponentsTable(ACE.DatLoader.FileTypes.SpellComponentsTable spellComponentsTable)
+        public SpellComponentsTable(DatReaderWriter.DBObjs.SpellComponentTable spellComponentsTable)
         {
             _spellComponentsTable = spellComponentsTable;
         }
@@ -15,7 +15,7 @@ namespace ACViewer.FileTypes
         {
             var treeView = new TreeNode($"{_spellComponentsTable.Id:X8}");
 
-            foreach (var kvp in _spellComponentsTable.SpellComponents)
+            foreach (var kvp in _spellComponentsTable.Components)
             {
                 var spellComponentNode = new TreeNode($"{kvp.Key}: {kvp.Value.Name}");
                 spellComponentNode.Items = new Entity.SpellComponentBase(kvp.Value).BuildTree();

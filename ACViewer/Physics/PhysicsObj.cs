@@ -62,7 +62,7 @@ namespace ACE.Server.Physics
         public Vector3 Acceleration;
         public Vector3 Omega;
         public List<PhysicsObjHook> Hooks;
-        public List<DatLoader.Entity.AnimationHook> AnimHooks;
+        public List<DatReaderWriter.Types.AnimationHook> AnimHooks;
         public float Scale;
         public float AttackRadius;
         public DetectionManager DetectionManager;
@@ -132,7 +132,7 @@ namespace ACE.Server.Physics
             SlidingNormal = Vector3.Zero;
             CachedVelocity = Vector3.Zero;
             Hooks = new List<PhysicsObjHook>();
-            AnimHooks = new List<DatLoader.Entity.AnimationHook>();
+            AnimHooks = new List<DatReaderWriter.Types.AnimationHook>();
             Children = new ChildList();
             ShadowObjects = new Dictionary<uint, ShadowObj>();
             CollisionTable = new Dictionary<uint, CollisionRecord>();
@@ -1934,7 +1934,7 @@ namespace ACE.Server.Physics
                 child.UpdateViewerDistanceRecursive();
         }
 
-        public void add_anim_hook(DatLoader.Entity.AnimationHook hook)
+        public void add_anim_hook(DatReaderWriter.Types.AnimationHook hook)
         {
             AnimHooks.Add(hook);
         }

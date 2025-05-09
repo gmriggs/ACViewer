@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class SkillTable
     {
-        public ACE.DatLoader.FileTypes.SkillTable _skillTable;
+        public DatReaderWriter.DBObjs.SkillTable _skillTable;
 
-        public SkillTable(ACE.DatLoader.FileTypes.SkillTable skillTable)
+        public SkillTable(DatReaderWriter.DBObjs.SkillTable skillTable)
         {
             _skillTable = skillTable;
         }
@@ -17,7 +17,7 @@ namespace ACViewer.FileTypes
         {
             var treeView = new TreeNode($"{_skillTable.Id:X8}");
 
-            foreach (var skill in _skillTable.SkillBaseHash.OrderBy(i => i.Key))
+            foreach (var skill in _skillTable.Skills.OrderBy(i => i.Key))
             {
                 // skip retired skills, empty data
                 if (string.IsNullOrEmpty(skill.Value.Name))

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
+using ACE.DatLoader.Extensions;
 using ACE.Server.Physics.Common;
 
 namespace ACE.Server.Physics.Collision
@@ -11,14 +12,15 @@ namespace ACE.Server.Physics.Collision
 
         public BBox() { }
 
-        public BBox(List<DatLoader.Entity.Polygon> polys, Matrix4x4 transform)
+        public BBox(List<DatReaderWriter.Types.Polygon> polys, Matrix4x4 transform)
         {
             Min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
             foreach (var poly in polys)
             {
-                foreach (var vertex in poly.Vertices)
+                // FIXME - polygon.Vertices
+                /*foreach (var vertex in poly.Vertices())
                 {
                     var v = Vector3.Transform(vertex.Origin, transform);
 
@@ -29,7 +31,7 @@ namespace ACE.Server.Physics.Collision
                     if (v.X > Max.X) Max.X = v.X;
                     if (v.Y > Max.Y) Max.Y = v.Y;
                     if (v.Z > Max.Z) Max.Z = v.Z;
-                }
+                }*/
             }
         }
 

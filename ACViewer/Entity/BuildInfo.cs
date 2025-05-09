@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class BuildInfo
     {
-        public ACE.DatLoader.Entity.BuildInfo _buildInfo;
+        public DatReaderWriter.Types.BuildingInfo _buildInfo;
 
-        public BuildInfo(ACE.DatLoader.Entity.BuildInfo buildInfo)
+        public BuildInfo(DatReaderWriter.Types.BuildingInfo buildInfo)
         {
             _buildInfo = buildInfo;
         }

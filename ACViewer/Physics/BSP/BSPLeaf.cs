@@ -21,7 +21,7 @@ namespace ACE.Server.Physics.BSP
         {
         }
 
-        public BSPLeaf(DatLoader.Entity.BSPLeaf node, Dictionary<ushort, DatLoader.Entity.Polygon> polys, DatLoader.Entity.CVertexArray vertexArray)
+        public BSPLeaf(DatReaderWriter.Types.BSPLeaf node, Dictionary<ushort, DatReaderWriter.Types.Polygon> polys, DatReaderWriter.Types.VertexArray vertexArray)
             : base(node, polys, vertexArray)
         {
             LeafIdx = node.LeafIndex;

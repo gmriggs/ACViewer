@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class LandDefs
     {
-        public ACE.DatLoader.Entity.LandDefs _landDefs;
+        public DatReaderWriter.Types.LandDefs _landDefs;
 
-        public LandDefs(ACE.DatLoader.Entity.LandDefs landDefs)
+        public LandDefs(DatReaderWriter.Types.LandDefs landDefs)
         {
             _landDefs = landDefs;
         }
@@ -23,7 +23,7 @@ namespace ACViewer.Entity
             var roadWidth = new TreeNode($"RoadWidth: {_landDefs.RoadWidth}");
 
             var landHeightTable = new TreeNode("LandHeightTable:");
-            for (var i = 0; i < _landDefs.LandHeightTable.Count; i++)
+            for (var i = 0; i < _landDefs.LandHeightTable.Length; i++)
                 landHeightTable.Items.Add(new TreeNode($"{i}: {_landDefs.LandHeightTable[i]}"));
 
             return new List<TreeNode>() { numBlockLength, numBlockWidth, squareLength, lBlockLength, vertexPerCell, maxObjHeight, skyHeight, roadWidth, landHeightTable };

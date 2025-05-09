@@ -4,16 +4,16 @@ namespace ACViewer.Entity
 {
     public class PlacementType
     {
-        public ACE.DatLoader.Entity.PlacementType _placementType;
+        public DatReaderWriter.Types.AnimationFrame _placementType;
 
-        public PlacementType(ACE.DatLoader.Entity.PlacementType placementType)
+        public PlacementType(DatReaderWriter.Types.AnimationFrame placementType)
         {
             _placementType = placementType;
         }
 
         public List<TreeNode> BuildTree()
         {
-            return new AnimationFrame(_placementType.AnimFrame).BuildTree();
+            return new AnimationFrame(_placementType).BuildTree();
         }
     }
 }

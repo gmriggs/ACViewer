@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 
-using ACE.Entity.Enum;
-
 using ACViewer.Entity;
+
+using DatReaderWriter.Enums;
 
 namespace ACViewer.FileTypes
 {
     public class GfxObj
     {
-        public ACE.DatLoader.FileTypes.GfxObj _gfxObj;
+        public DatReaderWriter.DBObjs.GfxObj _gfxObj;
 
-        public GfxObj(ACE.DatLoader.FileTypes.GfxObj gfxObj)
+        public GfxObj(DatReaderWriter.DBObjs.GfxObj gfxObj)
         {
             _gfxObj = gfxObj;
         }
@@ -42,7 +42,7 @@ namespace ACViewer.FileTypes
 
                 var physicsBSP = new TreeNode("PhysicsBSP");
                 if (_gfxObj.PhysicsBSP != null)
-                    physicsBSP.Items.AddRange(new BSPTree(_gfxObj.PhysicsBSP).BuildTree(BSPType.Physics).Items);
+                    physicsBSP.Items.AddRange(new BSPTree(_gfxObj.PhysicsBSP).BuildTree(ACE.Entity.Enum.BSPType.Physics).Items);
 
                 treeView.Items.AddRange(new List<TreeNode>() { physicsPolygons, physicsBSP });
             }
@@ -62,7 +62,7 @@ namespace ACViewer.FileTypes
 
                 var drawingBSP = new TreeNode("DrawingBSP");
                 if (_gfxObj.DrawingBSP != null)
-                    drawingBSP.Items.AddRange(new BSPTree(_gfxObj.DrawingBSP).BuildTree(BSPType.Drawing).Items);
+                    drawingBSP.Items.AddRange(new BSPTree(_gfxObj.DrawingBSP).BuildTree(ACE.Entity.Enum.BSPType.Drawing).Items);
 
                 treeView.Items.AddRange(new List<TreeNode>() { polygons, drawingBSP });
             }

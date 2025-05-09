@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SoundDesc
     {
-        public ACE.DatLoader.Entity.SoundDesc _soundDesc;
+        public DatReaderWriter.Types.SoundDesc _soundDesc;
 
-        public SoundDesc(ACE.DatLoader.Entity.SoundDesc soundDesc)
+        public SoundDesc(DatReaderWriter.Types.SoundDesc soundDesc)
         {
             _soundDesc = soundDesc;
         }

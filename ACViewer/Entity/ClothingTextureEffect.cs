@@ -2,9 +2,9 @@
 {
     public class ClothingTextureEffect
     {
-        public ACE.DatLoader.Entity.CloTextureEffect _effect;
+        public DatReaderWriter.Types.CloTextureEffect _effect;
 
-        public ClothingTextureEffect(ACE.DatLoader.Entity.CloTextureEffect effect)
+        public ClothingTextureEffect(DatReaderWriter.Types.CloTextureEffect effect)
         {
             _effect = effect;
         }

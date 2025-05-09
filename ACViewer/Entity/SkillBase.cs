@@ -12,9 +12,9 @@ namespace ACViewer.Entity
             Magic  = 3
         };
         
-        public ACE.DatLoader.Entity.SkillBase _skillBase;
+        public DatReaderWriter.Types.SkillBase _skillBase;
 
-        public SkillBase(ACE.DatLoader.Entity.SkillBase skillBase)
+        public SkillBase(DatReaderWriter.Types.SkillBase skillBase)
         {
             _skillBase = skillBase;
         }

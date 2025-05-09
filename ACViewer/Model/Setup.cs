@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity.Enum;
 
@@ -11,7 +12,7 @@ namespace ACViewer.Model
 {
     public class Setup
     {
-        public SetupModel _setup { get; set; }
+        public DatReaderWriter.DBObjs.Setup _setup { get; set; }
 
         public List<GfxObj> Parts { get; set; }
 
@@ -31,7 +32,8 @@ namespace ACViewer.Model
                 return;
             }
 
-            _setup = DatManager.PortalDat.ReadFromDat<SetupModel>(setupID);
+            DatManager.PortalDat.TryReadFileCache(setupID, out DatReaderWriter.DBObjs.Setup s);
+            _setup = s;
 
             Parts = new List<GfxObj>();
 
@@ -40,12 +42,12 @@ namespace ACViewer.Model
 
             PlacementFrames = new List<Matrix>();
 
-            if (!_setup.PlacementFrames.TryGetValue((int)Placement.Resting, out var placementFrames))
-                _setup.PlacementFrames.TryGetValue((int)Placement.Default, out placementFrames);
+            if (!_setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Resting, out var placementFrames))
+                _setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Default, out placementFrames);
 
             if (placementFrames != null)
             {
-                foreach (var placementFrame in placementFrames.AnimFrame.Frames)
+                foreach (var placementFrame in placementFrames.Frames)
                     PlacementFrames.Add(placementFrame.ToXna());
             }
 
@@ -61,7 +63,8 @@ namespace ACViewer.Model
                 BuildBoundingBox();
                 return;
             }
-            _setup = DatManager.PortalDat.ReadFromDat<SetupModel>(setupID);
+            DatManager.PortalDat.TryReadFileCache(setupID, out DatReaderWriter.DBObjs.Setup s);
+            _setup = s;
 
             Parts = new List<GfxObj>();
 
@@ -92,10 +95,10 @@ namespace ACViewer.Model
 
             PlacementFrames = new List<Matrix>();
 
-            if (!_setup.PlacementFrames.TryGetValue((int)Placement.Resting, out var placementFrames))
-                _setup.PlacementFrames.TryGetValue((int)Placement.Default, out placementFrames);
+            if (!_setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Resting, out var placementFrames))
+                _setup.PlacementFrames.TryGetValue(DatReaderWriter.Enums.Placement.Default, out placementFrames);
 
-            foreach (var placementFrame in placementFrames.AnimFrame.Frames)
+            foreach (var placementFrame in placementFrames.Frames)
                 PlacementFrames.Add(placementFrame.ToXna());
 
             BuildBoundingBox();
@@ -103,7 +106,8 @@ namespace ACViewer.Model
 
         public void MakeSimpleSetup(uint gfxObjID)
         {
-            _setup = SetupModel.CreateSimpleSetup();
+            _setup = new DatReaderWriter.DBObjs.Setup();
+            _setup.CreateSimpleSetup();
 
             Parts = new List<GfxObj>(1);
 

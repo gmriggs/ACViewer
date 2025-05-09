@@ -13,7 +13,7 @@ namespace ACViewer.Render
         public int Height { get; set; }
         public bool IsAdditive { get; set; }
 
-        public ParticleTextureFormat(SurfaceFormat surfaceFormat, SurfaceType surfaceType, int width, int height)
+        public ParticleTextureFormat(SurfaceFormat surfaceFormat, DatReaderWriter.Enums.SurfaceType surfaceType, int width, int height)
         {
             SurfaceFormat = surfaceFormat;
             //SurfaceType = surfaceType;

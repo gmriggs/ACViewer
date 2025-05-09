@@ -9,9 +9,9 @@ namespace ACViewer.FileTypes
 {
     public class SpellTable
     {
-        public ACE.DatLoader.FileTypes.SpellTable _spellTable;
+        public DatReaderWriter.DBObjs.SpellTable _spellTable;
 
-        public SpellTable(ACE.DatLoader.FileTypes.SpellTable spellTable)
+        public SpellTable(DatReaderWriter.DBObjs.SpellTable spellTable)
         {
             _spellTable = spellTable;
         }
@@ -31,7 +31,7 @@ namespace ACViewer.FileTypes
 
             var spellSets = new TreeNode($"Spell Sets");
             
-            foreach (var kvp in _spellTable.SpellSet.OrderBy(i => i.Key))
+            foreach (var kvp in _spellTable.SpellsSets.OrderBy(i => i.Key))
             {
                 var spellSetNode = new TreeNode($"{kvp.Key}: {(EquipmentSet)kvp.Key}");
                 spellSetNode.Items = new Entity.SpellSet(kvp.Value).BuildTree();

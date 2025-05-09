@@ -93,7 +93,7 @@ namespace ACViewer.View
 
             uint filetype = 0;
 
-            if (DatManager.PortalDat.AllFiles.TryGetValue(clothingBase, out var portalFile))
+            if (DatManager.PortalDat.TryReadFileCache(clothingBase, out DatReaderWriter.DBObjs.Clothing portalFile))
             {
                 filetype = clothingBase >> 24;
                 var fileTypeSelect = FileExplorer.FileTypes.FirstOrDefault(i => i.ID == filetype);
@@ -118,7 +118,7 @@ namespace ACViewer.View
                                 FileExplorer.Instance.Files.SelectedItem = file;
                                 FileExplorer.Instance.Files.ScrollIntoView(file);
 
-                                var clothing = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.ClothingTable>(clothingBase);
+                                DatManager.PortalDat.TryReadFileCache(clothingBase, out DatReaderWriter.DBObjs.Clothing clothing);
                                 ClothingTableList.Instance.OnClickClothingBase(clothing, clothingBase, lootItem.PaletteTemplate, lootItem.Shade);
                                 this.Close();
                             }

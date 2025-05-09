@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 
 namespace ACE.Server.WorldObjects
@@ -10,17 +11,17 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// Returns the XP curve table based on trained or specialized skill
         /// </summary>
-        public static List<uint> GetSkillXPTable(SkillAdvancementClass status)
+        public static uint[] GetSkillXPTable(SkillAdvancementClass status)
         {
-            var xpTable = DatManager.PortalDat.XpTable;
+            var xpTable = DatManager.PortalDat.ExperienceTable();
 
             switch (status)
             {
                 case SkillAdvancementClass.Trained:
-                    return xpTable.TrainedSkillXpList;
+                    return xpTable.TrainedSkills;
 
                 case SkillAdvancementClass.Specialized:
-                    return xpTable.SpecializedSkillXpList;
+                    return xpTable.SpecializedSkills;
 
                 default:
                     return null;

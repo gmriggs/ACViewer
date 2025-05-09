@@ -2,9 +2,9 @@
 {
     public class UV
     {
-        public ACE.DatLoader.Entity.Vec2Duv _uv;
+        public DatReaderWriter.Types.Vec2Duv _uv;
 
-        public UV(ACE.DatLoader.Entity.Vec2Duv uv)
+        public UV(DatReaderWriter.Types.Vec2Duv uv)
         {
             _uv = uv;
         }

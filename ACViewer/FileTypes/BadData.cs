@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class BadData
     {
-        public ACE.DatLoader.FileTypes.BadData _badData;
+        public DatReaderWriter.DBObjs.BadDataTable _badData;
 
-        public BadData(ACE.DatLoader.FileTypes.BadData badData)
+        public BadData(DatReaderWriter.DBObjs.BadDataTable badData)
         {
             _badData = badData;
         }
@@ -17,7 +17,7 @@ namespace ACViewer.FileTypes
         {
             var treeView = new TreeNode($"{_badData.Id:X8}");
 
-            var wcids = _badData.Bad.Keys.OrderBy(i => i).ToList();
+            var wcids = _badData.BadIds.Keys.OrderBy(i => i).ToList();
 
             foreach (var wcid in wcids)
                 treeView.Items.Add(new TreeNode($"{wcid}"));

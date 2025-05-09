@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class HairStyleCG
     {
-        public ACE.DatLoader.Entity.HairStyleCG _hairStyle;
+        public DatReaderWriter.Types.HairStyleCG _hairStyle;
 
-        public HairStyleCG(ACE.DatLoader.Entity.HairStyleCG hairStyle)
+        public HairStyleCG(DatReaderWriter.Types.HairStyleCG hairStyle)
         {
             _hairStyle = hairStyle;
         }
@@ -14,7 +14,7 @@ namespace ACViewer.Entity
         public List<TreeNode> BuildTree()
         {
             var treeNode = new List<TreeNode>();
-            var icon = new TreeNode($"Icon: {_hairStyle.IconImage:X8}", clickable: true);
+            var icon = new TreeNode($"Icon: {_hairStyle.IconId:X8}", clickable: true);
             treeNode.Add(icon);
 
             if (_hairStyle.Bald)

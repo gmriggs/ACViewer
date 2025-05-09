@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TMTerrainDesc
     {
-        public ACE.DatLoader.Entity.TMTerrainDesc _tmTerrainDesc;
+        public DatReaderWriter.Types.TMTerrainDesc _tmTerrainDesc;
 
-        public TMTerrainDesc(ACE.DatLoader.Entity.TMTerrainDesc tmTerrainDesc)
+        public TMTerrainDesc(DatReaderWriter.Types.TMTerrainDesc tmTerrainDesc)
         {
             _tmTerrainDesc = tmTerrainDesc;
         }

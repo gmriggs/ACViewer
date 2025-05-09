@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class AmbientSoundTableDesc
     {
-        public ACE.DatLoader.Entity.AmbientSTBDesc _stbDesc;
+        public DatReaderWriter.Types.AmbientSTBDesc _stbDesc;
 
-        public AmbientSoundTableDesc(ACE.DatLoader.Entity.AmbientSTBDesc stbDesc)
+        public AmbientSoundTableDesc(DatReaderWriter.Types.AmbientSTBDesc stbDesc)
         {
             _stbDesc = stbDesc;
         }

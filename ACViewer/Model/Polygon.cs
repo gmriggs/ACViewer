@@ -9,7 +9,7 @@ namespace ACViewer.Model
     {
         public GfxObj GfxObj { get; set; }
 
-        public ACE.DatLoader.Entity.Polygon _polygon { get; set; }
+        public DatReaderWriter.Types.Polygon _polygon { get; set; }
 
         public Dictionary<Tuple<ushort, ushort>, ushort> UVLookup { get; set; }
 
@@ -19,7 +19,7 @@ namespace ACViewer.Model
 
         public IndexBuffer IndexBuffer { get; set; }
 
-        public Polygon(GfxObj gfxObj, ACE.DatLoader.Entity.Polygon polygon)
+        public Polygon(GfxObj gfxObj, DatReaderWriter.Types.Polygon polygon)
         {
             GfxObj = gfxObj;
             _polygon = polygon;
@@ -32,7 +32,7 @@ namespace ACViewer.Model
             Texture = gfxObj.Textures[polygon.PosSurface];
         }
 
-        public Polygon(ACE.DatLoader.Entity.Polygon polygon, Dictionary<Tuple<ushort, ushort>, ushort> uvLookup)
+        public Polygon(DatReaderWriter.Types.Polygon polygon, Dictionary<Tuple<ushort, ushort>, ushort> uvLookup)
         {
             _polygon = polygon;
             UVLookup = uvLookup;

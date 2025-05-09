@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class SoundTable
     {
-        public ACE.DatLoader.FileTypes.SoundTable _soundTable;
+        public DatReaderWriter.DBObjs.SoundTable _soundTable;
 
-        public SoundTable(ACE.DatLoader.FileTypes.SoundTable soundTable)
+        public SoundTable(DatReaderWriter.DBObjs.SoundTable soundTable)
         {
             _soundTable = soundTable;
         }
@@ -18,18 +18,16 @@ namespace ACViewer.FileTypes
             var treeView = new TreeNode($"{_soundTable.Id:X8}");
 
             var hashTable = new TreeNode("SoundHash:");
-            foreach (var hash in _soundTable.SoundHash)
+            foreach (var hash in _soundTable.Hashes)
             {
-                var hashTree = new SoundTableData(hash).BuildTree();
-                var hashNode = new TreeNode(hashTree[0].Name.Replace("Sound ID: ", ""));
-                hashTree.RemoveAt(0);
-                hashNode.Items.AddRange(hashTree);
+                var hashNode = new TreeNode($"{hash.Key}");
+                hashNode.Items = new SoundHashData(hash.Value).BuildTree();
 
                 hashTable.Items.Add(hashNode);
             }
 
             var sounds = new TreeNode("Sounds:");
-            foreach (var kvp in _soundTable.Data)
+            foreach (var kvp in _soundTable.Sounds)
             {
                 var sound = new TreeNode($"{(ACE.Entity.Enum.Sound)kvp.Key}");
                 sound.Items.AddRange(new SoundData(kvp.Value).BuildTree());

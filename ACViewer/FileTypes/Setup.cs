@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using ACE.Entity.Enum;
-
 using ACViewer.Entity;
+
+using DatReaderWriter.Enums;
 
 namespace ACViewer.FileTypes
 {
     public class Setup
     {
-        public ACE.DatLoader.FileTypes.SetupModel _setup;
+        public DatReaderWriter.DBObjs.Setup _setup;
 
-        public Setup(ACE.DatLoader.FileTypes.SetupModel setup)
+        public Setup(DatReaderWriter.DBObjs.Setup setup)
         {
             _setup = setup;
         }

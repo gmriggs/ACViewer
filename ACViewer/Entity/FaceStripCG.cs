@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class FaceStripCG
     {
-        public ACE.DatLoader.Entity.FaceStripCG _faceStrip;
+        public DatReaderWriter.Types.FaceStripCG _faceStrip;
 
-        public FaceStripCG(ACE.DatLoader.Entity.FaceStripCG faceStrip)
+        public FaceStripCG(DatReaderWriter.Types.FaceStripCG faceStrip)
         {
             _faceStrip = faceStrip;
         }
@@ -15,9 +15,9 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            if (_faceStrip.IconImage != 0)
+            if (_faceStrip.IconId != 0)
             {
-                var icon = new TreeNode($"Icon: {_faceStrip.IconImage:X8}", clickable: true);
+                var icon = new TreeNode($"Icon: {_faceStrip.IconId:X8}", clickable: true);
                 treeNode.Add(icon);
             }
 

@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class Environment
     {
-        public ACE.DatLoader.FileTypes.Environment _env;
+        public DatReaderWriter.DBObjs.Environment _env;
 
-        public Environment(ACE.DatLoader.FileTypes.Environment env)
+        public Environment(DatReaderWriter.DBObjs.Environment env)
         {
             _env = env;
         }

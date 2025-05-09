@@ -2,9 +2,10 @@ using System;
 using System.Numerics;
 
 using ACE.Common;
-using ACE.Entity.Enum;
 using ACE.Server.Physics.Animation;
 using ACE.Server.Physics.Common;
+
+using DatReaderWriter.Enums;
 
 namespace ACE.Server.Physics
 {

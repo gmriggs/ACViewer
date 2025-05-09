@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class PhysicsScript
     {
-        public ACE.DatLoader.FileTypes.PhysicsScript _playScript;
+        public DatReaderWriter.DBObjs.PhysicsScript _playScript;
 
-        public PhysicsScript(ACE.DatLoader.FileTypes.PhysicsScript playScript)
+        public PhysicsScript(DatReaderWriter.DBObjs.PhysicsScript playScript)
         {
             _playScript = playScript;
         }

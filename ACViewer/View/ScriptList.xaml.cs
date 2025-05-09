@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ACE.DatLoader;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity.Enum;
+using DatReaderWriter.DBObjs;
 
 namespace ACViewer.View
 {
@@ -42,7 +43,7 @@ namespace ACViewer.View
                 return;
 
             var pEffectTableID = FileExplorer.Instance.Selected_FileID;
-            var playScript = (PlayScript)selectedItem.Content;
+            var playScript = (DatReaderWriter.Enums.PlayScript)selectedItem.Content;
 
             ParticleViewer.InitEmitter(pEffectTableID, playScript, 1.0f);
 
@@ -52,7 +53,7 @@ namespace ACViewer.View
         public void ReadScriptTable(uint scriptTableID)
         {
             MainWindow.Status.WriteLine($"Reading physics script table {scriptTableID:X8}");
-            var pEffectTable = DatManager.PortalDat.ReadFromDat<PhysicsScriptTable>(scriptTableID);
+            DatManager.PortalDat.TryReadFileCache(scriptTableID, out PhysicsScriptTable pEffectTable);
 
             MainWindow.Status.WriteLine($" - Found {pEffectTable.ScriptTable.Count} script table entries");
             SetPhysicsScripts(pEffectTable);

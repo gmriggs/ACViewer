@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SkyTimeOfDay
     {
-        public ACE.DatLoader.Entity.SkyTimeOfDay _skyTimeOfDay;
+        public DatReaderWriter.Types.SkyTimeOfDay _skyTimeOfDay;
 
-        public SkyTimeOfDay(ACE.DatLoader.Entity.SkyTimeOfDay skyTimeOfDay)
+        public SkyTimeOfDay(DatReaderWriter.Types.SkyTimeOfDay skyTimeOfDay)
         {
             _skyTimeOfDay = skyTimeOfDay;
         }

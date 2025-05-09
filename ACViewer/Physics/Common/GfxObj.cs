@@ -11,8 +11,8 @@ namespace ACE.Server.Physics.Collision
     public class GfxObj
     {
         public uint ID;
-        public DatLoader.FileTypes.GfxObj _dat;
-        public CVertexArray VertexArray;
+        public DatReaderWriter.DBObjs.GfxObj _dat;
+        public DatReaderWriter.Types.VertexArray VertexArray;
         /// <summary>
         /// Only populated if !PhysicsEngine.Instance.Server
         /// </summary>
@@ -36,7 +36,7 @@ namespace ACE.Server.Physics.Collision
 
         public GfxObj() { }
 
-        public GfxObj(DatLoader.FileTypes.GfxObj gfxObj)
+        public GfxObj(DatReaderWriter.DBObjs.GfxObj gfxObj)
         {
             if (gfxObj == null) return;
 

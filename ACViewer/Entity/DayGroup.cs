@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class DayGroup
     {
-        public ACE.DatLoader.Entity.DayGroup _dayGroup;
+        public DatReaderWriter.Types.DayGroup _dayGroup;
 
-        public DayGroup(ACE.DatLoader.Entity.DayGroup dayGroup)
+        public DayGroup(DatReaderWriter.Types.DayGroup dayGroup)
         {
             _dayGroup = dayGroup;
         }

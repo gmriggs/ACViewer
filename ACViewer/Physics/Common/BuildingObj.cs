@@ -3,6 +3,7 @@ using System.Linq;
 
 using ACE.DatLoader.Entity;
 using ACE.Server.Physics.Animation;
+using DatReaderWriter.Types;
 
 namespace ACE.Server.Physics.Common
 {
@@ -103,7 +104,7 @@ namespace ACE.Server.Physics.Common
             return null;
         }
 
-        public static BuildingObj makeBuilding(uint buildingID, List<CBldPortal> portals, uint numLeaves)
+        public static BuildingObj makeBuilding(uint buildingID, List<BuildingPortal> portals, uint numLeaves)
         {
             var building = new BuildingObj();
 

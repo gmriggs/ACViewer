@@ -6,9 +6,9 @@ namespace ACViewer.FileTypes
 {
     public class Sound
     {
-        public ACE.DatLoader.FileTypes.Wave _audio;
+        public DatReaderWriter.DBObjs.Wave _audio;
 
-        public Sound(ACE.DatLoader.FileTypes.Wave audio)
+        public Sound(DatReaderWriter.DBObjs.Wave audio)
         {
             _audio = audio;
         }

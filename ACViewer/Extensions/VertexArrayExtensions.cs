@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+    
 using Microsoft.Xna.Framework.Graphics;
 
-using ACE.DatLoader.Entity;
+using DatReaderWriter.Types;
 
 namespace ACViewer
 {
     public static class VertexArrayExtensions
     {
-        public static List<VertexPositionNormalTexture> ToXna(this CVertexArray vertexArray)
+        public static List<VertexPositionNormalTexture> ToXna(this VertexArray vertexArray)
         {
             var verts = new List<VertexPositionNormalTexture>();
 
@@ -20,7 +20,7 @@ namespace ACViewer
             return verts;
         }
 
-        public static List<VertexPositionColor> ToWireframeXna(this CVertexArray vertexArray)
+        public static List<VertexPositionColor> ToWireframeXna(this VertexArray vertexArray)
         {
             var verts = new List<VertexPositionColor>();
 
@@ -30,7 +30,7 @@ namespace ACViewer
             return verts;
         }
 
-        public static Dictionary<Tuple<ushort, ushort>, ushort> BuildUVLookup(this CVertexArray vertexArray)
+        public static Dictionary<Tuple<ushort, ushort>, ushort> BuildUVLookup(this VertexArray vertexArray)
         {
             var uvLookupTable = new Dictionary<Tuple<ushort, ushort>, ushort>();
 
@@ -49,7 +49,7 @@ namespace ACViewer
             return uvLookupTable;
         }
 
-        public static bool HasWrappingUVs(this CVertexArray vertexArray)
+        public static bool HasWrappingUVs(this VertexArray vertexArray)
         {
             foreach (var v in vertexArray.Vertices.Values)
             {
@@ -62,7 +62,7 @@ namespace ACViewer
             return false;
         }
 
-        public static bool Verify(this CVertexArray vertexArray)
+        public static bool Verify(this VertexArray vertexArray)
         {
             var keys = vertexArray.Vertices.Keys.ToList();
             keys.Sort();

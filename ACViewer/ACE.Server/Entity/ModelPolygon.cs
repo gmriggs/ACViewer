@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using ACE.DatLoader.Entity;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Entity
 {
     /// <summary>
@@ -16,12 +18,12 @@ namespace ACE.Server.Entity
         /// <summary>
         /// The polygon in AC data formats
         /// </summary>
-        public DatLoader.Entity.Polygon Polygon;
+        public DatReaderWriter.Types.Polygon Polygon;
 
         /// <summary>
         /// Constructs a new polygon
         /// </summary>
-        public ModelPolygon(DatLoader.Entity.Polygon polygon, CVertexArray vertexArray)            
+        public ModelPolygon(DatReaderWriter.Types.Polygon polygon, VertexArray vertexArray)            
         {
             Polygon = polygon;
             LoadVertices(vertexArray);
@@ -30,7 +32,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// Loads the vertices for a polygon
         /// </summary>
-        public void LoadVertices(CVertexArray vertexArray)
+        public void LoadVertices(VertexArray vertexArray)
         {
             Vertices = new List<SWVertex>();
 

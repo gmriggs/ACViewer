@@ -2,6 +2,7 @@ using System;
 
 using ACE.Common.Extensions;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Entity.Models;
@@ -58,9 +59,9 @@ namespace ACE.Server.WorldObjects.Entity
         {
             get
             {
-                var attributeXPTable = DatManager.PortalDat.XpTable.AttributeXpList;
+                var attributeXPTable = DatManager.PortalDat.ExperienceTable().Attributes;
 
-                return attributeXPTable[attributeXPTable.Count - 1] - ExperienceSpent;
+                return attributeXPTable[attributeXPTable.Length - 1] - ExperienceSpent;
             }
         }
 
@@ -81,9 +82,9 @@ namespace ACE.Server.WorldObjects.Entity
         {
             get
             {
-                var attributeXPTable = DatManager.PortalDat.XpTable.AttributeXpList;
+                var attributeXPTable = DatManager.PortalDat.ExperienceTable().Attributes;
 
-                return Ranks >= (attributeXPTable.Count - 1);
+                return Ranks >= (attributeXPTable.Length - 1);
             }
         }
 

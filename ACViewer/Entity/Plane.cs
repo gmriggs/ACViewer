@@ -2,16 +2,16 @@
 {
     public class Plane
     {
-        public ACE.DatLoader.Entity.Plane _plane;
+        public System.Numerics.Plane _plane;
 
-        public Plane(ACE.DatLoader.Entity.Plane plane)
+        public Plane(System.Numerics.Plane plane)
         {
             _plane = plane;
         }
 
         public override string ToString()
         {
-            return $"Normal: {_plane.N} - Distance: {_plane.D}";
+            return $"Normal: {_plane.Normal} - Distance: {_plane.D}";
         }
     }
 }

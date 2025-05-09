@@ -18,8 +18,8 @@ namespace ACE.Server.Physics.Common
         public uint TextureCode;
         public bool IsLocked;
 
-        public Texture _texture;
-        public SurfaceTexture _surfaceTexture;
+        public DatReaderWriter.DBObjs.RenderSurface _texture;
+        public DatReaderWriter.DBObjs.SurfaceTexture _surfaceTexture;
 
         public static ImageScaleType LandTextureScale;
         public static ImageScaleType ClipTextureScale;
@@ -41,12 +41,12 @@ namespace ACE.Server.Physics.Common
 
         }
 
-        public ImgTex(Texture texture)
+        public ImgTex(DatReaderWriter.DBObjs.RenderSurface texture)
         {
             _texture = texture;
         }
 
-        public ImgTex(SurfaceTexture surfaceTexture)
+        public ImgTex(DatReaderWriter.DBObjs.SurfaceTexture surfaceTexture)
         {
             _surfaceTexture = surfaceTexture;
 
@@ -59,7 +59,7 @@ namespace ACE.Server.Physics.Common
             ID = _surfaceTexture.Id;
             var textureID = TextureCode = surfaceTexture.Textures[0];   // use texturecode here?
             //Console.WriteLine($"Loading texture {textureID:X8}");
-            var renderSurface = DatManager.PortalDat.ReadFromDat<Texture>(textureID);
+            DatManager.PortalDat.TryReadFileCache(textureID, out DatReaderWriter.DBObjs.RenderSurface renderSurface);
             ImageData = new RenderSurface(renderSurface);
         }
 
@@ -77,10 +77,10 @@ namespace ACE.Server.Physics.Common
         public bool LoadCSI(byte[] csi_data, uint csi_width, uint csi_height)
         {
             var surface = new RenderSurface();  // RenderDevice.CreateSurface
-            surface.Create(csi_width, csi_height, SurfacePixelFormat.PFID_X8R8G8B8, true);
+            surface.Create(csi_width, csi_height, DatReaderWriter.Enums.PixelFormat.PFID_X8R8G8B8, true);
             ImageData = surface;
 
-            var tempBuffer = GetTempBuffer(csi_width, csi_height, SurfacePixelFormat.PFID_X8R8G8B8);
+            var tempBuffer = GetTempBuffer(csi_width, csi_height, DatReaderWriter.Enums.PixelFormat.PFID_X8R8G8B8);
             //var data = tempBuffer.GetData();
             tempBuffer.CSI2TGA(csi_data, csi_width, csi_height, ImageData.Data, csi_width, csi_height, tempBuffer.Pitch);
 
@@ -187,13 +187,13 @@ namespace ACE.Server.Physics.Common
             }
         }
 
-        public static ImgTex GetTempBuffer(uint _width, uint _height, SurfacePixelFormat _image_type)
+        public static ImgTex GetTempBuffer(uint _width, uint _height, DatReaderWriter.Enums.PixelFormat _image_type)
         {
             // bunch of dictionary stuff
             return AllocateTempBuffer(_width, _height, _image_type);
         }
 
-        public static ImgTex AllocateTempBuffer(uint _width, uint _height, SurfacePixelFormat _image_type)
+        public static ImgTex AllocateTempBuffer(uint _width, uint _height, DatReaderWriter.Enums.PixelFormat _image_type)
         {
             var tempBuffer = new ImgTex();  // 0x88 / 136
             tempBuffer.ImageData = new RenderSurface();

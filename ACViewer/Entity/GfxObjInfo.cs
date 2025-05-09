@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class GfxObjInfo
     {
-        public ACE.DatLoader.Entity.GfxObjInfo _gfxObjInfo;
+        public DatReaderWriter.Types.GfxObjInfo _gfxObjInfo;
 
-        public GfxObjInfo(ACE.DatLoader.Entity.GfxObjInfo info)
+        public GfxObjInfo(DatReaderWriter.Types.GfxObjInfo info)
         {
             _gfxObjInfo = info;
         }

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TerrainAlphaMap
     {
-        public ACE.DatLoader.Entity.TerrainAlphaMap _terrainAlphaMap;
+        public DatReaderWriter.Types.TerrainAlphaMap _terrainAlphaMap;
 
-        public TerrainAlphaMap(ACE.DatLoader.Entity.TerrainAlphaMap terrainAlphaMap)
+        public TerrainAlphaMap(DatReaderWriter.Types.TerrainAlphaMap terrainAlphaMap)
         {
             _terrainAlphaMap = terrainAlphaMap;
         }

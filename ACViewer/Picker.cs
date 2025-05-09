@@ -19,6 +19,8 @@ using ACViewer.Primitives;
 using ACViewer.Render;
 using ACViewer.View;
 
+using DatReaderWriter.DBObjs;
+
 namespace ACViewer
 {
     public static class Picker
@@ -250,7 +252,7 @@ namespace ACViewer
                     //if (landblockInfo != null)
                     //FileInfo.Instance.SetInfo(new FileTypes.LandblockInfo(landblockInfo).BuildTree());
 
-                    var landblock = DatManager.CellDat.ReadFromDat<CellLandblock>(landCell.CurLandblock.ID);
+                    DatManager.CellDat.TryReadFileCache(landCell.CurLandblock.ID, out LandBlock landblock);
 
                     if (landblock != null)
                         FileInfo.Instance.SetInfo(new FileTypes.CellLandblock(landblock).BuildTree());
@@ -282,7 +284,7 @@ namespace ACViewer
                         hitIndices.Add(startIdx);
                     }
 
-                    var _envCell = DatManager.CellDat.ReadFromDat<ACE.DatLoader.FileTypes.EnvCell>(envCell.ID);
+                    DatManager.CellDat.TryReadFileCache(envCell.ID, out DatReaderWriter.DBObjs.EnvCell _envCell);
 
                     if (_envCell != null)
                         FileInfo.Instance.SetInfo(new FileTypes.EnvCell(_envCell).BuildTree());
@@ -328,7 +330,7 @@ namespace ACViewer
 
                     if (setupID >> 24 == 0x2)
                     {
-                        var setup = DatManager.PortalDat.ReadFromDat<SetupModel>(setupID);
+                        DatManager.PortalDat.TryReadFileCache(setupID, out DatReaderWriter.DBObjs.Setup setup);
 
                         if (setup != null)
                             FileInfo.Instance.SetInfo(new FileTypes.Setup(setup).BuildTree());
@@ -340,7 +342,7 @@ namespace ACViewer
                         // in the case of simple setup, try to get GfxObj id from first part
                         var gfxObjId = partArray.Parts[0].GfxObj._dat.Id;
 
-                        var gfxObj = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.GfxObj>(gfxObjId);
+                        DatManager.PortalDat.TryReadFileCache(gfxObjId, out DatReaderWriter.DBObjs.GfxObj gfxObj);
 
                         if (gfxObj != null)
                             FileInfo.Instance.SetInfo(new FileTypes.GfxObj(gfxObj).BuildTree());

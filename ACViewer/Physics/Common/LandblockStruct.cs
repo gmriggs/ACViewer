@@ -19,8 +19,8 @@ namespace ACE.Server.Physics.Common
         public int SidePolyCount;
         public int SideCellCount;
         public LandDefs.WaterType WaterType;
-        public List<byte> Height;
-        public List<ushort> Terrain;
+        public byte[] Height;
+        public DatReaderWriter.Types.TerrainInfo[] Terrain;
         public VertexArray VertexArray;
         public List<Polygon> Polygons;
         //public List<int> SurfaceStrips;     // SurfaceTriStrips
@@ -78,7 +78,7 @@ namespace ACE.Server.Physics.Common
             Init();
         }
 
-        public LandblockStruct(CellLandblock landblock)
+        public LandblockStruct(DatReaderWriter.DBObjs.LandBlock landblock)
         {
             Init();
             Height = landblock.Height;
@@ -134,7 +134,7 @@ namespace ACE.Server.Physics.Common
                 for (var vy = y * LandDefs.VertexPerCell; vy <= LandDefs.VertexPerCell * (y + 1); vy++)
                 {
                     var terrainIdx = vx * SideVertexCount + vy;
-                    if (SurfChar[Terrain[terrainIdx] >> 2 & 0x1F] == 1)
+                    if (SurfChar[(ushort)Terrain[terrainIdx].Type] == 1)
                         cellHasWater = true;
                     else
                         cellFullyFlooded = false;
@@ -290,8 +290,8 @@ namespace ACE.Server.Physics.Common
                     var idx = (int)(2 * (y + x * SidePolyCount));
                     if (singleTextureCell)
                     {
-                        Polygons[idx].Stippling = StipplingType.Both;
-                        Polygons[idx + 1].Stippling = StipplingType.Both;
+                        Polygons[idx].Stippling = DatReaderWriter.Enums.StipplingType.Both;
+                        Polygons[idx + 1].Stippling = DatReaderWriter.Enums.StipplingType.Both;
                     }
                     var vType = VertexArray.Type;
 
@@ -437,18 +437,18 @@ namespace ACE.Server.Physics.Common
             // SW / SE / NE / NW
             var i = (int)(LandDefs.VertexDim * x + y);
             var terrain = Terrain[i];
-            var t1 = (terrain & 0x7F) >> 2;
-            var r1 = terrain & 3;
+            var t1 = (int)terrain.Type;
+            var r1 = terrain.Road;
             var j = (int)(LandDefs.VertexDim * (x + 1) + y);
             var terrain2 = Terrain[j];
-            var t2 = (terrain2 & 0x7F) >> 2;
-            var r2 = terrain2 & 3;
+            var t2 = (int)terrain2.Type;
+            var r2 = terrain2.Road;
             var terrain3 = Terrain[j + 1];
-            var t3 = (terrain3 & 0x7F) >> 2;
-            var r3 = terrain3 & 3;
+            var t3 = (int)terrain3.Type;
+            var r3 = terrain3.Road;
             var terrain4 = Terrain[i + 1];
-            var t4 = (terrain4 & 0x7F) >> 2;
-            var r4 = terrain4 & 3;
+            var t4 = (int)terrain4.Type;
+            var r4 = terrain4.Road;
 
             /*Console.WriteLine($"LandblockStruct.GetCellRotation({landblockID:X8}, x:{x}, y:{y})");
             Console.WriteLine($"I1: {i}, I2: {j}, I3: {j+1}, I4: {i+1}");
@@ -468,7 +468,7 @@ namespace ACE.Server.Physics.Common
 
             singleTextureCell = r1 != 0 ? singleRoadCell : singleRoadCell && singleTypeCell;
 
-            var regionDesc = DatManager.PortalDat.RegionDesc;
+            //var regionDesc = DatManager.PortalDat.RegionDesc;
             var minimizePal = true;
 
             LandSurf.Instance.SelectTerrain(globalCellX, globalCellY, ref surfNum, ref rotation, palCodes, 1, minimizePal);
@@ -514,7 +514,7 @@ namespace ACE.Server.Physics.Common
             var numPolys = numSquares * 2;
             Polygons = new List<Polygon>(numPolys);
             for (var i = 0; i < numPolys; i++)
-                Polygons.Add(new Polygon(i, 3, CullMode.Landblock));
+                Polygons.Add(new Polygon(i, 3, DatReaderWriter.Enums.CullMode.Landblock));
 
             SWtoNEcut = new List<bool>(numSquares);
             for (var i = 0; i < numSquares; i++)
@@ -682,7 +682,7 @@ namespace ACE.Server.Physics.Common
                 terrainIdx++;
 
             var terrain = Terrain[terrainIdx];
-            var surfCharIdx = terrain >> 2 & 0x1F;
+            var surfCharIdx = (ushort)terrain.Type;
 
             var has_water = SurfChar[surfCharIdx];
 

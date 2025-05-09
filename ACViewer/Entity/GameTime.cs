@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class GameTime
     {
-        public ACE.DatLoader.Entity.GameTime _gameTime;
+        public DatReaderWriter.Types.GameTime _gameTime;
 
-        public GameTime(ACE.DatLoader.Entity.GameTime gameTime)
+        public GameTime(DatReaderWriter.Types.GameTime gameTime)
         {
             _gameTime = gameTime;
         }
@@ -30,7 +30,7 @@ namespace ACViewer.Entity
             }
 
             var daysOfWeek = new TreeNode($"DaysOfWeek:");
-            foreach (var dayOfWeek in _gameTime.DaysOfTheWeek)
+            foreach (var dayOfWeek in _gameTime.DaysOfWeek)
                 daysOfWeek.Items.Add(new TreeNode($"{dayOfWeek}"));
 
             var seasons = new TreeNode($"Seasons:");

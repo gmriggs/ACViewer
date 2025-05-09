@@ -5,11 +5,11 @@ namespace ACE.Server.Physics.Common
 {
     public class RenderSurface
     {
-        public Texture _texture;
+        public DatReaderWriter.DBObjs.RenderSurface _texture;
 
         public int Width;
         public int Height;
-        public SurfacePixelFormat Format;
+        public DatReaderWriter.Enums.PixelFormat Format;
         public int Length;
         public byte[] Data;
         public uint? DefaultPaletteID;
@@ -18,20 +18,22 @@ namespace ACE.Server.Physics.Common
         {
         }
 
-        public RenderSurface(Texture texture)
+        public RenderSurface(DatReaderWriter.DBObjs.RenderSurface texture)
         {
+            if (texture == null) return;
+            
             _texture = texture;
 
             Width = texture.Width;
             Height = texture.Height;
             Format = texture.Format;
-            Length = texture.Length;
+            Length = texture.SourceData.Length;
             Data = texture.SourceData;
             DefaultPaletteID = texture.DefaultPaletteId;
         }
 
         // RenderSurfaceD3D.Create()
-        public bool Create(uint width, uint height, SurfacePixelFormat format, bool localData)
+        public bool Create(uint width, uint height, DatReaderWriter.Enums.PixelFormat format, bool localData)
         {
             Width = (int)width;
             Height = (int)height;

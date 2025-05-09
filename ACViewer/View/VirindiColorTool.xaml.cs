@@ -8,7 +8,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
 using ACViewer.Data;
+
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 
 namespace ACViewer.View
 {
@@ -49,7 +51,7 @@ namespace ACViewer.View
             else
             {
                 imgIcon.Visibility = Visibility.Visible;
-                var datIcon = DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.Texture>(icon);
+                DatManager.PortalDat.TryReadFileCache(icon, out DatReaderWriter.DBObjs.RenderSurface datIcon);
                 var bitmap = datIcon.GetBitmap();
 
                 using (MemoryStream memory = new MemoryStream())

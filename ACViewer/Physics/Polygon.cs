@@ -15,8 +15,8 @@ namespace ACE.Server.Physics
         //public List<Vector2> Screen;
         public int PolyID;              // not directly in this DAT structure
         public int NumPoints;
-        public StipplingType Stippling;
-        public CullMode SidesType;
+        public DatReaderWriter.Enums.StipplingType Stippling;
+        public DatReaderWriter.Enums.CullMode SidesType;
         public List<byte> PosUVIndices;   // texture coordinates unused by server
         public List<byte> NegUVIndices;
         public short PosSurface;
@@ -26,7 +26,7 @@ namespace ACE.Server.Physics
         /// <summary>
         /// Constructs a polygon for landblock terrain outdoors
         /// </summary>
-        public Polygon(int idx, int numPoints, CullMode cullMode)
+        public Polygon(int idx, int numPoints, DatReaderWriter.Enums.CullMode cullMode)
         {
             Init();
 
@@ -46,11 +46,11 @@ namespace ACE.Server.Physics
         /// <summary>
         /// Constructs a polygon from the DAT file
         /// </summary>
-        public Polygon(DatLoader.Entity.Polygon polygon, DatLoader.Entity.CVertexArray vertexArray)
+        public Polygon(DatReaderWriter.Types.Polygon polygon, DatReaderWriter.Types.VertexArray vertexArray)
         {
             NegSurface = polygon.NegSurface;
             //NegUVIndices = polygon.NegUVIndices;
-            NumPoints = polygon.NumPts;
+            NumPoints = polygon.VertexIds.Count;
             PosSurface = polygon.PosSurface;
             //PosUVIndices = polygon.PosUVIndices;
             SidesType = polygon.SidesType;
@@ -277,7 +277,7 @@ namespace ACE.Server.Physics
 
         public bool polygon_hits_ray(Ray ray, ref float time)
         {
-            if (SidesType == CullMode.Landblock && Vector3.Dot(Plane.Normal, ray.Dir) > 0.0f)   // dist?
+            if (SidesType == DatReaderWriter.Enums.CullMode.Landblock && Vector3.Dot(Plane.Normal, ray.Dir) > 0.0f)   // dist?
                 return false;
 
             if (!Plane.compute_time_of_intersection(ray, ref time))

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TimeOfDay
     {
-        public ACE.DatLoader.Entity.TimeOfDay _timeOfDay;
+        public DatReaderWriter.Types.TimeOfDay _timeOfDay;
 
-        public TimeOfDay(ACE.DatLoader.Entity.TimeOfDay timeOfDay)
+        public TimeOfDay(DatReaderWriter.Types.TimeOfDay timeOfDay)
         {
             _timeOfDay = timeOfDay;
         }

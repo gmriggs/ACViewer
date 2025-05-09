@@ -2,7 +2,7 @@ namespace ACE.Server.Physics.Common
 {
     public class TerrainAlphaMap
     {
-        public DatLoader.Entity.TerrainAlphaMap _alphaMap;
+        public DatReaderWriter.Types.TerrainAlphaMap _alphaMap;
 
         public uint TCode;
         public uint TexGID;
@@ -12,7 +12,7 @@ namespace ACE.Server.Physics.Common
 
         public TerrainAlphaMap() { }
 
-        public TerrainAlphaMap(DatLoader.Entity.TerrainAlphaMap alphaMap)
+        public TerrainAlphaMap(DatReaderWriter.Types.TerrainAlphaMap alphaMap)
         {
             _alphaMap = alphaMap;
 

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class VertexArray
     {
-        public ACE.DatLoader.Entity.CVertexArray _vertexArray;
+        public DatReaderWriter.Types.VertexArray _vertexArray;
 
-        public VertexArray(ACE.DatLoader.Entity.CVertexArray vertexArray)
+        public VertexArray(DatReaderWriter.Types.VertexArray vertexArray)
         {
             _vertexArray = vertexArray;
         }

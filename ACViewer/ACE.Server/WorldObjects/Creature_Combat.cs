@@ -7,7 +7,7 @@ namespace ACE.Server.WorldObjects
         /// <summary>
         /// The list of combat maneuvers performable by this creature
         /// </summary>
-        public DatLoader.FileTypes.CombatManeuverTable CombatTable { get; set; }
+        public DatReaderWriter.DBObjs.CombatTable CombatTable { get; set; }
 
         public CombatMode CombatMode { get; protected set; }
     }

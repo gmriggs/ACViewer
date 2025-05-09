@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SkyObjectReplace
     {
-        public ACE.DatLoader.Entity.SkyObjectReplace _skyObjReplace;
+        public DatReaderWriter.Types.SkyObjectReplace _skyObjReplace;
 
-        public SkyObjectReplace(ACE.DatLoader.Entity.SkyObjectReplace skyObjReplace)
+        public SkyObjectReplace(DatReaderWriter.Types.SkyObjectReplace skyObjReplace)
         {
             _skyObjReplace = skyObjReplace;
         }

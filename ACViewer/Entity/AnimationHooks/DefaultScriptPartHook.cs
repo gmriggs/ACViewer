@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class DefaultScriptPartHook : AnimationHook
     {
-        public DefaultScriptPartHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public DefaultScriptPartHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.DefaultScriptPartHook _defaultScriptPartHook)
+            if (_hook is DatReaderWriter.Types.DefaultScriptPartHook _defaultScriptPartHook)
             {
                 treeNode.Add(new TreeNode($"PartIndex: {_defaultScriptPartHook.PartIndex}"));
             }

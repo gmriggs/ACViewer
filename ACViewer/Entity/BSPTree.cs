@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class BSPTree
     {
-        public ACE.DatLoader.Entity.BSPTree _bspTree;
+        public DatReaderWriter.Types.BSPTree _bspTree;
 
-        public BSPTree(ACE.DatLoader.Entity.BSPTree bspTree)
+        public BSPTree(DatReaderWriter.Types.BSPTree bspTree)
         {
             _bspTree = bspTree;
         }

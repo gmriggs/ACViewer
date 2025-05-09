@@ -10,7 +10,7 @@ using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Entity.Models;
 using ACE.Server.Entity;
-
+using DatReaderWriter.DBObjs;
 using Character = ACE.Database.Models.Shard.Character;
 
 namespace ACE.Server.WorldObjects
@@ -126,7 +126,8 @@ namespace ACE.Server.WorldObjects
                     IsPsr = true; // Enable AdvocateTeleport via MapClick
             }*/
 
-            CombatTable = DatManager.PortalDat.ReadFromDat<CombatManeuverTable>(CombatTableDID.Value);
+            DatManager.PortalDat.TryReadFileCache(CombatTableDID.Value, out CombatTable combatTable);
+            CombatTable = combatTable;
 
             //_questManager = new QuestManager(this);
 

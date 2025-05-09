@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class AnimData
     {
-        public ACE.DatLoader.Entity.AnimData _animData;
+        public DatReaderWriter.Types.AnimData _animData;
 
-        public AnimData(ACE.DatLoader.Entity.AnimData animData)
+        public AnimData(DatReaderWriter.Types.AnimData animData)
         {
             _animData = animData;
         }

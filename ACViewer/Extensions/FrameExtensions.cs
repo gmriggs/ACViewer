@@ -1,5 +1,6 @@
-﻿using ACE.DatLoader.Entity;
-using ACE.Server.Physics.Animation;
+﻿using ACE.Server.Physics.Animation;
+
+using DatReaderWriter.Types;
 
 using Microsoft.Xna.Framework;
 

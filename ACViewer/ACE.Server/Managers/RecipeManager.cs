@@ -4,6 +4,8 @@ using ACE.DatLoader;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity.Enum;
 
+using DatReaderWriter.DBObjs;
+
 namespace ACE.Server.Managers
 {
     public partial class RecipeManager
@@ -12,7 +14,7 @@ namespace ACE.Server.Managers
 
         public static string GetMaterialName(MaterialType materialType)
         {
-            var dualDIDs = DatManager.PortalDat.ReadFromDat<DualDidMapper>(MaterialDualDID);
+            DatManager.PortalDat.TryReadFileCache(MaterialDualDID, out DualDataIdMapper dualDIDs);
 
             if (!dualDIDs.ClientEnumToName.TryGetValue((uint)materialType, out var materialName))
             {

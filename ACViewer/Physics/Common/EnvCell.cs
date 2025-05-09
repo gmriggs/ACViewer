@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
+using ACE.DatLoader.Extensions;
 using ACE.Entity.Enum;
 using ACE.Server.Physics.BSP;
 using ACE.Server.Physics.Animation;
@@ -22,7 +23,7 @@ namespace ACE.Server.Physics.Common
         public uint CellStructureID;
         //public Environment Env;
         public int NumPortals;
-        public List<DatLoader.Entity.CellPortal> Portals;
+        public List<DatReaderWriter.Types.CellPortal> Portals;
         public int NumStaticObjects;
         public List<uint> StaticObjectIDs;
         public List<AFrame> StaticObjectFrames;
@@ -31,17 +32,17 @@ namespace ACE.Server.Physics.Common
         public int InCellTimestamp;
         public List<ushort> VisibleCellIDs;
         public new Dictionary<uint, EnvCell> VisibleCells;
-        public EnvCellFlags Flags;
+        public DatReaderWriter.Enums.EnvCellFlags Flags;
         public uint EnvironmentID;
-        public DatLoader.FileTypes.EnvCell _envCell;
-        public DatLoader.FileTypes.Environment Environment;
+        public DatReaderWriter.DBObjs.EnvCell _envCell;
+        public DatReaderWriter.DBObjs.Environment Environment;
 
         public EnvCell() : base()
         {
             Init();
         }
 
-        public EnvCell(DatLoader.FileTypes.EnvCell envCell): base()
+        public EnvCell(DatReaderWriter.DBObjs.EnvCell envCell): base()
         {
             _envCell = envCell;
 
@@ -62,9 +63,9 @@ namespace ACE.Server.Physics.Common
             NumStabs = StaticObjectIDs.Count;
             VisibleCellIDs = envCell.VisibleCells;
             RestrictionObj = envCell.RestrictionObj;
-            SeenOutside = envCell.SeenOutside;
+            SeenOutside = envCell.Flags.HasFlag(DatReaderWriter.Enums.EnvCellFlags.SeenOutside);
 
-            EnvironmentID = envCell.EnvironmentId;
+            EnvironmentID = (uint)(0x0D000000 | envCell.EnvironmentId);
 
             if (EnvironmentID != 0)
                 Environment = DBObj.GetEnvironment(EnvironmentID);
@@ -179,7 +180,7 @@ namespace ACE.Server.Physics.Common
                 var rad = boundingSphere.Radius + PhysicsGlobals.EPSILON;
 
                 var diff = Vector3.Dot(center, portalPoly.Plane.Normal) + portalPoly.Plane.D;
-                if (portal.PortalSide)
+                if (portal.PortalSide())
                 {
                     if (diff > rad) continue;
                 }
@@ -191,7 +192,7 @@ namespace ACE.Server.Physics.Common
                 var box = new BBox();
                 box.LocalToLocal(part.GetBoundingBox(), part.Pos, Pos);
                 var intersect = portalPoly.Plane.intersect_box(box);
-                if (intersect == Sidedness.Crossing || intersect == Sidedness.Positive && portal.PortalSide || intersect == Sidedness.Negative && !portal.PortalSide)
+                if (intersect == Sidedness.Crossing || intersect == Sidedness.Positive && portal.PortalSide() || intersect == Sidedness.Negative && !portal.PortalSide())
                 {
                     if (!CellStructure.box_intersects_cell(box))
                         continue;
@@ -275,7 +276,8 @@ namespace ACE.Server.Physics.Common
                     var rad = sphere.Radius + PhysicsGlobals.EPSILON;
 
                     var dist = Vector3.Dot(center, portalPoly.Plane.Normal) + portalPoly.Plane.D;
-                    if (portal.PortalSide)
+
+                    if (portal.PortalSide())
                     {
                         if (dist < -rad)
                             continue;
@@ -290,7 +292,7 @@ namespace ACE.Server.Physics.Common
                     var box = new BBox();
                     box.LocalToLocal(bbox, part.Pos, Pos);
                     var sidedness = portalPoly.Plane.intersect_box(box);
-                    if (sidedness == Sidedness.Positive && !portal.PortalSide || sidedness == Sidedness.Negative && portal.PortalSide)
+                    if (sidedness == Sidedness.Positive && !portal.PortalSide() || sidedness == Sidedness.Negative && portal.PortalSide())
                         continue;
 
                     if (portal.OtherCellId == ushort.MaxValue)
@@ -367,7 +369,7 @@ namespace ACE.Server.Physics.Common
                         {
                             var center = Pos.Frame.GlobalToLocal(sphere.Center);
                             var _sphere = new Sphere(center, sphere.Radius + PhysicsGlobals.EPSILON);
-                            var portalSide = portal.PortalSide;
+                            var portalSide = portal.PortalSide();
                             var dist = Vector3.Dot(_sphere.Center, portalPoly.Plane.Normal) + portalPoly.Plane.D;
                             if (dist > -_sphere.Radius && portalSide || dist < _sphere.Radius && !portalSide)
                             {

@@ -8,25 +8,25 @@ namespace ACE.Server.Physics.Util
 {
     public class Environment
     {
-        public EnvCell EnvCell;
-        public List<DatLoader.FileTypes.Environment> Environments = new List<DatLoader.FileTypes.Environment>();
+        public DatReaderWriter.DBObjs.EnvCell EnvCell;
+        public List<DatReaderWriter.DBObjs.Environment> Environments = new List<DatReaderWriter.DBObjs.Environment>();
 
-        public List<DatLoader.Entity.Polygon> Polygons = new List<DatLoader.Entity.Polygon>();
+        public List<DatReaderWriter.Types.Polygon> Polygons = new List<DatReaderWriter.Types.Polygon>();
 
         public List<int> PolyOffsets = new List<int>();
         public int TotalVertices;
 
         public BBox BBox;
 
-        public Environment(EnvCell envCell)
+        public Environment(DatReaderWriter.DBObjs.EnvCell envCell)
         {
             EnvCell = envCell;
-            LoadEnv(envCell.EnvironmentId);
+            LoadEnv((uint)0x0D000000 | envCell.EnvironmentId);
         }
 
         public void LoadEnv(uint envID)
         {
-            var env = DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.Environment>(envID);
+            DatManager.PortalDat.TryReadFileCache(envID, out DatReaderWriter.DBObjs.Environment env);
 
             var cellOffset = 0;
             foreach (var cell in env.Cells.Values)
@@ -34,7 +34,7 @@ namespace ACE.Server.Physics.Util
                 foreach (var poly in cell.Polygons.Values)
                 {
                     PolyOffsets.Add(cellOffset);
-                    poly.LoadVertices(cell.VertexArray);
+                    //poly.LoadVertices(cell.VertexArray);  // TODO: fixme
                     Polygons.Add(poly);
                 }
                 cellOffset += cell.VertexArray.Vertices.Count;

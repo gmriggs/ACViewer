@@ -9,6 +9,8 @@ using ACE.DatLoader.FileTypes;
 
 using ACViewer.Render;
 
+using DatReaderWriter.DBObjs;
+
 namespace ACViewer
 {
     /// <summary>
@@ -62,10 +64,8 @@ namespace ACViewer
                 var block_y = i % 255;
                 
                 var key = (uint)(block_x << 24 | block_y << 16 | 0xFFFF);
-                if (DatManager.CellDat.AllFiles.ContainsKey(key)) // Ensures we either have a full cell, or prevents crashes
+                if (DatManager.CellDat.TryReadFileCache(key, out LandBlock landblock)) // Ensures we either have a full cell, or prevents crashes
                 {
-                    CellLandblock landblock = DatManager.CellDat.ReadFromDat<CellLandblock>(key);
-
                     int startX = block_x * 8;
                     int startY = LANDSIZE - block_y * 8 - 1;
 
@@ -76,11 +76,17 @@ namespace ACViewer
                             var type = landblock.Terrain[x * 9 + y];
                             var newZ = landblock.Height[x * 9 + y];
 
+                            ushort _rawValue = default;
+                            var t = landblock.Terrain[x * 9 + y];
+                            _rawValue |= (ushort)(t.Road & 0x3);
+                            _rawValue |= (ushort)(((ushort)t.Type << 2) & 0x7C);
+                            _rawValue |= (ushort)((t.Scenery << 11) & 0xF800);
+
                             // Write new data point
-                            land[startY - y, startX + x].Type = type;
+                            land[startY - y, startX + x].Type = _rawValue;
                             land[startY - y, startX + x].Z = GetLandheight(newZ);
                             land[startY - y, startX + x].Used = true;
-                            uint itex = (uint)((type >> 2) & 0x3F);
+                            uint itex = (uint)t.Type;
                             if (itex < 16 || itex > 20)
                                 land[startY - y, startX + x].Blocked = false;
                             else
@@ -208,22 +214,22 @@ namespace ACViewer
         private List<Color> GetMapColors()
         {
             uint RegionID = 0x13000000;
-            var Region = DatManager.PortalDat.ReadFromDat<RegionDesc>(RegionID);
+            DatManager.PortalDat.TryReadFileCache(RegionID, out DatReaderWriter.DBObjs.Region Region);
             Color[] landColors = new Color[Region.TerrainInfo.LandSurfaces.TexMerge.TerrainDesc.Count];
             for (var i = 0; i < Region.TerrainInfo.LandSurfaces.TexMerge.TerrainDesc.Count; i++)
             {
                 var t = Region.TerrainInfo.LandSurfaces.TexMerge.TerrainDesc[i];
                 var surfaceId = t.TerrainTex.TexGID;
                 SurfaceTexture st;
-                st = DatManager.PortalDat.ReadFromDat<SurfaceTexture>(surfaceId);
+                DatManager.PortalDat.TryReadFileCache(surfaceId, out st);
                 var textureId = st.Textures[st.Textures.Count - 1];
-                var texture = DatManager.PortalDat.ReadFromDat<Texture>(textureId);
+                DatManager.PortalDat.TryReadFileCache(textureId, out RenderSurface texture);
                 landColors[i] = GetAverageColor(texture);
             }
             return landColors.ToList();
         }
 
-        private Color GetAverageColor(Texture image)
+        private Color GetAverageColor(RenderSurface image)
         {
             if (image == null)
                 return Color.FromArgb(0, 255, 0); // TRANSPARENT
@@ -256,7 +262,7 @@ namespace ACViewer
             return Color.FromArgb(r, g, b);
         }
 
-        private Color GetPixel(Texture texture, int x, int y)
+        private Color GetPixel(RenderSurface texture, int x, int y)
         {
             var offset = (y * texture.Width + x) * 4;
 

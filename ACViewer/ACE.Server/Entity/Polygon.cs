@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using ACE.DatLoader.Entity;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Entity
 {
     /// <summary>

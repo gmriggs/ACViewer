@@ -2,9 +2,9 @@
 {
     public class PortalPoly
     {
-        public ACE.DatLoader.Entity.PortalPoly _portalPoly;
+        public DatReaderWriter.Types.PortalPoly _portalPoly;
 
-        public PortalPoly(ACE.DatLoader.Entity.PortalPoly portalPoly)
+        public PortalPoly(DatReaderWriter.Types.PortalPoly portalPoly)
         {
             _portalPoly = portalPoly;
         }

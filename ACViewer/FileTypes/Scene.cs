@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class Scene
     {
-        public ACE.DatLoader.FileTypes.Scene _scene;
+        public DatReaderWriter.DBObjs.Scene _scene;
 
-        public Scene(ACE.DatLoader.FileTypes.Scene scene)
+        public Scene(DatReaderWriter.DBObjs.Scene scene)
         {
             _scene = scene;
         }

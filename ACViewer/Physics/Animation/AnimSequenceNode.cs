@@ -3,6 +3,8 @@ using System;
 using ACE.DatLoader.Entity;
 using ACE.Server.Physics.Common;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Physics.Animation
 {
     public class AnimSequenceNode
@@ -95,7 +97,7 @@ namespace ACE.Server.Physics.Animation
 
         public void set_animation_id(uint animID)
         {
-            var anim = DBObj.GetAnimation(animID);
+            var anim = Common.DBObj.GetAnimation(animID);
             Anim = new Animation(anim);
             if (Anim == null) return;
 

@@ -28,7 +28,7 @@ namespace ACE.Server.Physics.Animation
             Orientation = new Quaternion(frame.Orientation.X, frame.Orientation.Y, frame.Orientation.Z, frame.Orientation.W);
         }
 
-        public AFrame(DatLoader.Entity.Frame frame)
+        public AFrame(DatReaderWriter.Types.Frame frame)
         {
             Origin = frame.Origin;
             Orientation = new Quaternion(frame.Orientation.X, frame.Orientation.Y, frame.Orientation.Z, frame.Orientation.W);

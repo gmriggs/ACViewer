@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class LuminousPartHook : AnimationHook
     {
-        public LuminousPartHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public LuminousPartHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,9 +13,9 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.LuminousPartHook _luminousPartHook)
+            if (_hook is DatReaderWriter.Types.LuminousPartHook _luminousPartHook)
             {
-                treeNode.Add(new TreeNode($"Part: {_luminousPartHook.Part}"));
+                treeNode.Add(new TreeNode($"Part: {_luminousPartHook.PartIndex}"));
                 treeNode.Add(new TreeNode($"Start: {_luminousPartHook.Start}"));
                 treeNode.Add(new TreeNode($"End: {_luminousPartHook.End}"));
                 treeNode.Add(new TreeNode($"Time: {_luminousPartHook.Time}"));

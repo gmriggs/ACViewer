@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Contract
     {
-        public ACE.DatLoader.Entity.Contract _contract;
+        public DatReaderWriter.Types.Contract _contract;
 
-        public Contract(ACE.DatLoader.Entity.Contract contract)
+        public Contract(DatReaderWriter.Types.Contract contract)
         {
             _contract = contract;
         }

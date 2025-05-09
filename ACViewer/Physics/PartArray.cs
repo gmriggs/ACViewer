@@ -8,6 +8,8 @@ using ACE.Server.Physics.Animation;
 using ACE.Server.Physics.Collision;
 using ACE.Server.Physics.Common;
 
+using DatReaderWriter.Types;
+
 using ACViewer;
 
 namespace ACE.Server.Physics
@@ -49,7 +51,7 @@ namespace ACE.Server.Physics
 
         public bool AllowsFreeHeading()
         {
-            return Setup._dat.AllowFreeHeading;
+            return Setup._dat.Flags.HasFlag(DatReaderWriter.Enums.SetupFlags.AllowFreeHeading);
         }
 
         public void AnimationDone(bool success)
@@ -481,7 +483,7 @@ namespace ACE.Server.Physics
                 {
                     if (Parts[partIdx] != null)
                     {
-                        if (Parts[partIdx].SetPart(change.PartID))
+                        if (Parts[partIdx].SetPart(change.PartId))
                             continue;
                     }
                 }
@@ -523,13 +525,13 @@ namespace ACE.Server.Physics
 
         public bool SetPlacementFrame(int placementID)
         {
-            PlacementType placementFrame = null;
+            AnimationFrame placementFrame = null;
 
             // try to get placementID
-            Setup._dat.PlacementFrames.TryGetValue(placementID, out placementFrame);
+            Setup._dat.PlacementFrames.TryGetValue((DatReaderWriter.Enums.Placement)placementID, out placementFrame);
             if (placementFrame != null)
             {
-                Sequence.SetPlacementFrame(placementFrame.AnimFrame, placementID);
+                Sequence.SetPlacementFrame(placementFrame, placementID);
                 return true;
             }
 
@@ -537,7 +539,7 @@ namespace ACE.Server.Physics
             Setup._dat.PlacementFrames.TryGetValue(0, out placementFrame);
             if (placementFrame != null)
             {
-                Sequence.SetPlacementFrame(placementFrame.AnimFrame, 0);
+                Sequence.SetPlacementFrame(placementFrame, 0);
                 return true;
             }
 

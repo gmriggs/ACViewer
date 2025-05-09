@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+
 using ACE.Entity;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
-using System.Numerics;
 
 namespace ACE.Server.Entity
 {
@@ -26,12 +27,12 @@ namespace ACE.Server.Entity
         /// <summary>
         /// The spell description that appears in client
         /// </summary>
-        public string Description { get => _spellBase.Desc; }
+        public string Description { get => _spellBase.Description; }
 
         /// <summary>
         /// The magic school this spell belongs to
         /// </summary>
-        public MagicSchool School { get => _spellBase.School; }
+        public MagicSchool School { get => (MagicSchool)_spellBase.School; }
 
         /// <summary>
         /// The spell icon ID for display in client
@@ -41,7 +42,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// Used for spell stacking, ie. Strength Self I and Strength Self VI will be the same category
         /// </summary>
-        public SpellCategory Category { get => _spellBase.Category; }
+        public SpellCategory Category { get => (SpellCategory)_spellBase.Category; }
 
         /// <summary>
         /// bit flags for the spell
@@ -94,7 +95,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// A subtype for the spell
         /// </summary>
-        public SpellType MetaSpellType { get => _spellBase.MetaSpellType; }
+        public SpellType MetaSpellType { get => (SpellType)_spellBase.MetaSpellType; }
 
         /// <summary>
         /// The amount of time the spell lasts
@@ -190,7 +191,7 @@ namespace ACE.Server.Entity
         /// <summary>
         /// uint values correspond to the SpellComponentsTable
         /// </summary>
-        private List<uint> _formula { get => _spellBase.Formula; }
+        private List<uint> _formula { get => _spellBase.Components; }
 
         /// <summary>
         /// Effect that plays on the caster for this spell (ie. for buffs, protects, etc.)

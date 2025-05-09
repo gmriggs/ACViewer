@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Vertex
     {
-        public ACE.DatLoader.Entity.SWVertex _swVertex;
+        public DatReaderWriter.Types.SWVertex _swVertex;
 
-        public Vertex(ACE.DatLoader.Entity.SWVertex swVertex)
+        public Vertex(DatReaderWriter.Types.SWVertex swVertex)
         {
             _swVertex = swVertex;
         }

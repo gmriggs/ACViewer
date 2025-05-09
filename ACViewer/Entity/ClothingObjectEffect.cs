@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ClothingObjectEffect
     {
-        public ACE.DatLoader.Entity.CloObjectEffect _effect;
+        public DatReaderWriter.Types.CloObjectEffect _effect;
 
-        public ClothingObjectEffect(ACE.DatLoader.Entity.CloObjectEffect effect)
+        public ClothingObjectEffect(DatReaderWriter.Types.CloObjectEffect effect)
         {
             _effect = effect;
         }

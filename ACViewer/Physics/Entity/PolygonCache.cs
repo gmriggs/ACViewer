@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using ACE.DatLoader.Entity;
+using ACE.Server.Physics.Common;
 
 namespace ACE.Server.Physics.Entity
 {
@@ -42,7 +43,7 @@ namespace ACE.Server.Physics.Entity
             return p;
         }
 
-        public static Polygon Get(DatLoader.Entity.Polygon p, CVertexArray v)
+        public static Polygon Get(DatReaderWriter.Types.Polygon p, DatReaderWriter.Types.VertexArray v)
         {
             var polygon = new Polygon(p, v);
 

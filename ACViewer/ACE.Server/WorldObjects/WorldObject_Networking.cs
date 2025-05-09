@@ -2,11 +2,15 @@
 
 using ACE.DatLoader;
 using ACE.DatLoader.Entity;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Entity.Models;
 using ACE.Server.Physics;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Types;
 
 namespace ACE.Server.WorldObjects
 {
@@ -155,7 +159,7 @@ namespace ACE.Server.WorldObjects
             else
                 physicsState &= ~PhysicsState.ScriptedCollision;
             ////HasPhysicsBSP               = 0x00010000,
-            if (CSetup.HasPhysicsBSP)
+            if (CSetup.Flags.HasFlag(DatReaderWriter.Enums.SetupFlags.HasPhysicsBSP))
                 physicsState |= PhysicsState.HasPhysicsBSP;
             else
                 physicsState &= ~PhysicsState.HasPhysicsBSP;
@@ -242,12 +246,12 @@ namespace ACE.Server.WorldObjects
                 return hook.Item.CalculateObjDesc();
 
             ACE.Entity.ObjDesc objDesc = new ACE.Entity.ObjDesc();
-            ClothingTable item;
+            DatReaderWriter.DBObjs.Clothing item;
 
             AddBaseModelData(objDesc);
 
             if (ClothingBase.HasValue)
-                item = DatManager.PortalDat.ReadFromDat<ClothingTable>((uint)ClothingBase);
+                DatManager.PortalDat.TryReadFileCache((uint)ClothingBase, out item);
             else
             {
                 return objDesc;
@@ -297,7 +301,7 @@ namespace ACE.Server.WorldObjects
                         shade = (float)Shade;
                     for (int i = 0; i < itemSubPal.CloSubPalettes.Count; i++)
                     {
-                        var itemPalSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(itemSubPal.CloSubPalettes[i].PaletteSet);
+                        DatManager.PortalDat.TryReadFileCache(itemSubPal.CloSubPalettes[i].PaletteSet, out PaletteSet itemPalSet);
                         ushort itemPal = (ushort)itemPalSet.GetPaletteID(shade);
 
                         for (int j = 0; j < itemSubPal.CloSubPalettes[i].Ranges.Count; j++)
@@ -328,11 +332,11 @@ namespace ACE.Server.WorldObjects
                 // This indicates we have a Gear Knight or Olthoi(that is, player types treat "hairstyle" as a "Body Style")
 
                 // Load the CharGen data. It has all the anim & texture changes for the Body Style defined within it
-                var cg = DatManager.PortalDat.CharGen;
+                var cg = DatManager.PortalDat.CharGen();
                 SexCG sex = cg.HeritageGroups[(uint)Heritage].Genders[(int)Gender];
-                if (sex.HairStyleList.Count > (int)HairStyle) // just check for a valid entry...
+                if (sex.HairStyles.Count > (int)HairStyle) // just check for a valid entry...
                 {
-                    HairStyleCG hairstyle = sex.HairStyleList[(int)HairStyle];
+                    HairStyleCG hairstyle = sex.HairStyles[(int)HairStyle];
 
                     // Add all the texture changes
                     foreach (var tm in hairstyle.ObjDesc.TextureChanges)
@@ -340,7 +344,7 @@ namespace ACE.Server.WorldObjects
 
                     // Add all the animation part changes
                     foreach (var part in hairstyle.ObjDesc.AnimPartChanges)
-                        objDesc.AnimPartChanges.Add(new PropertiesAnimPart { Index = part.PartIndex, AnimationId = part.PartID });
+                        objDesc.AnimPartChanges.Add(new PropertiesAnimPart { Index = part.PartIndex, AnimationId = part.PartId });
                 }
             }
 

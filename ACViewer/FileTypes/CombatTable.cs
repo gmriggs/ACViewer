@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class CombatTable
     {
-        public ACE.DatLoader.FileTypes.CombatManeuverTable _combatTable;
+        public DatReaderWriter.DBObjs.CombatTable _combatTable;
 
-        public CombatTable(ACE.DatLoader.FileTypes.CombatManeuverTable combatTable)
+        public CombatTable(DatReaderWriter.DBObjs.CombatTable combatTable)
         {
             _combatTable = combatTable;
         }
@@ -17,10 +17,10 @@ namespace ACViewer.FileTypes
 
             var maneuvers = new TreeNode("Maneuvers:");
 
-            for (var i = 0; i < _combatTable.CMT.Count; i++)
+            for (var i = 0; i < _combatTable.CombatManeuvers.Count; i++)
             {
                 var maneuver = new TreeNode($"{i}");
-                maneuver.Items.AddRange(new CombatManeuver(_combatTable.CMT[i]).BuildTree());
+                maneuver.Items.AddRange(new CombatManeuver(_combatTable.CombatManeuvers[i]).BuildTree());
 
                 maneuvers.Items.Add(maneuver);
             }

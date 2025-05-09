@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class DiffuseHook : AnimationHook
     {
-        public DiffuseHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public DiffuseHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.DiffuseHook _diffuseHook)
+            if (_hook is DatReaderWriter.Types.DiffuseHook _diffuseHook)
             {
                 treeNode.Add(new TreeNode($"Start: {_diffuseHook.Start}"));
                 treeNode.Add(new TreeNode($"End: {_diffuseHook.End}"));

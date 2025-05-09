@@ -1,19 +1,21 @@
-﻿using ACE.Entity.Enum;
+﻿using ACE.DatLoader.Extensions;
 
 using ACViewer.Entity;
+
+using DatReaderWriter.Enums;
 
 namespace ACViewer.FileTypes
 {
     public class Surface
     {
-        public ACE.DatLoader.FileTypes.Surface _surface;
+        public DatReaderWriter.DBObjs.Surface _surface;
         
         /// <summary>
         /// Used to store a NewTextureId when replaced via Clothing Table.
         /// </summary>
         public uint NewTextureId;
 
-        public Surface(ACE.DatLoader.FileTypes.Surface surface)
+        public Surface(DatReaderWriter.DBObjs.Surface surface)
         {
             _surface = surface;
         }
@@ -38,7 +40,7 @@ namespace ACViewer.FileTypes
             }
             else
             {
-                var swatch = new TreeNode($"Color: {Color.ToRGBA(_surface.ColorValue)}");
+                var swatch = new TreeNode($"Color: {Color.ToRGBA(_surface.ColorValue.ToUint32())}");
                 treeView.Items.Add(swatch);
             }
 

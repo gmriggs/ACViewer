@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class AnimationFrame
     {
-        public ACE.DatLoader.Entity.AnimationFrame _animationFrame;
+        public DatReaderWriter.Types.AnimationFrame _animationFrame;
 
-        public AnimationFrame(ACE.DatLoader.Entity.AnimationFrame animationFrame)
+        public AnimationFrame(DatReaderWriter.Types.AnimationFrame animationFrame)
         {
             _animationFrame = animationFrame;
         }

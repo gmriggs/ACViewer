@@ -70,10 +70,10 @@ namespace ACViewer.Render
                 {
                     // only use this hack for envcells / possibly buildings?
                     // bugged path: 000102BF-> 0D000425-> 080000DF
-                    if (polygon._polygon.Stippling == StipplingType.NoPos) continue;
+                    if (polygon._polygon.Stippling == DatReaderWriter.Enums.StipplingType.NoPos) continue;
                     
                     var surfaceIdx = polygon._polygon.PosSurface;
-                    var surfaceID = envCell.EnvCell._envCell.Surfaces[surfaceIdx];
+                    var surfaceID = (uint)0x08000000 | envCell.EnvCell._envCell.Surfaces[surfaceIdx];
 
                     var texture = TextureCache.Get(surfaceID);
                     //Console.WriteLine($"Texture: {surfaceID:X8} Size: {texture.Width}x{texture.Height}");

@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ScriptMod
     {
-        public ACE.DatLoader.Entity.ScriptAndModData _scriptMod;
+        public DatReaderWriter.Types.ScriptAndModData _scriptMod;
 
-        public ScriptMod(ACE.DatLoader.Entity.ScriptAndModData scriptMod)
+        public ScriptMod(DatReaderWriter.Types.ScriptAndModData scriptMod)
         {
             _scriptMod = scriptMod;
         }

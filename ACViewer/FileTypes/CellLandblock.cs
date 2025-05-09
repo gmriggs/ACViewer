@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 
 using ACViewer.Entity;
-
-using Landblock = ACE.DatLoader.FileTypes.CellLandblock;
 
 namespace ACViewer.FileTypes
 {
     public class CellLandblock
     {
-        public Landblock _landblock;
+        public DatReaderWriter.DBObjs.LandBlock _landblock;
         
-        public CellLandblock(Landblock landblock)
+        public CellLandblock(DatReaderWriter.DBObjs.LandBlock landblock)
         {
             _landblock = landblock;
         }
@@ -23,16 +22,16 @@ namespace ACViewer.FileTypes
 
             var hasObjects = new TreeNode($"HasObjects: {_landblock.HasObjects}");
             var terrain = new TreeNode("Terrain:");
-            for (var i = 0; i < _landblock.Terrain.Count; i++)
+            for (var i = 0; i < _landblock.Terrain.Length; i++)
             {
                 var t = _landblock.Terrain[i];
-                var typename = DatManager.PortalDat.RegionDesc.TerrainInfo.TerrainTypes[Landblock.GetType(t)].TerrainName;
-                terrain.Items.Add(new TreeNode($"{i}: Road: {Landblock.GetRoad(t)}, Type: {typename}, Scenery: {Landblock.GetScenery(t)}"));
+                var typename = DatManager.PortalDat.RegionDesc().TerrainInfo.TerrainTypes[(int)t.Type].TerrainName;
+                terrain.Items.Add(new TreeNode($"{i}: Road: {t.Road}, Type: {typename}, Scenery: {t.Scenery}"));
                 
             }
 
             var heights = new TreeNode("Heights:");
-            for (var i = 0; i < _landblock.Height.Count; i++)
+            for (var i = 0; i < _landblock.Height.Length; i++)
                 heights.Items.Add(new TreeNode($"{i}: {_landblock.Height[i]}"));
 
             treeView.Items.AddRange(new List<TreeNode>() { hasObjects, terrain, heights });

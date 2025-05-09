@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class SetOmegaHook : AnimationHook
     {
-        public SetOmegaHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public SetOmegaHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.SetOmegaHook _setOmegaHook)
+            if (_hook is DatReaderWriter.Types.SetOmegaHook _setOmegaHook)
             {
                 treeNode.Add(new TreeNode($"Axis: {_setOmegaHook.Axis}"));
             }

@@ -22,11 +22,11 @@ namespace ACE.Server.Physics.Common
         public List<int> LightList;
         public int NumShadowObjects;
         public List<ShadowObj> ShadowObjectList;
-        public List<uint> ShadowObjectIDs;
+        public List<ushort> ShadowObjectIDs;
         public uint RestrictionObj;
         public List<int> ClipPlanes;
         public int NumStabs;
-        public List<DatLoader.Entity.Stab> VisibleCells;
+        public List<DatReaderWriter.Types.Stab> VisibleCells;
         public bool SeenOutside;
         public List<uint> VoyeurTable;
 

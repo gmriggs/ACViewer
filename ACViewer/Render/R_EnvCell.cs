@@ -64,7 +64,7 @@ namespace ACViewer.Render
             Textures = new List<Texture2D>();
 
             foreach (var surfaceID in EnvCell._envCell.Surfaces)
-                Textures.Add(TextureCache.Get(surfaceID));
+                Textures.Add(TextureCache.Get((uint)0x08000000 | surfaceID));
         }
 
         public void Draw(Matrix landblock)

@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class CreateParticleHook: AnimationHook
     {
-        public CreateParticleHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public CreateParticleHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.CreateParticleHook _createParticleHook)
+            if (_hook is DatReaderWriter.Types.CreateParticleHook _createParticleHook)
             {
                 treeNode.Add(new TreeNode($"EmitterInfoId: {_createParticleHook.EmitterInfoId:X8}", clickable: true));
                 treeNode.Add(new TreeNode($"PartIndex: {(int)_createParticleHook.PartIndex}"));

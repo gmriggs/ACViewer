@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class NameFilterTable
     {
-        public ACE.DatLoader.FileTypes.NameFilterTable _nameFilterTable;
+        public DatReaderWriter.DBObjs.NameFilterTable _nameFilterTable;
 
-        public NameFilterTable(ACE.DatLoader.FileTypes.NameFilterTable nameFilterTable)
+        public NameFilterTable(DatReaderWriter.DBObjs.NameFilterTable nameFilterTable)
         {
             _nameFilterTable = nameFilterTable;
         }

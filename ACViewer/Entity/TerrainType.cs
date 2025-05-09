@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class TerrainType
     {
-        public ACE.DatLoader.Entity.TerrainType _terrainType;
+        public DatReaderWriter.Types.TerrainType _terrainType;
 
-        public TerrainType(ACE.DatLoader.Entity.TerrainType terrainType)
+        public TerrainType(DatReaderWriter.Types.TerrainType terrainType)
         {
             _terrainType = terrainType;
         }

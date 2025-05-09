@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class LandSurf
     {
-        public ACE.DatLoader.Entity.LandSurf _landSurf;
+        public DatReaderWriter.Types.LandSurf _landSurf;
 
-        public LandSurf(ACE.DatLoader.Entity.LandSurf landSurf)
+        public LandSurf(DatReaderWriter.Types.LandSurf landSurf)
         {
             _landSurf = landSurf;
         }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 using ACE.Common;
 using ACE.DatLoader;
-using ACE.DatLoader.Entity;
-using ACE.DatLoader.FileTypes;
+using ACE.DatLoader.Extensions;
 using ACE.Database;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Server.WorldObjects;
+
+using DatReaderWriter.Types;
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Entity
 {
@@ -68,7 +70,7 @@ namespace ACE.Server.Entity
         /// </summary>
         public void Init(uint spellID, bool loadDB = true)
         {
-            DatManager.PortalDat.SpellTable.Spells.TryGetValue(spellID, out _spellBase);
+            DatManager.PortalDat.SpellTable().Spells.TryGetValue(spellID, out _spellBase);
 
             if (loadDB)
                 _spell = DatabaseManager.World.GetCachedSpell(spellID);
@@ -146,7 +148,7 @@ namespace ACE.Server.Entity
 
             foreach (var component in Formula.CurrentFormula)
             {
-                if (!SpellFormula.SpellComponentsTable.SpellComponents.TryGetValue(component, out var spellComponent))
+                if (!SpellFormula.SpellComponentsTable.Components.TryGetValue(component, out var spellComponent))
                 {
                     Console.WriteLine($"Spell.TryBurnComponents(): Couldn't find SpellComponent {component}");
                     continue;
@@ -185,7 +187,7 @@ namespace ACE.Server.Entity
 
             foreach (var component in components)
             {
-                if (!SpellFormula.SpellComponentsTable.SpellComponents.TryGetValue(component, out var spellComponent))
+                if (!SpellFormula.SpellComponentsTable.Components.TryGetValue(component, out var spellComponent))
                 {
                     Console.WriteLine($"Spell.GetComponentNames(): Couldn't find SpellComponent {component}");
                     continue;
@@ -200,7 +202,7 @@ namespace ACE.Server.Entity
 
         public static uint GetComponentWCID(uint compID)
         {
-            var dualDIDs = DatManager.PortalDat.ReadFromDat<DualDidMapper>(SpellComponentDIDs);
+            DatManager.PortalDat.TryReadFileCache(SpellComponentDIDs, out DualDataIdMapper dualDIDs);
 
             if (!dualDIDs.ClientEnumToID.TryGetValue(compID, out var wcid))
             {

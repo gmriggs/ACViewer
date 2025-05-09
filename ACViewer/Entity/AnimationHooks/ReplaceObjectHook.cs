@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class ReplaceObjectHook : AnimationHook
     {
-        public ReplaceObjectHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public ReplaceObjectHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,10 +13,12 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.ReplaceObjectHook _replaceObjectHook)
+            if (_hook is DatReaderWriter.Types.ReplaceObjectHook _replaceObjectHook)
             {
-                var animPartChange = new AnimPartChange(_replaceObjectHook.APChange);
-                treeNode.AddRange(animPartChange.BuildTree());
+                var partIdx = new TreeNode($"PartIdx: {_replaceObjectHook.PartIndex}");
+                var partID = new TreeNode($"PartID: {_replaceObjectHook.PartId:X8}", clickable: true);
+
+                treeNode.AddRange(new List<TreeNode>() { partIdx, partID });
             }
             treeNode.AddRange(base.BuildTree());
 

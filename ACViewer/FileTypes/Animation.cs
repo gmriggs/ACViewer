@@ -1,14 +1,14 @@
-﻿using ACE.Entity.Enum;
+﻿using ACViewer.Entity;
 
-using ACViewer.Entity;
+using DatReaderWriter.Enums;
 
 namespace ACViewer.FileTypes
 {
     public class Animation
     {
-        public ACE.DatLoader.FileTypes.Animation _animation;
+        public DatReaderWriter.DBObjs.Animation _animation;
 
-        public Animation(ACE.DatLoader.FileTypes.Animation animation)
+        public Animation(DatReaderWriter.DBObjs.Animation animation)
         {
             _animation = animation;
         }

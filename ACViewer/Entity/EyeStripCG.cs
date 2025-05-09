@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class EyeStripCG
     {
-        public ACE.DatLoader.Entity.EyeStripCG _eyeStrip;
+        public DatReaderWriter.Types.EyeStripCG _eyeStrip;
 
-        public EyeStripCG(ACE.DatLoader.Entity.EyeStripCG eyeStrip)
+        public EyeStripCG(DatReaderWriter.Types.EyeStripCG eyeStrip)
         {
             _eyeStrip = eyeStrip;
         }
@@ -15,15 +15,15 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            if (_eyeStrip.IconImage != 0)
+            if (_eyeStrip.IconId != 0)
             {
-                var iconImage = new TreeNode($"Icon: {_eyeStrip.IconImage:X8}", clickable: true);
+                var iconImage = new TreeNode($"Icon: {_eyeStrip.IconId:X8}", clickable: true);
                 treeNode.Add(iconImage);
             }
 
-            if (_eyeStrip.IconImageBald != 0)
+            if (_eyeStrip.BaldIconId != 0)
             {
-                var iconImageBald = new TreeNode($"Bald Icon: {_eyeStrip.IconImageBald:X8}", clickable: true);
+                var iconImageBald = new TreeNode($"Bald Icon: {_eyeStrip.BaldIconId:X8}", clickable: true);
                 treeNode.Add(iconImageBald);
             }
 
@@ -32,7 +32,7 @@ namespace ACViewer.Entity
             treeNode.Add(objDesc);
 
             var objDescBald = new TreeNode($"ObjDescBald:");
-            objDescBald.Items.AddRange(new ObjDesc(_eyeStrip.ObjDescBald).BuildTree());
+            objDescBald.Items.AddRange(new ObjDesc(_eyeStrip.BaldObjDesc).BuildTree());
             treeNode.Add(objDescBald);
 
             return treeNode;

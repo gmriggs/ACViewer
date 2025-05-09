@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 using ACE.Common;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 using ACE.DatLoader.FileTypes;
 using ACE.Entity;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Entity.Models;
 using ACE.Server.WorldObjects.Entity;
+
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.WorldObjects
 {
@@ -106,7 +109,7 @@ namespace ACE.Server.WorldObjects
 
         public void GenerateNewFace()
         {
-            var cg = DatManager.PortalDat.CharGen;
+            var cg = DatManager.PortalDat.CharGen();
 
             if (!Heritage.HasValue)
             {
@@ -155,33 +158,33 @@ namespace ACE.Server.WorldObjects
             };
 
             // Get the hair first, because we need to know if you're bald, and that's the name of that tune!
-            if (sex.HairStyleList.Count > 1)
+            if (sex.HairStyles.Count > 1)
             {
                 //if (PropertyManager.GetBool("npc_hairstyle_fullrange").Item)
                     //appearance.HairStyle = (uint)ThreadSafeRandom.Next(0, sex.HairStyleList.Count - 1);
                 //else
-                    appearance.HairStyle = (uint)ThreadSafeRandom.Next(0, Math.Min(sex.HairStyleList.Count - 1, 8)); // retail range data compiled by OptimShi
+                    appearance.HairStyle = (uint)ThreadSafeRandom.Next(0, Math.Min(sex.HairStyles.Count - 1, 8)); // retail range data compiled by OptimShi
             }
             else
                 appearance.HairStyle = 0;
 
-            if (sex.HairStyleList.Count < appearance.HairStyle)
+            if (sex.HairStyles.Count < appearance.HairStyle)
             {
-                Console.WriteLine($"Creature.GenerateNewFace: {Name} (0x{Guid}) - wcid {WeenieClassId} - HairStyle = {appearance.HairStyle} | HairStyleList.Count = {sex.HairStyleList.Count} - Data invalid, Cannot randomize face.");
+                Console.WriteLine($"Creature.GenerateNewFace: {Name} (0x{Guid}) - wcid {WeenieClassId} - HairStyle = {appearance.HairStyle} | HairStyleList.Count = {sex.HairStyles.Count} - Data invalid, Cannot randomize face.");
                 return;
             }
 
-            var hairstyle = sex.HairStyleList[Convert.ToInt32(appearance.HairStyle)];
+            var hairstyle = sex.HairStyles[Convert.ToInt32(appearance.HairStyle)];
 
-            appearance.HairColor = (uint)ThreadSafeRandom.Next(0, sex.HairColorList.Count - 1);
+            appearance.HairColor = (uint)ThreadSafeRandom.Next(0, sex.HairColors.Count - 1);
             appearance.HairHue = ThreadSafeRandom.Next(0.0f, 1.0f);
 
-            appearance.EyeColor = (uint)ThreadSafeRandom.Next(0, sex.EyeColorList.Count - 1);
-            appearance.Eyes = (uint)ThreadSafeRandom.Next(0, sex.EyeStripList.Count - 1);
+            appearance.EyeColor = (uint)ThreadSafeRandom.Next(0, sex.EyeColors.Count - 1);
+            appearance.Eyes = (uint)ThreadSafeRandom.Next(0, sex.EyeStrips.Count - 1);
 
-            appearance.Mouth = (uint)ThreadSafeRandom.Next(0, sex.MouthStripList.Count - 1);
+            appearance.Mouth = (uint)ThreadSafeRandom.Next(0, sex.MouthStrips.Count - 1);
 
-            appearance.Nose = (uint)ThreadSafeRandom.Next(0, sex.NoseStripList.Count - 1);
+            appearance.Nose = (uint)ThreadSafeRandom.Next(0, sex.NoseStrips.Count - 1);
 
             appearance.SkinHue = ThreadSafeRandom.Next(0.0f, 1.0f);
 
@@ -205,18 +208,18 @@ namespace ACE.Server.WorldObjects
                 HeadObjectDID = sex.GetHeadObject(appearance.HairStyle);
 
             // Skin is stored as PaletteSet (list of Palettes), so we need to read in the set to get the specific palette
-            var skinPalSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(sex.SkinPalSet);
+            DatManager.PortalDat.TryReadFileCache(sex.SkinPalSet, out PaletteSet skinPalSet);
             if (!SkinPaletteDID.HasValue)
                 SkinPaletteDID = skinPalSet.GetPaletteID(appearance.SkinHue);
 
             // Hair is stored as PaletteSet (list of Palettes), so we need to read in the set to get the specific palette
-            var hairPalSet = DatManager.PortalDat.ReadFromDat<PaletteSet>(sex.HairColorList[Convert.ToInt32(appearance.HairColor)]);
+            DatManager.PortalDat.TryReadFileCache(sex.HairColors[Convert.ToInt32(appearance.HairColor)], out PaletteSet hairPalSet);
             if (!HairPaletteDID.HasValue)
                 HairPaletteDID = hairPalSet.GetPaletteID(appearance.HairHue);
 
             // Eye Color
             if (!EyesPaletteDID.HasValue)
-                EyesPaletteDID = sex.EyeColorList[Convert.ToInt32(appearance.EyeColor)];
+                EyesPaletteDID = sex.EyeColors[Convert.ToInt32(appearance.EyeColor)];
         }
 
         /// <summary>

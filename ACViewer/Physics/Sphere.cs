@@ -54,7 +54,7 @@ namespace ACE.Server.Physics
         /// <summary>
         /// Constructs a sphere loaded from portal.dat
         /// </summary>
-        public Sphere(DatLoader.Entity.Sphere sphere)
+        public Sphere(DatReaderWriter.Types.Sphere sphere)
         {
             Center = sphere.Origin;
             Radius = sphere.Radius;

@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class NoDrawHook : AnimationHook
     {
-        public NoDrawHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public NoDrawHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.NoDrawHook _noDrawHook)
+            if (_hook is DatReaderWriter.Types.NoDrawHook _noDrawHook)
             {
                 treeNode.Add(new TreeNode($"NoDraw: {_noDrawHook.NoDraw}"));
             }

@@ -1,5 +1,7 @@
 using ACE.DatLoader.Entity;
 
+using DatReaderWriter.Types;
+
 namespace ACE.Server.Physics.Common
 {
     public class RegionDesc

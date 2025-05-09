@@ -6,16 +6,16 @@ namespace ACViewer.Entity
 {
     public class SkillCG
     {
-        public ACE.DatLoader.Entity.SkillCG _skill;
+        public DatReaderWriter.Types.SkillCG _skill;
 
-        public SkillCG(ACE.DatLoader.Entity.SkillCG skill)
+        public SkillCG(DatReaderWriter.Types.SkillCG skill)
         {
             _skill = skill;
         }
 
         public List<TreeNode> BuildTree()
         {
-            var skill = new TreeNode($"Skill: {(Skill)_skill.SkillNum}");
+            var skill = new TreeNode($"Skill: {(Skill)_skill.Id}");
             var normalCost = new TreeNode($"Normal Cost: {_skill.NormalCost}");
             var primaryCost = new TreeNode($"Primary Cost: {_skill.PrimaryCost}");
 

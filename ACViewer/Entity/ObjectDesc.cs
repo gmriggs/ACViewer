@@ -4,18 +4,18 @@ namespace ACViewer.Entity
 {
     public class ObjectDesc
     {
-        public ACE.DatLoader.Entity.ObjectDesc _desc;
+        public DatReaderWriter.Types.ObjectDesc _desc;
 
-        public ObjectDesc(ACE.DatLoader.Entity.ObjectDesc desc)
+        public ObjectDesc(DatReaderWriter.Types.ObjectDesc desc)
         {
             _desc = desc;
         }
 
         public List<TreeNode> BuildTree()
         {
-            var objectID = new TreeNode($"Object ID: {_desc.ObjId:X8}", clickable: true);
+            var objectID = new TreeNode($"Object ID: {_desc.ObjectId:X8}", clickable: true);
             var baseLoc = new TreeNode($"BaseLoc: {new Frame(_desc.BaseLoc).ToString()}");
-            var freq = new TreeNode($"Frequency: {_desc.Freq}");
+            var freq = new TreeNode($"Frequency: {_desc.Frequency}");
             var displaceX = new TreeNode($"DisplaceX: {_desc.DisplaceX}");
             var displaceY = new TreeNode($"DisplaceY: {_desc.DisplaceY}");
             var minScale = new TreeNode($"MinScale: {_desc.MinScale}");

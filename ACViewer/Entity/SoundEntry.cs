@@ -2,18 +2,18 @@
 
 namespace ACViewer.Entity
 {
-    public class SoundTableData
+    public class SoundEntry
     {
-        public ACE.DatLoader.Entity.SoundTableData _data;
+        public DatReaderWriter.Types.SoundEntry _data;
 
-        public SoundTableData(ACE.DatLoader.Entity.SoundTableData data)
+        public SoundEntry(DatReaderWriter.Types.SoundEntry data)
         {
             _data = data;
         }
 
         public List<TreeNode> BuildTree()
         {
-            var soundID = new TreeNode($"Sound ID: {_data.SoundId:X8}", clickable: true);
+            var soundID = new TreeNode($"Sound ID: {_data.Id:X8}", clickable: true);
             var priority = new TreeNode($"Priority: {_data.Priority}");
             var probability = new TreeNode($"Probability: {_data.Probability}");
             var volume = new TreeNode($"Volume: {_data.Volume}");

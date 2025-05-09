@@ -4,9 +4,9 @@ namespace ACViewer.FileTypes
 {
     public class LandblockInfo
     {
-        public ACE.DatLoader.FileTypes.LandblockInfo _info;
+        public DatReaderWriter.DBObjs.LandBlockInfo _info;
 
-        public LandblockInfo(ACE.DatLoader.FileTypes.LandblockInfo info)
+        public LandblockInfo(DatReaderWriter.DBObjs.LandBlockInfo info)
         {
             _info = info;
         }
@@ -63,10 +63,10 @@ namespace ACViewer.FileTypes
                 treeView.Items.Add(buildings);
             }
 
-            if (_info.RestrictionTables.Count != 0)
+            if (_info.RestrictionTable.Count != 0)
             {
                 var restrictions = new TreeNode($"Restrictions:");
-                foreach (var kvp in _info.RestrictionTables)
+                foreach (var kvp in _info.RestrictionTable)
                     restrictions.Items.Add(new TreeNode($"{kvp.Key:X8}: {kvp.Value:X8}"));
 
                 treeView.Items.Add(restrictions);

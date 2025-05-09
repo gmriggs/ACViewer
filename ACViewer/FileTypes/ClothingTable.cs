@@ -9,9 +9,9 @@ namespace ACViewer.FileTypes
 {
     public class ClothingTable
     {
-        public ACE.DatLoader.FileTypes.ClothingTable _clothingTable;
+        public DatReaderWriter.DBObjs.Clothing _clothingTable;
 
-        public ClothingTable(ACE.DatLoader.FileTypes.ClothingTable clothingTable)
+        public ClothingTable(DatReaderWriter.DBObjs.Clothing clothingTable)
         {
             _clothingTable = clothingTable;
         }

@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class SetLightHook : AnimationHook
     {
-        public SetLightHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public SetLightHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.SetLightHook _setLightHook)
+            if (_hook is DatReaderWriter.Types.SetLightHook _setLightHook)
             {
                 treeNode.Add(new TreeNode($"LightsOn: {_setLightHook.LightsOn}"));
             }

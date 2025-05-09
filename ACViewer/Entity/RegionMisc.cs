@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class RegionMisc
     {
-        public ACE.DatLoader.Entity.RegionMisc _regionMisc;
+        public DatReaderWriter.Types.RegionMisc _regionMisc;
 
-        public RegionMisc(ACE.DatLoader.Entity.RegionMisc regionMisc)
+        public RegionMisc(DatReaderWriter.Types.RegionMisc regionMisc)
         {
             _regionMisc = regionMisc;
         }

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ACViewer.Entity
 {
     public class SpellSet
     {
-        public ACE.DatLoader.Entity.SpellSet _spellSet;
+        public DatReaderWriter.Types.SpellSet _spellSet;
 
-        public SpellSet(ACE.DatLoader.Entity.SpellSet spellSet)
+        public SpellSet(DatReaderWriter.Types.SpellSet spellSet)
         {
             _spellSet = spellSet;
         }
@@ -25,7 +26,7 @@ namespace ACViewer.Entity
                 spellSetTiers.Items.Add(spellSetTier);
             }
             treeNode.Add(spellSetTiers);
-            treeNode.Add(new TreeNode($"HighestTier: {_spellSet.HighestTier}"));
+            treeNode.Add(new TreeNode($"HighestTier: {_spellSet.SpellSetTiers.Keys.LastOrDefault()}"));
             return treeNode;
         }
     }

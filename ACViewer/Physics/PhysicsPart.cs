@@ -22,7 +22,7 @@ namespace ACE.Server.Physics
     {
         //public float CYpt;
         //public Vector3 ViewerHeading;
-        //public DatLoader.FileTypes.GfxObjDegradeInfo Degrades;
+        //public DatReaderWriter.DBObjs.GfxObjDegradeInfo Degrades;
         //public int DegLevel;
         //public int DegMode;
         public GfxObj GfxObj;
@@ -35,7 +35,7 @@ namespace ACE.Server.Physics
         public float CurTranslucency;
         //public float CurDiffuse;
         //public float CurLuminosity;
-        //public DatLoader.FileTypes.Palette ShiftPal;
+        //public DatReaderWriter.DBObjs.Palette ShiftPal;
         //public int CurrentRenderFrameNum;
         public PhysicsObj PhysicsObj;
         public int PhysObjIndex;

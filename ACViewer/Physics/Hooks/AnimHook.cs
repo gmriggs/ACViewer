@@ -1,8 +1,6 @@
-using System;
-using ACE.DatLoader.Entity;
-using ACE.DatLoader.Entity.AnimationHooks;
-using ACE.Entity.Enum;
 using ACE.Server.Physics.Animation;
+
+using DatReaderWriter.Types;
 
 namespace ACE.Server.Physics.Hooks
 {
@@ -12,7 +10,7 @@ namespace ACE.Server.Physics.Hooks
         {
             switch (animHook.HookType)
             {
-                case AnimationHookType.AnimationDone:
+                case DatReaderWriter.Enums.AnimationHookType.AnimationDone:
                     obj.Hook_AnimDone();
                     break;
 
@@ -21,7 +19,7 @@ namespace ACE.Server.Physics.Hooks
                         obj.set_ethereal(Convert.ToBoolean(hook.Ethereal), false);
                     break;*/
 
-                case AnimationHookType.CreateParticle:
+                case DatReaderWriter.Enums.AnimationHookType.CreateParticle:
                     if (animHook is CreateParticleHook hook)
                         obj.create_particle_emitter(hook.EmitterInfoId, (int)hook.PartIndex, new AFrame(hook.Offset), (int)hook.EmitterId);
                     break;

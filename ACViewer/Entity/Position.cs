@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class Position
     {
-        public ACE.DatLoader.Entity.Position _position;
+        public DatReaderWriter.Types.Position _position;
 
-        public Position(ACE.DatLoader.Entity.Position position)
+        public Position(DatReaderWriter.Types.Position position)
         {
             _position = position;
         }
@@ -15,9 +15,9 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            if (_position.ObjCellID != 0)
+            if (_position.CellId != 0)
             {
-                var objCellID = new TreeNode($"ObjCellID: {_position.ObjCellID:X8}", clickable: true);
+                var objCellID = new TreeNode($"ObjCellID: {_position.CellId:X8}", clickable: true);
                 treeNode.Add(objCellID);
             }
 

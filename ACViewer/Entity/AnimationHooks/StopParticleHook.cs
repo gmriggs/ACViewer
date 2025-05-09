@@ -4,7 +4,7 @@ namespace ACViewer.Entity.AnimationHooks
 {
     public class StopParticleHook : AnimationHook
     {
-        public StopParticleHook(ACE.DatLoader.Entity.AnimationHook hook)
+        public StopParticleHook(DatReaderWriter.Types.AnimationHook hook)
             : base(hook)
         {
         }
@@ -13,7 +13,7 @@ namespace ACViewer.Entity.AnimationHooks
         {
             var treeNode = new List<TreeNode>();
 
-            if (_hook is ACE.DatLoader.Entity.AnimationHooks.StopParticleHook _stopParticleHook)
+            if (_hook is DatReaderWriter.Types.StopParticleHook _stopParticleHook)
             {
                 treeNode.Add(new TreeNode($"EmitterId: {_stopParticleHook.EmitterId}"));
             }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using ACE.DatLoader;
+using ACE.DatLoader.Extensions;
 
 namespace ACE.Server.Physics.Common
 {
     public class LandSurf
     {
         public static LandSurf Instance;
-        public static DatLoader.Entity.LandSurf _landSurf;
+        public static DatReaderWriter.Types.LandSurf _landSurf;
 
         public PalShift PalShift;
         public TexMerge TexMerge;
@@ -20,12 +21,12 @@ namespace ACE.Server.Physics.Common
 
         static LandSurf()
         {
-            var regionDesc = DatManager.PortalDat.RegionDesc;
+            var regionDesc = DatManager.PortalDat.RegionDesc();
             var terrainDesc = regionDesc.TerrainInfo;
             Instance = new LandSurf(terrainDesc.LandSurfaces);
         }
 
-        public LandSurf(DatLoader.Entity.LandSurf landSurf)
+        public LandSurf(DatReaderWriter.Types.LandSurf landSurf)
         {
             _landSurf = landSurf;
 

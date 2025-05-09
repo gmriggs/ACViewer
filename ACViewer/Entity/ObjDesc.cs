@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class ObjDesc
     {
-        public ACE.DatLoader.Entity.ObjDesc _objDesc;
+        public DatReaderWriter.Types.ObjDesc _objDesc;
 
-        public ObjDesc(ACE.DatLoader.Entity.ObjDesc objDesc)
+        public ObjDesc(DatReaderWriter.Types.ObjDesc objDesc)
         {
             _objDesc = objDesc;
         }
@@ -15,9 +15,9 @@ namespace ACViewer.Entity
         {
             var treeNode = new List<TreeNode>();
 
-            if (_objDesc.PaletteID != 0)
+            if (_objDesc.PaletteId != 0)
             {
-                var paletteID = new TreeNode($"Palette ID: {_objDesc.PaletteID:X8}", clickable: true);
+                var paletteID = new TreeNode($"Palette ID: {_objDesc.PaletteId:X8}", clickable: true);
                 treeNode.Add(paletteID);
             }
 

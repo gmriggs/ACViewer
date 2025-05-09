@@ -5,11 +5,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using ACE.DatLoader;
-using ACE.DatLoader.FileTypes;
-using ACE.Entity.Enum;
 
 using ACViewer.Data;
 using ACViewer.FileTypes;
+
+using DatReaderWriter.DBObjs;
+using DatReaderWriter.Enums;
 
 namespace ACViewer.View
 {
@@ -56,7 +57,8 @@ namespace ACViewer.View
 
             MainWindow.Status.WriteLine($"Motion table: {mtableID:X8}");
 
-            MotionTable = new FileTypes.MotionTable(DatManager.PortalDat.ReadFromDat<ACE.DatLoader.FileTypes.MotionTable>(mtableID));
+            DatManager.PortalDat.TryReadFileCache(mtableID, out DatReaderWriter.DBObjs.MotionTable motionTable);
+            MotionTable = new FileTypes.MotionTable(motionTable);
 
             var stances = MotionTable.GetStances();
             SetStances(stances);
@@ -104,7 +106,7 @@ namespace ACViewer.View
             if (selected == null)
                 return;
 
-            var motionStance = (MotionStance)selected.Content;
+            var motionStance = (MotionCommand)selected.Content;
 
             MainWindow.Status.WriteLine($"Playing motion {motionStance}.Ready");
 
@@ -132,7 +134,7 @@ namespace ACViewer.View
 
         public void SetDefaultStance()
         {
-            var defaultStyle = (MotionStance)MotionTable._motionTable.DefaultStyle;
+            var defaultStyle = MotionTable._motionTable.DefaultStyle;
 
             foreach (var item in MotionStances.Items)
             {
@@ -149,11 +151,11 @@ namespace ACViewer.View
             }
         }
 
-        public void SetDefaultMotion(MotionStance stance)
+        public void SetDefaultMotion(MotionCommand stance)
         {
             var defaultMotion = MotionCommand.Invalid;
-            if (MotionTable._motionTable.StyleDefaults.TryGetValue((uint)stance, out var _defaultMotion))
-                defaultMotion = (MotionCommand)_defaultMotion;
+            if (MotionTable._motionTable.StyleDefaults.TryGetValue(stance, out var _defaultMotion));
+                defaultMotion = _defaultMotion;
 
             foreach (var subitem in MotionCommands.Items)
             {

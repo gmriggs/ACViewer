@@ -4,9 +4,9 @@ namespace ACViewer.Entity
 {
     public class SkyDesc
     {
-        public ACE.DatLoader.Entity.SkyDesc _skyDesc;
+        public DatReaderWriter.Types.SkyDesc _skyDesc;
 
-        public SkyDesc(ACE.DatLoader.Entity.SkyDesc skyDesc)
+        public SkyDesc(DatReaderWriter.Types.SkyDesc skyDesc)
         {
             _skyDesc = skyDesc;
         }

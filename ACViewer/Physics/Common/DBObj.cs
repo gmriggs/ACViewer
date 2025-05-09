@@ -2,6 +2,7 @@ using System;
 
 using ACE.DatLoader;
 using ACE.DatLoader.FileTypes;
+using DatReaderWriter.DBObjs;
 
 namespace ACE.Server.Physics.Common
 {
@@ -45,17 +46,19 @@ namespace ACE.Server.Physics.Common
         /// <summary>
         /// QualifiedDID Type 1
         /// </summary>
-        public static CellLandblock GetCellLandblock(uint id)
+        public static LandBlock GetCellLandblock(uint id)
         {
-            return DatManager.CellDat.ReadFromDat<CellLandblock>(id);
+            DatManager.CellDat.TryReadFileCache(id, out LandBlock landBlock);
+            return landBlock;
         }
 
         /// <summary>
         /// QualifiedDID Type 2
         /// </summary>
-        public static LandblockInfo GetLandblockInfo(uint id)
+        public static LandBlockInfo GetLandblockInfo(uint id)
         {
-            return DatManager.CellDat.ReadFromDat<LandblockInfo>(id);
+            DatManager.CellDat.TryReadFileCache(id, out LandBlockInfo lbInfo);
+            return lbInfo;
         }
 
         /// <summary>
@@ -63,8 +66,7 @@ namespace ACE.Server.Physics.Common
         /// </summary>
         public static EnvCell GetEnvCell(uint id)
         {
-            var envCell = DatManager.CellDat.ReadFromDat<DatLoader.FileTypes.EnvCell>(id);
-
+            DatManager.CellDat.TryReadFileCache(id, out DatReaderWriter.DBObjs.EnvCell envCell);
             return new EnvCell(envCell);
         }
 
@@ -73,23 +75,26 @@ namespace ACE.Server.Physics.Common
         /// </summary>
         public static GfxObj GetGfxObj(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<GfxObj>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out GfxObj gfxObj);
+            return gfxObj;
         }
 
         /// <summary>
         /// QualifiedDID Type 7
         /// </summary>
-        public static SetupModel GetSetup(uint id)
+        public static DatReaderWriter.DBObjs.Setup GetSetup(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<SetupModel>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out DatReaderWriter.DBObjs.Setup setup);
+            return setup;
         }
 
         /// <summary>
         /// QualifiedDID Type 8
         /// </summary>
-        public static DatLoader.FileTypes.Animation GetAnimation(uint id)
+        public static DatReaderWriter.DBObjs.Animation GetAnimation(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.Animation>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out DatReaderWriter.DBObjs.Animation anim);
+            return anim;
         }
 
         /// <summary>
@@ -97,23 +102,26 @@ namespace ACE.Server.Physics.Common
         /// </summary>
         public static SurfaceTexture GetSurfaceTexture(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<SurfaceTexture>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out SurfaceTexture st);
+            return st;
         }
 
         /// <summary>
         /// QualifiedDID Type 16
         /// </summary>
-        public static DatLoader.FileTypes.Environment GetEnvironment(uint id)
+        public static DatReaderWriter.DBObjs.Environment GetEnvironment(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.Environment>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out DatReaderWriter.DBObjs.Environment env);
+            return env;
         }
 
         /// <summary>
         /// QualifiedDID Type 42
         /// </summary>
-        public static DatLoader.FileTypes.ParticleEmitterInfo GetParticleEmitterInfo(uint id)
+        public static DatReaderWriter.DBObjs.ParticleEmitter GetParticleEmitterInfo(uint id)
         {
-            return DatManager.PortalDat.ReadFromDat<DatLoader.FileTypes.ParticleEmitterInfo>(id);
+            DatManager.PortalDat.TryReadFileCache(id, out DatReaderWriter.DBObjs.ParticleEmitter emitter);
+            return emitter;
         }
     }
 }
