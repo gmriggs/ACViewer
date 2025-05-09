@@ -25,9 +25,9 @@ namespace ACViewer.FileTypes
 
             var surfaces = new TreeNode("Surfaces:");
             foreach (var surface in _envCell.Surfaces)
-                surfaces.Items.Add(new TreeNode($"{surface:X8}", clickable: true));
+                surfaces.Items.Add(new TreeNode($"{0x08000000 | surface:X8}", clickable: true));
 
-            var envID = new TreeNode($"Environment: {_envCell.EnvironmentId:X8}", clickable: true);
+            var envID = new TreeNode($"Environment: {0x0D000000 | _envCell.EnvironmentId:X8}", clickable: true);
 
             treeView.Items.AddRange(new List<TreeNode>() { surfaces, envID });
 

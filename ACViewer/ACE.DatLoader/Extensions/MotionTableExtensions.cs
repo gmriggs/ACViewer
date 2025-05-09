@@ -140,13 +140,13 @@ namespace ACE.DatLoader.Extensions
             DatManager.PortalDat.TryReadFileCache(anim.AnimId, out Animation animation);
 
             if (anim.HighFrame == -1)
-                highFrame = animation.PosFrames.Count;
+                highFrame = animation.PartFrames.Count;
 
-            if (highFrame > animation.PosFrames.Count)
+            if (highFrame > animation.PartFrames.Count)
             {
                 // magic windup for level 6 spells appears to be the only animation w/ bugged data
                 //Console.WriteLine($"MotionTable.GetAnimationLength({anim}): highFrame({highFrame}) > animation.NumFrames({animation.NumFrames})");
-                highFrame = animation.PosFrames.Count;
+                highFrame = animation.PartFrames.Count;
             }
 
             var numFrames = highFrame - anim.LowFrame;
@@ -188,7 +188,7 @@ namespace ACE.DatLoader.Extensions
                         if ((anim.LowFrame == 0) && (anim.HighFrame == -1))
                         {
                             DatManager.PortalDat.TryReadFileCache(anim.AnimId, out Animation animation);
-                            numFrames = animation.PosFrames.Count;
+                            numFrames = animation.PartFrames.Count;
 
                             if (animation.PosFrames.Count > 0)
                             {

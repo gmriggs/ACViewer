@@ -154,7 +154,7 @@ namespace ACViewer.View
         public void SetDefaultMotion(MotionCommand stance)
         {
             var defaultMotion = MotionCommand.Invalid;
-            if (MotionTable._motionTable.StyleDefaults.TryGetValue(stance, out var _defaultMotion));
+            if (MotionTable._motionTable.StyleDefaults.TryGetValue(stance, out var _defaultMotion))
                 defaultMotion = _defaultMotion;
 
             foreach (var subitem in MotionCommands.Items)

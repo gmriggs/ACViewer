@@ -20,7 +20,7 @@ namespace ACE.Server.Physics.Animation
             ID = anim.Id;
             HasHooks = false;   // comes from bitfield?
             NumParts = anim.NumParts;
-            NumFrames = (uint)anim.PosFrames.Count;
+            NumFrames = (uint)anim.PartFrames.Count;
             PartFrames = anim.PartFrames;
             PosFrames = new List<AFrame>();
             foreach (var posFrame in anim.PosFrames)
