@@ -54,7 +54,7 @@ namespace ACE.Server.Entity
         /// </summary>
         public static uint GetFormula(Creature creature, DatReaderWriter.Types.SkillFormula formula, bool current = true)
         {
-            if (!formula.HasSecondAttribute) return 0;
+            if (formula.Attribute1Multiplier == 0) return 0;
 
             var attr1 = (PropertyAttribute)formula.Attribute1;
             var attr2 = (PropertyAttribute)formula.Attribute2;

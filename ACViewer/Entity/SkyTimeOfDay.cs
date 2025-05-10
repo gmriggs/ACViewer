@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using ACE.DatLoader.Extensions;
+
 namespace ACViewer.Entity
 {
     public class SkyTimeOfDay
@@ -17,12 +19,12 @@ namespace ACViewer.Entity
             var dirBright = new TreeNode($"DirBright: {_skyTimeOfDay.DirBright}");
             var dirHeading = new TreeNode($"DirHeading: {_skyTimeOfDay.DirHeading}");
             var dirPitch = new TreeNode($"DirPitch: {_skyTimeOfDay.DirPitch}");
-            var dirColor = new TreeNode($"DirColor: {_skyTimeOfDay.DirColor:X8}");
+            var dirColor = new TreeNode($"DirColor: {_skyTimeOfDay.DirColor.ToUint32():X8}");
             var ambientBright = new TreeNode($"AmbientBrightness: {_skyTimeOfDay.AmbBright}");
-            var ambientColor = new TreeNode($"AmbientColor: {_skyTimeOfDay.AmbColor:X8}");
+            var ambientColor = new TreeNode($"AmbientColor: {_skyTimeOfDay.AmbColor.ToUint32():X8}");
             var minFog = new TreeNode($"MinFog: {_skyTimeOfDay.MinWorldFog}");
             var maxFog = new TreeNode($"MaxFog: {_skyTimeOfDay.MaxWorldFog}");
-            var fogColor = new TreeNode($"FogColor: {_skyTimeOfDay.WorldFogColor:X8}");
+            var fogColor = new TreeNode($"FogColor: {_skyTimeOfDay.WorldFogColor.ToUint32():X8}");
             var worldFog = new TreeNode($"Fog: {_skyTimeOfDay.WorldFog}");
 
             var skyObjReplace = new TreeNode($"SkyObjectReplace:");

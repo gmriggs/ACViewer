@@ -411,7 +411,7 @@ namespace ACViewer.View
                     FileInfo.SetInfo(new FileTypes.EnumMapper(enumMapper).BuildTree());
                     break;
                 case 0x23:
-                    DatManager.PortalDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.StringTable stringTable);
+                    DatManager.LanguageDat.TryReadFileCache(fileID, out DatReaderWriter.DBObjs.StringTable stringTable);
                     FileInfo.SetInfo(new FileTypes.StringTable(stringTable).BuildTree());
                     break;
                 case 0x25:

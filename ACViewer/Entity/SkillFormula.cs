@@ -16,13 +16,12 @@ namespace ACViewer.Entity
         public List<TreeNode> BuildTree()
         {
             var treeNode = new List<TreeNode>();
-
+            treeNode.Add(new TreeNode($"AdditiveBonus (W): {_skillFormula.AdditiveBonus}"));
+            treeNode.Add(new TreeNode($"Attr1Multiplier (X): {_skillFormula.Attribute1Multiplier}"));
+            treeNode.Add(new TreeNode($"Attr2Multiplier (Y): {_skillFormula.Attribute2Multiplier}"));
+            treeNode.Add(new TreeNode($"Divisor (Z): {_skillFormula.Divisor}"));
             treeNode.Add(new TreeNode($"Attr1: {(PropertyAttribute)_skillFormula.Attribute1}"));
             treeNode.Add(new TreeNode($"Attr2: {(PropertyAttribute)_skillFormula.Attribute2}"));
-            treeNode.Add(new TreeNode($"W: {_skillFormula.Unknown}"));
-            treeNode.Add(new TreeNode($"X: {_skillFormula.HasSecondAttribute}"));
-            treeNode.Add(new TreeNode($"Y: {_skillFormula.UseFormula}"));
-            treeNode.Add(new TreeNode($"Z (divisor): {_skillFormula.Divisor}"));
 
             return treeNode;
         }

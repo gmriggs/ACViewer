@@ -23,7 +23,7 @@ namespace ACViewer.FileTypes
                 if (string.IsNullOrEmpty(skill.Value.Name))
                     continue;
                 
-                var skillNode = new TreeNode($"{skill.Key}: {skill.Value.Name}");
+                var skillNode = new TreeNode($"{(int)skill.Key}: {skill.Value.Name}");
                 skillNode.Items = new SkillBase(skill.Value).BuildTree();
 
                 treeView.Items.Add(skillNode);

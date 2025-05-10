@@ -23,12 +23,10 @@ namespace ACViewer.FileTypes
 
             var stringTableData = new TreeNode($"String Tables:");
 
-            for (uint i = 0; i < _stringTable.StringTableData.Count; i++)
+            foreach (var kvp in _stringTable.StringTableData)
             {
-                var tree = new StringTableData(_stringTable.StringTableData[i]).BuildTree();
-                var node = new TreeNode($"{tree[0].Name}");
-                tree.RemoveAt(0);
-                node.Items.AddRange(tree);
+                var node = new TreeNode($"{kvp.Key:X8}");
+                node.Items.AddRange(new StringTableData(kvp.Value).BuildTree());
 
                 stringTableData.Items.Add(node);
             }

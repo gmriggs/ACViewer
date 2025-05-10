@@ -1,42 +1,22 @@
-﻿using System.Collections.Generic;
-
-namespace ACViewer.Entity
+﻿namespace ACViewer.Entity
 {
     public class Generator
     {
-        public DatReaderWriter.DBObjs.ObjectHierarchy _generator;
+        public DatReaderWriter.Types.ObjHierarchyNode _generator;
 
-        public Generator(DatReaderWriter.DBObjs.ObjectHierarchy generator)
+        public Generator(DatReaderWriter.Types.ObjHierarchyNode generator)
         {
             _generator = generator;
         }
 
-        public List<TreeNode> BuildTree()
+        public TreeNode BuildTree()
         {
-            var treeNode = new List<TreeNode>();
+            var heading = _generator.WCID != 0 ? $"{_generator.WCID} - {_generator.MenuName}" : _generator.MenuName;
 
-            /*if (_generator.Id != 0)
-                treeNode.Add(new TreeNode($"Id: {_generator.Id}"));
-            
-            if (!string.IsNullOrEmpty(_generator.Name))
-                treeNode.Add(new TreeNode($"Name: {_generator.Name}"));*/
-            
-            /*if (_generator.Items.Count > 0)
-            {
-                //var items = new TreeNode($"Items");
+            var treeNode = new TreeNode(heading);
+            foreach (var item in _generator.Children)
+                treeNode.Items.Add(new Generator(item).BuildTree());
 
-                foreach (var item in _generator.Items)
-                {
-                    var heading = item.Id != 0 ? $"{item.Id} - {item.Name}" : item.Name;
-
-                    var subGenerator = new TreeNode(heading);
-                    subGenerator.Items = new Generator(item).BuildTree();
-
-                    //items.Items.Add(subGenerator);
-                    treeNode.Add(subGenerator);
-                }
-                //treeNode.Add(items);
-            }*/
             return treeNode;
         }
     }

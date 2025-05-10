@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 
+using ACE.DatLoader.Extensions;
+
+
 namespace ACViewer.Entity
 {
     public class TerrainType
@@ -14,7 +17,7 @@ namespace ACViewer.Entity
         public List<TreeNode> BuildTree()
         {
             var terrainName = new TreeNode($"TerrainName: {_terrainType.TerrainName}");
-            var terrainColor = new TreeNode($"TerrainColor: {_terrainType.TerrainColor:X8}");
+            var terrainColor = new TreeNode($"TerrainColor: {_terrainType.TerrainColor.ToUint32():X8}");
 
             var sceneTypes = new TreeNode("SceneTypes:");
             for (var i = 0; i < _terrainType.SceneTypes.Count; i++)

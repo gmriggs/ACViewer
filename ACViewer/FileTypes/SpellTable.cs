@@ -33,7 +33,7 @@ namespace ACViewer.FileTypes
             
             foreach (var kvp in _spellTable.SpellsSets.OrderBy(i => i.Key))
             {
-                var spellSetNode = new TreeNode($"{kvp.Key}: {(EquipmentSet)kvp.Key}");
+                var spellSetNode = new TreeNode($"{(int)kvp.Key}: {kvp.Key}");
                 spellSetNode.Items = new Entity.SpellSet(kvp.Value).BuildTree();
                 spellSets.Items.Add(spellSetNode);
             }

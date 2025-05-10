@@ -26,8 +26,9 @@ namespace ACViewer.Entity
                 spellSetTiers.Items.Add(spellSetTier);
             }
             treeNode.Add(spellSetTiers);
-            treeNode.Add(new TreeNode($"HighestTier: {_spellSet.SpellSetTiers.Keys.LastOrDefault()}"));
-            return treeNode;
+            //treeNode.Add(new TreeNode($"HighestTier: {_spellSet.SpellSetTiers.Keys.LastOrDefault()}"));
+            //return treeNode;
+            return spellSetTiers.Items;
         }
     }
 }
