@@ -328,10 +328,10 @@ namespace ACViewer
         {
             DatManager.PortalDat.TryReadFileCache(textureID, out RenderSurface texture);
 
-            if (texture.Id == 0 && DatManager.HighResDat != null)
-                DatManager.PortalDat.TryReadFileCache(textureID, out texture);
+            if (texture == null && DatManager.HighResDat != null)
+                DatManager.HighResDat.TryReadFileCache(textureID, out texture);
 
-            if (texture.Id == 0) return null;
+            if (texture == null) return null;
 
             return texture.GetBitmap();
         }

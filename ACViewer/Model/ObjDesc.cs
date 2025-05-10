@@ -32,7 +32,7 @@ namespace ACViewer.Model
         {
             DatManager.PortalDat.TryReadFileCache(clothingTableID, out DatReaderWriter.DBObjs.Clothing clothingTable);
 
-            if (!clothingTable.ClothingBaseEffects.TryGetValue(SetupId, out var baseEffect)) return;
+            if (clothingTable == null || !clothingTable.ClothingBaseEffects.TryGetValue(SetupId, out var baseEffect)) return;
 
             // palette changes
             if (clothingTable.ClothingSubPalEffects.TryGetValue((uint)paletteTemplate, out var palEffect))

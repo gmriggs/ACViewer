@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework.Graphics;
 
-using ACE.Entity.Enum;
+using DatReaderWriter.Enums;
 
 namespace ACViewer.Render
 {

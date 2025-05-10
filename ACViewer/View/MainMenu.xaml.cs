@@ -159,7 +159,7 @@ namespace ACViewer.View
 
             if (isModel && saveFileDialog.FilterIndex == 1)
                 FileExport.ExportModel(selectedFileID, saveFilename);
-            else if (isModel && saveFileDialog.FilterIndex > 1)
+            else if (isModel && saveFileDialog.FilterIndex > 1 && saveFileDialog.FilterIndex < 4)   // bad design, will need incremented if more file types are added -- fix this
             {
                 // try to get animation id, if applicable
                 var rawState = ModelViewer.Instance?.ViewObject?.PhysicsObj?.MovementManager?.MotionInterpreter?.RawState;
@@ -185,7 +185,10 @@ namespace ACViewer.View
             else if (isSound && saveFileDialog.FilterIndex == 1)
                 FileExport.ExportSound(selectedFileID, saveFilename);
             else
+            {
+                // TODO: handle non-portal filetypes
                 FileExport.ExportRaw(DatType.Portal, selectedFileID, saveFilename);
+            }
         }
 
         public static void ReadDATFile(string filename)
