@@ -42,6 +42,7 @@
 
   <ItemGroup>
 	  <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+	  <PackageReference Include="DatReaderWriter" Version="0.1.0-beta.66" />
 	  <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
 	  <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
 	  <PackageReference Include="MonoGame.Framework.WpfInterop" Version="1.9.2" />
@@ -54,7 +55,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DatReaderWriter\DatReaderWriter\DatReaderWriter.csproj" />
     <ProjectReference Include="..\ACE\Source\ACE.Common\ACE.Common.csproj" />
     <ProjectReference Include="..\ACE\Source\ACE.Database\ACE.Database.csproj" />
     <ProjectReference Include="..\ACE\Source\ACE.Entity\ACE.Entity.csproj" />
