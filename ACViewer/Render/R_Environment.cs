@@ -28,13 +28,13 @@ namespace ACViewer.Render
                 R_CellStructs.Add(kvp.Key, new R_CellStruct(kvp.Value));
         }
 
-        public void Draw(uint? cellStructId = null, List<Texture2D> textures = null)
+        public void Draw(uint? cellStructId = null, List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false)
         {
             if (cellStructId != null)
             {
                 // draw EnvCell
                 if (R_CellStructs.TryGetValue(cellStructId.Value, out var cellStruct))
-                    cellStruct.Draw(textures);
+                    cellStruct.Draw(textures, polyIdx, drawNormals);
             }
             else
             {

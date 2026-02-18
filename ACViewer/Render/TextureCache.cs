@@ -478,8 +478,8 @@ namespace ACViewer.Render
                     var g = (byte)(surface.ColorValue >> 8);
                     var b = (byte)surface.ColorValue;
 
-                    if (surface.Translucency > 0)
-                        a = (byte)(a * (1.0f - surface.Translucency));
+                    //if (surface.Translucency > 0)
+                        //a = (byte)(a * (1.0f - surface.Translucency));
 
                     swatch.SetDataAsync(new Microsoft.Xna.Framework.Color[] { new Microsoft.Xna.Framework.Color(r, g, b, a) });
                     return swatch;

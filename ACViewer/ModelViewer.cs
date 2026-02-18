@@ -179,6 +179,11 @@ namespace ACViewer
                 PartIdx--;
                 Console.WriteLine($"PartIdx: {PartIdx}");
             }
+            if (keyboardState.IsKeyDown(Keys.N) && !PrevKeyboardState.IsKeyDown(Keys.N))
+            {
+                DrawNormals = !DrawNormals;
+                Console.WriteLine($"DrawNormals: {DrawNormals}");
+            }
         }
 
         public void Draw(GameTime time)
@@ -217,6 +222,8 @@ namespace ACViewer
 
         public static int PartIdx { get; set; } = -1;
 
+        public static bool DrawNormals { get; set; } = false;
+
         public void DrawModel()
         {
             if (Setup == null) return;
@@ -243,7 +250,7 @@ namespace ACViewer
             GraphicsDevice.Clear(ConfigManager.Config.BackgroundColors.ModelViewer);
 
             if (EnvCell != null)
-                EnvCell.Draw(Matrix.Identity);
+                EnvCell.Draw(Matrix.Identity, PolyIdx, DrawNormals);
         }
     }
 }

@@ -296,8 +296,8 @@ namespace ACViewer
             if (keyboardState.IsKeyDown(Keys.Space))
                 Position += Up * Speed;
             // Shift key control for downward movement
-            if (keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift))
-                Position -= Up * Speed;
+            //if (keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift))
+                //Position -= Up * Speed;
             
             // Z-level controls
             if (keyboardState.IsKeyDown(Keys.F3) && !LastKeyboardState.IsKeyDown(Keys.F3))

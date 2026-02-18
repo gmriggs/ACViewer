@@ -89,16 +89,16 @@ namespace ACViewer.Render
             IndexBuffer.SetData(Indices.ToArray());
         }
 
-        public static void SetRasterizerState(FillMode fillMode)
+        public static void SetRasterizerState(FillMode fillMode, CullMode cullMode = CullMode.None)
         {
             var rs = new RasterizerState();
             //rs.CullMode = CullMode.CullClockwiseFace;
-            rs.CullMode = CullMode.None;
+            rs.CullMode = cullMode;
             rs.FillMode = fillMode;
             GraphicsDevice.RasterizerState = rs;
         }
 
-        public void Draw(List<Texture2D> textures = null)
+        public void Draw(List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false)
         {
             if (W_VertexBuffer == null)
                 BuildVertexBuffer();
@@ -107,7 +107,7 @@ namespace ACViewer.Render
             var vertexBuffer = wireframe ? W_VertexBuffer : VertexBuffer;
             var fillMode = wireframe ? FillMode.WireFrame : FillMode.Solid;
 
-            SetRasterizerState(fillMode);
+            SetRasterizerState(fillMode, CullMode.CullClockwiseFace);
 
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
@@ -117,11 +117,21 @@ namespace ACViewer.Render
                 return;
             }
 
+            var curPolyIdx = 0;
             foreach (var polygon in Polygons)
             {
+                if (polyIdx != -1 && polyIdx != curPolyIdx)
+                {
+                    curPolyIdx++;
+                    continue;   
+                }
+                
                 // only use this hack for envcells / possibly buildings?
                 // bugged path: 000102BF-> 0D000425-> 080000DF
-                if (polygon._polygon.Stippling == ACE.Entity.Enum.StipplingType.NoPos) continue;
+                if (polygon._polygon.Stippling == ACE.Entity.Enum.StipplingType.NoPos)
+                {
+                    //continue;
+                }
 
                 if (polygon.IndexBuffer == null)
                     polygon.BuildIndexBuffer();
@@ -139,6 +149,37 @@ namespace ACViewer.Render
                     GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCnt / 3);
                     //PerfTimer.NumCellStruct++;
                 }
+
+                curPolyIdx++;
+            }
+
+            if (drawNormals)
+            {
+                var prevTechnique = Effect.CurrentTechnique;
+                Effect.CurrentTechnique = Effect.Techniques["ColoredNoShading"];
+
+                curPolyIdx = 0;
+                foreach (var polygon in Polygons)
+                {
+                    if (polyIdx != -1 && polyIdx != curPolyIdx)
+                    {
+                        curPolyIdx++;
+                        continue;
+                    }
+
+                    if (polygon._polygon.Vertices == null)
+                        polygon._polygon.LoadVertices(CellStruct.VertexArray);
+
+                    foreach (var pass in Effect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+                        var line = polygon.GetNormalLineVerts();
+                        GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, line, 0, 1);
+                    }
+
+                    curPolyIdx++;
+                }
+                Effect.CurrentTechnique = prevTechnique;
             }
         }
 

@@ -67,17 +67,17 @@ namespace ACViewer.Render
                 Textures.Add(TextureCache.Get(surfaceID));
         }
 
-        public void Draw(Matrix landblock)
+        public void Draw(Matrix landblock, int polyIdx, bool drawNormals)
         {
-            DrawEnv();
+            DrawEnv(polyIdx, drawNormals);
             DrawStaticObjs(landblock);
         }
 
-        public void DrawEnv()
+        public void DrawEnv(int polyIdx, bool drawNormals)
         {
             Effect.Parameters["xWorld"].SetValue(WorldTransform);
 
-            Environment.Draw(EnvCell.CellStructureID, Textures);
+            Environment.Draw(EnvCell.CellStructureID, Textures, polyIdx, drawNormals);
         }
 
         public void DrawStaticObjs(Matrix landblock)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Microsoft.Xna.Framework.Graphics;
 
@@ -84,6 +85,58 @@ namespace ACViewer.Model
         {
             IndexBuffer = new IndexBuffer(GfxObj.GraphicsDevice, typeof(short), Indices.Count, BufferUsage.WriteOnly);
             IndexBuffer.SetData(Indices.ToArray());
+        }
+
+        private Vector3 CalculateNormal()
+        {
+            var v0 = _polygon.Vertices[0].Origin;
+
+            for (int i = 1; i < _polygon.Vertices.Count - 1; i++)
+            {
+                var v1 = _polygon.Vertices[i].Origin;
+                var v2 = _polygon.Vertices[i + 1].Origin;
+
+                var edge1 = v1 - v0;
+                var edge2 = v2 - v0;
+
+                var normal = Vector3.Cross(edge1, edge2);
+
+                if (normal.LengthSquared() >= 0.0001f)
+                    return Vector3.Normalize(normal);
+            }
+
+            return Vector3.Zero;
+        }
+
+        private Vector3 CalculatePolyCenter()
+        {
+            Vector3 center = Vector3.Zero;
+
+            foreach (var vertex in _polygon.Vertices)
+                center += vertex.Origin;
+
+            return center / _polygon.Vertices.Count;
+        }
+
+        private VertexPositionColor[] _cachedNormalVerts;
+        private const float normalScale = 0.25f;
+
+        public VertexPositionColor[] GetNormalLineVerts()
+        {
+            if (_cachedNormalVerts != null)
+                return _cachedNormalVerts;
+
+            var centerPoint = CalculatePolyCenter();
+            var normal = CalculateNormal();
+            var endPoint = centerPoint + (normal * normalScale);
+
+            _cachedNormalVerts =
+            [
+                new VertexPositionColor(centerPoint.ToXna(), Microsoft.Xna.Framework.Color.White),
+                new VertexPositionColor(endPoint.ToXna(), Microsoft.Xna.Framework.Color.White)
+            ];
+
+            return _cachedNormalVerts;
         }
     }
 }
