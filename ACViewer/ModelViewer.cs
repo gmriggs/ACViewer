@@ -179,6 +179,16 @@ namespace ACViewer
                 PartIdx--;
                 Console.WriteLine($"PartIdx: {PartIdx}");
             }
+            if (keyboardState.IsKeyDown(Keys.OemCloseBrackets) && !PrevKeyboardState.IsKeyDown(Keys.OemCloseBrackets))
+            {
+                CellStructIdx++;
+                Console.WriteLine($"CellStructIdx: {CellStructIdx}");
+            }
+            if (keyboardState.IsKeyDown(Keys.OemOpenBrackets) && !PrevKeyboardState.IsKeyDown(Keys.OemOpenBrackets))
+            {
+                CellStructIdx--;
+                Console.WriteLine($"CellStructIdx: {CellStructIdx}");
+            }
             if (keyboardState.IsKeyDown(Keys.N) && !PrevKeyboardState.IsKeyDown(Keys.N))
             {
                 DrawNormals = !DrawNormals;
@@ -227,6 +237,8 @@ namespace ACViewer
 
         public static int PartIdx { get; set; } = -1;
 
+        public static int CellStructIdx { get; set; } = -1;
+
         public static bool DrawNormals { get; set; } = false;
 
         public static bool EdgeMode { get; set; } = true;
@@ -249,7 +261,7 @@ namespace ACViewer
             GraphicsDevice.Clear(new Color(48, 48, 48));
 
             if (Environment != null)
-                Environment.Draw(null, null, PolyIdx, DrawNormals, EdgeMode);
+                Environment.Draw(CellStructIdx > -1 ? (uint)CellStructIdx : null, null, PolyIdx, DrawNormals, EdgeMode);
         }
 
         public void DrawEnvCell()
