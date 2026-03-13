@@ -34,6 +34,9 @@ namespace ACViewer
         {
             var uvLookupTable = new Dictionary<Tuple<ushort, ushort>, ushort>();
 
+            // Key (t1): CVertexArray.Vertices key (ushort, vertex id)
+            // Key (t2): UV index. each vertex can have multiple UV's associated with it, and each reference to the vertex can pick the UV index
+            // Value: the final index we are going to place this vertex + uv idx at. The Polygon.Indices are eventually going to point to this value.
             ushort i = 0;
             foreach (var v in vertexArray.Vertices)
             {

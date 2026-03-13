@@ -184,6 +184,11 @@ namespace ACViewer
                 DrawNormals = !DrawNormals;
                 Console.WriteLine($"DrawNormals: {DrawNormals}");
             }
+            if (keyboardState.IsKeyDown(Keys.E) && !PrevKeyboardState.IsKeyDown(Keys.E))
+            {
+                EdgeMode = !EdgeMode;
+                Console.WriteLine($"EdgeMode: {EdgeMode}");
+            }
         }
 
         public void Draw(GameTime time)
@@ -224,6 +229,8 @@ namespace ACViewer
 
         public static bool DrawNormals { get; set; } = false;
 
+        public static bool EdgeMode { get; set; } = true;
+
         public void DrawModel()
         {
             if (Setup == null) return;
@@ -242,7 +249,7 @@ namespace ACViewer
             GraphicsDevice.Clear(new Color(48, 48, 48));
 
             if (Environment != null)
-                Environment.Draw();
+                Environment.Draw(null, null, PolyIdx, DrawNormals, EdgeMode);
         }
 
         public void DrawEnvCell()

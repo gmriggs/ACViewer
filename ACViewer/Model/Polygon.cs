@@ -87,25 +87,31 @@ namespace ACViewer.Model
             IndexBuffer.SetData(Indices.ToArray());
         }
 
-        private Vector3 CalculateNormal()
+        private Vector3? _normal;
+        
+        public Vector3 CalculateNormal()
         {
-            var v0 = _polygon.Vertices[0].Origin;
-
-            for (int i = 1; i < _polygon.Vertices.Count - 1; i++)
+            if (_normal == null)
             {
-                var v1 = _polygon.Vertices[i].Origin;
-                var v2 = _polygon.Vertices[i + 1].Origin;
+                var v0 = _polygon.Vertices[0].Origin;
 
-                var edge1 = v1 - v0;
-                var edge2 = v2 - v0;
+                for (int i = 1; i < _polygon.Vertices.Count - 1; i++)
+                {
+                    var v1 = _polygon.Vertices[i].Origin;
+                    var v2 = _polygon.Vertices[i + 1].Origin;
 
-                var normal = Vector3.Cross(edge1, edge2);
+                    var edge1 = v1 - v0;
+                    var edge2 = v2 - v0;
 
-                if (normal.LengthSquared() >= 0.0001f)
-                    return Vector3.Normalize(normal);
+                    var normal = Vector3.Cross(edge1, edge2);
+
+                    if (normal.LengthSquared() >= 0.0001f)
+                        _normal = Vector3.Normalize(normal);
+                    else
+                        _normal = Vector3.Zero;
+                }
             }
-
-            return Vector3.Zero;
+            return _normal.Value;
         }
 
         private Vector3 CalculatePolyCenter()

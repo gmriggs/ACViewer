@@ -28,19 +28,19 @@ namespace ACViewer.Render
                 R_CellStructs.Add(kvp.Key, new R_CellStruct(kvp.Value));
         }
 
-        public void Draw(uint? cellStructId = null, List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false)
+        public void Draw(uint? cellStructId = null, List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false, bool edgeMode = true)
         {
             if (cellStructId != null)
             {
                 // draw EnvCell
                 if (R_CellStructs.TryGetValue(cellStructId.Value, out var cellStruct))
-                    cellStruct.Draw(textures, polyIdx, drawNormals);
+                    cellStruct.Draw(textures, polyIdx, drawNormals, edgeMode);
             }
             else
             {
                 // draw all the possible cell structs
                 foreach (var cellStruct in R_CellStructs.Values)
-                    cellStruct.Draw(textures);
+                    cellStruct.Draw(textures, polyIdx, drawNormals, edgeMode);
             }
         }
     }

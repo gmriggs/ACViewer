@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 using ACE.DatLoader.Entity;
+using ACViewer.Model;
+using SharpDX.MediaFoundation;
 
 namespace ACViewer.Render
 {
@@ -98,7 +100,7 @@ namespace ACViewer.Render
             GraphicsDevice.RasterizerState = rs;
         }
 
-        public void Draw(List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false)
+        public void Draw(List<Texture2D> textures = null, int polyIdx = -1, bool drawNormals = false, bool edgeMode = true)
         {
             if (W_VertexBuffer == null)
                 BuildVertexBuffer();
@@ -111,7 +113,7 @@ namespace ACViewer.Render
 
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
-            if (wireframe)
+            if (wireframe && edgeMode)
             {
                 DrawWireframe();
                 return;
@@ -139,7 +141,9 @@ namespace ACViewer.Render
                 GraphicsDevice.Indices = polygon.IndexBuffer;
 
                 var surfaceIdx = polygon._polygon.PosSurface;
-                Effect.Parameters["xTextures"].SetValue(textures[surfaceIdx]);
+                
+                if (!wireframe)
+                    Effect.Parameters["xTextures"].SetValue(textures[surfaceIdx]);
 
                 foreach (var pass in Effect.CurrentTechnique.Passes)
                 {
@@ -185,18 +189,58 @@ namespace ACViewer.Render
 
         public void DrawWireframe()
         {
-            if (IndexBuffer == null)
-                BuildIndexBuffer();
+            if (EdgeIndices == null)
+                BuildEdgeIndices();
 
-            GraphicsDevice.Indices = IndexBuffer;
+            GraphicsDevice.Indices = EdgeIndexBuffer;
             foreach (var pass in Effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
                 var indexCnt = Indices.Count;
-                GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, indexCnt / 3);
+                GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.LineList, 0, 0, indexCnt / 2);
                 //PerfTimer.NumCellStruct++;
             }
+        }
+
+        public List<ushort> EdgeIndices { get; set; }
+
+        public IndexBuffer EdgeIndexBuffer { get; set; }
+
+
+        private void BuildEdgeIndices()
+        {
+            foreach (var polygon in Polygons)
+            {
+                if (polygon._polygon.Vertices == null)
+                    polygon._polygon.LoadVertices(CellStruct.VertexArray);
+            }
+            
+            var edgeLines = EdgeLineBuilder.BuildEdgeLines(Polygons, CellStruct.VertexArray);
+
+            EdgeIndices = new List<ushort>();
+            
+            foreach (var v in edgeLines)
+            {
+                var idx = FindIdx(v);
+                if (idx > -1)
+                    EdgeIndices.Add((ushort)idx);
+                else
+                    Console.WriteLine("couldn't find idx for {v}");
+            }
+
+            EdgeIndexBuffer = new IndexBuffer(GraphicsDevice, typeof(ushort), EdgeIndices.Count, BufferUsage.WriteOnly);
+            EdgeIndexBuffer.SetData(EdgeIndices.ToArray());
+        }
+
+        private int FindIdx(System.Numerics.Vector3 v)
+        {
+            for (var i = 0; i < VertexArray.Count; i++)
+            {
+                if (VertexArray[i].Position.X == v.X && VertexArray[i].Position.Y == v.Y && VertexArray[i].Position.Z == v.Z)
+                    return i;
+            }
+            return -1;
         }
     }
 }
